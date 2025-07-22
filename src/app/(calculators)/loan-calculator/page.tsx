@@ -32,6 +32,7 @@ type CalculationResult = {
   monthlyPayment: number;
   totalPayment: number;
   totalInterest: number;
+  loanAmount: number;
 };
 
 export default function LoanCalculatorPage() {
@@ -64,6 +65,7 @@ export default function LoanCalculatorPage() {
       monthlyPayment,
       totalPayment,
       totalInterest,
+      loanAmount: principal,
     });
   };
 
@@ -127,7 +129,7 @@ export default function LoanCalculatorPage() {
                                 <div className="space-y-2 text-sm text-muted-foreground">
                                     <div className="flex justify-between">
                                         <span>Total Principal Paid:</span>
-                                        <span className="font-medium text-foreground">{formatCurrency(data.loanAmount)}</span>
+                                        <span className="font-medium text-foreground">{formatCurrency(result.loanAmount)}</span>
                                     </div>
                                     <div className="flex justify-between">
                                         <span>Total Interest Paid:</span>
