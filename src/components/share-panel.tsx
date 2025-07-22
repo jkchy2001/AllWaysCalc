@@ -39,7 +39,14 @@ export function SharePanel({ resultText }: SharePanelProps) {
           text: resultText,
         });
       } catch (error) {
-        console.error("Error sharing:", error);
+        // Silently fail or show a toast message if sharing fails
+        if (error instanceof DOMException && error.name !== 'AbortError') {
+             toast({
+                title: "Sharing Failed",
+                description: "Could not share the results. Please try again.",
+                variant: "destructive",
+            })
+        }
       }
     } else {
         toast({
