@@ -10,6 +10,15 @@ import {
   Cake,
   CalendarDays,
   Tag,
+  Briefcase,
+  GraduationCap,
+  Shapes,
+  Heart,
+  Home as HomeIcon,
+  HardHat,
+  Monitor,
+  Leaf,
+  Atom,
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -17,41 +26,80 @@ import Image from 'next/image';
 
 const calculatorCategories = [
   {
-    href: '/loan-calculator',
-    title: 'Financial',
-    description: 'Calculate loans, investments, and more.',
+    title: 'Finance & Investment',
+    description: 'EMI, SIP, Loans, Compound Interest, Investments.',
     icon: <Banknote className="size-8 text-primary" />,
+    href: '/loan-calculator', // Placeholder href, points to first calculator
     links: [
       { href: '/loan-calculator', name: 'Loan Calculator' },
       { href: '/tip-calculator', name: 'Tip Calculator' },
     ],
   },
   {
-    href: '/bmi-calculator',
+    title: 'Business & Tax',
+    description: 'GST, Income Tax, Profit Margin, Salary.',
+    icon: <Briefcase className="size-8 text-primary" />,
+    href: '/discount-calculator',
+    links: [{ href: '/discount-calculator', name: 'Discount Calculator' }],
+  },
+  {
+    title: 'Education / Student',
+    description: 'GPA, CGPA, Percentage, Study Planners.',
+    icon: <GraduationCap className="size-8 text-primary" />,
+    href: '/percentage-calculator',
+    links: [{ href: '/percentage-calculator', name: 'Percentage Calculator' }],
+  },
+  {
+    title: 'Math & Geometry',
+    description: 'Scientific, Algebra, Trigonometry, Unit Converters.',
+    icon: <Shapes className="size-8 text-primary" />,
+    href: '/percentage-calculator',
+    links: [], // No existing calculators here yet
+  },
+  {
     title: 'Health & Fitness',
-    description: 'Track calories, BMI, and fitness goals.',
+    description: 'BMI, BMR, Calorie Intake, Ideal Weight.',
     icon: <HeartPulse className="size-8 text-primary" />,
+    href: '/bmi-calculator',
     links: [{ href: '/bmi-calculator', name: 'BMI Calculator' }],
   },
   {
-    href: '/percentage-calculator',
-    title: 'Math & Science',
-    description: 'Solve complex equations and conversions.',
-    icon: <FlaskConical className="size-8 text-primary" />,
-    links: [
-      { href: '/percentage-calculator', name: 'Percentage Calculator' },
-      { href: '/discount-calculator', name: 'Discount Calculator' },
-    ],
-  },
-  {
+    title: 'Life & Personal',
+    description: 'Age, Date Duration, Anniversary, Zodiac.',
+    icon: <Heart className="size-8 text-primary" />,
     href: '/age-calculator',
-    title: 'Everyday Life',
-    description: 'Utilities for daily tasks and planning.',
-    icon: <ShoppingBag className="size-8 text-primary" />,
     links: [
       { href: '/age-calculator', name: 'Age Calculator' },
       { href: '/date-calculator', name: 'Date Calculator' },
     ],
+  },
+  {
+    title: 'Construction & Home',
+    description: 'Paint, Tile, Concrete, Flooring Costs.',
+    icon: <HardHat className="size-8 text-primary" />,
+    href: '#',
+    links: [],
+  },
+  {
+    title: 'Tech & Digital',
+    description: 'Download Time, Bandwidth, Subnet, Aspect Ratio.',
+    icon: <Monitor className="size-8 text-primary" />,
+    href: '#',
+    links: [],
+  },
+  {
+    title: 'Environment & Agriculture',
+    description: 'Carbon Footprint, Solar Panel, Crop Yield.',
+    icon: <Leaf className="size-8 text-primary" />,
+    href: '#',
+    links: [],
+  },
+  {
+    title: 'Science',
+    description: 'Molar Mass, pH, Ideal Gas Law, Ohm’s Law.',
+    icon: <Atom className="size-8 text-primary" />,
+    href: '#',
+    links: [],
   },
 ];
 
@@ -100,7 +148,7 @@ export default function Home() {
                 </p>
               </div>
             </div>
-            <div className="mx-auto grid grid-cols-1 gap-6 py-12 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mx-auto grid grid-cols-1 gap-6 py-12 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {calculatorCategories.map((card) => (
                 <CalculatorCard
                   key={card.title}
