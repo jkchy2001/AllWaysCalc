@@ -1,6 +1,12 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetTrigger, SheetContent } from '@/components/ui/sheet';
+import {
+  Sheet,
+  SheetTrigger,
+  SheetContent,
+  SheetTitle,
+  SheetDescription,
+} from '@/components/ui/sheet';
 import { Menu, Calculator } from 'lucide-react';
 import { Logo } from '@/components/icons';
 import { SuggestionDialog } from '@/components/suggestion-dialog';
@@ -43,6 +49,10 @@ export function Header() {
             </Button>
           </SheetTrigger>
           <SheetContent side="left">
+            <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
+            <SheetDescription className="sr-only">
+              Main navigation for mobile devices
+            </SheetDescription>
             <Link href="/" className="mr-6 flex items-center space-x-2">
               <Logo className="h-6 w-6 text-primary" />
               <span className="font-bold font-headline">AllWaysCalc</span>
