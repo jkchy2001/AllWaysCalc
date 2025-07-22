@@ -6,34 +6,44 @@ import {
   FlaskConical,
   ShoppingBag,
   Sun,
+  Banknote,
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
 
 const calculatorCategories = [
   {
-    href: '/tip-calculator',
+    href: '/loan-calculator',
     title: 'Financial',
     description: 'Calculate loans, investments, and more.',
-    icon: <Calculator className="size-8 text-primary" />,
+    icon: <Banknote className="size-8 text-primary" />,
+    links: [
+        { href: '/loan-calculator', name: 'Loan Calculator'},
+        { href: '/tip-calculator', name: 'Tip Calculator' },
+    ]
   },
   {
-    href: '/tip-calculator',
+    href: '/bmi-calculator',
     title: 'Health & Fitness',
     description: 'Track calories, BMI, and fitness goals.',
     icon: <HeartPulse className="size-8 text-primary" />,
+    links: [
+        { href: '/bmi-calculator', name: 'BMI Calculator'},
+    ]
   },
   {
-    href: '/tip-calculator',
+    href: '#',
     title: 'Math & Science',
     description: 'Solve complex equations and conversions.',
     icon: <FlaskConical className="size-8 text-primary" />,
+    links: []
   },
   {
-    href: '/tip-calculator',
+    href: '#',
     title: 'Everyday Life',
     description: 'Utilities for daily tasks and planning.',
     icon: <ShoppingBag className="size-8 text-primary" />,
+    links: []
   },
 ];
 
@@ -83,16 +93,9 @@ export default function Home() {
                   icon={card.icon}
                   title={card.title}
                   description={card.description}
+                  links={card.links}
                 />
               ))}
-            </div>
-            <div className="flex justify-center">
-              <Link
-                href="#"
-                className="inline-flex items-center gap-2 text-primary hover:underline font-medium"
-              >
-                See all calculators <ArrowRight className="size-4" />
-              </Link>
             </div>
           </div>
         </section>
