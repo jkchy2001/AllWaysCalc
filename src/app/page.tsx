@@ -7,6 +7,7 @@ import {
   ShoppingBag,
   Sun,
   Banknote,
+  Percent,
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -32,11 +33,13 @@ const calculatorCategories = [
     ]
   },
   {
-    href: '#',
+    href: '/percentage-calculator',
     title: 'Math & Science',
     description: 'Solve complex equations and conversions.',
     icon: <FlaskConical className="size-8 text-primary" />,
-    links: []
+    links: [
+        { href: '/percentage-calculator', name: 'Percentage Calculator'},
+    ]
   },
   {
     href: '#',
