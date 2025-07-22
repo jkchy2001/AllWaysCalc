@@ -19,6 +19,12 @@ import { Header } from '@/components/header';
 import Link from 'next/link';
 import { Home } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
 const formSchema = z.object({
   loanAmount: z.coerce.number().min(1, 'Loan amount must be positive'),
@@ -147,6 +153,48 @@ export default function LoanCalculatorPage() {
                         </Card>
                     )}
                 </div>
+                <Card className="mt-8">
+                  <CardHeader>
+                      <CardTitle className="font-headline">How It Works</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                      <p className="mb-4">
+                          This loan calculator helps you estimate the monthly payments for a loan. It's suitable for mortgages, auto loans, or personal loans.
+                      </p>
+                      <div className="space-y-4">
+                      <div>
+                          <h3 className="font-bold font-headline">Formula Used</h3>
+                          <p>The calculation is based on the standard amortization formula:</p>
+                          <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
+                          <code>
+                              M = P [ i(1 + i)^n ] / [ (1 + i)^n – 1 ]<br/><br/>
+                              <b>M</b> = Monthly Payment<br/>
+                              <b>P</b> = Principal Loan Amount<br/>
+                              <b>i</b> = Monthly Interest Rate<br/>
+                              <b>n</b> = Number of Months
+                          </code>
+                          </pre>
+                      </div>
+                      <div>
+                          <h3 className="font-bold font-headline">FAQs</h3>
+                          <Accordion type="single" collapsible className="w-full">
+                          <AccordionItem value="item-1">
+                              <AccordionTrigger>What is amortization?</AccordionTrigger>
+                              <AccordionContent>
+                              Amortization is the process of spreading out a loan into a series of fixed payments. A portion of each payment goes toward the loan's principal and the rest toward interest.
+                              </AccordionContent>
+                          </AccordionItem>
+                          <AccordionItem value="item-2">
+                              <AccordionTrigger>Does this calculator include taxes or insurance?</AccordionTrigger>
+                              <AccordionContent>
+                              No, this calculator only computes the principal and interest portion of your payment. For mortgages, your total payment (PITI) will also include property taxes and homeowner's insurance.
+                              </AccordionContent>
+                          </AccordionItem>
+                          </Accordion>
+                      </div>
+                      </div>
+                  </CardContent>
+                </Card>
             </div>
         </main>
     </div>

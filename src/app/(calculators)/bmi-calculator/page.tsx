@@ -20,6 +20,12 @@ import Link from 'next/link';
 import { Home } from 'lucide-react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { SharePanel } from '@/components/share-panel';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
 const formSchema = z.object({
   unit: z.enum(['metric', 'imperial']),
@@ -187,6 +193,44 @@ export default function BmiCalculatorPage() {
                         </Card>
                     )}
                 </div>
+                 <Card className="mt-8">
+                  <CardHeader>
+                      <CardTitle className="font-headline">Understanding BMI</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                      <p className="mb-4">
+                          Body Mass Index (BMI) is a measure that uses your height and weight to work out if your weight is healthy.
+                      </p>
+                      <div className="space-y-4">
+                      <div>
+                          <h3 className="font-bold font-headline">Formulas Used</h3>
+                          <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
+                          <code>
+                              <b>Metric:</b> BMI = weight (kg) / [height (m)]²<br/><br/>
+                              <b>Imperial:</b> BMI = [weight (lbs) / (height (in))²] * 703
+                          </code>
+                          </pre>
+                      </div>
+                      <div>
+                          <h3 className="font-bold font-headline">FAQs</h3>
+                          <Accordion type="single" collapsible className="w-full">
+                          <AccordionItem value="item-1">
+                              <AccordionTrigger>Is BMI an accurate measure of health?</AccordionTrigger>
+                              <AccordionContent>
+                              BMI is a useful screening tool, but it doesn't account for body composition (like muscle vs. fat). For a complete health assessment, it's best to consult a healthcare professional.
+                              </AccordionContent>
+                          </AccordionItem>
+                          <AccordionItem value="item-2">
+                              <AccordionTrigger>Why are there different categories?</AccordionTrigger>
+                              <AccordionContent>
+                              The categories (Underweight, Normal, Overweight, Obesity) are based on World Health Organization (WHO) guidelines and help indicate potential health risks associated with weight.
+                              </AccordionContent>
+                          </AccordionItem>
+                          </Accordion>
+                      </div>
+                      </div>
+                  </CardContent>
+                </Card>
             </div>
         </main>
     </div>
