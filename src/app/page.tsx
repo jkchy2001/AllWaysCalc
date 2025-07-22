@@ -5,12 +5,15 @@ import {
   HeartPulse,
   FlaskConical,
   ShoppingBag,
-  Sun,
   Banknote,
   Percent,
+  Cake,
+  CalendarDays,
+  Tag,
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
+import Image from 'next/image';
 
 const calculatorCategories = [
   {
@@ -19,18 +22,16 @@ const calculatorCategories = [
     description: 'Calculate loans, investments, and more.',
     icon: <Banknote className="size-8 text-primary" />,
     links: [
-        { href: '/loan-calculator', name: 'Loan Calculator'},
-        { href: '/tip-calculator', name: 'Tip Calculator' },
-    ]
+      { href: '/loan-calculator', name: 'Loan Calculator' },
+      { href: '/tip-calculator', name: 'Tip Calculator' },
+    ],
   },
   {
     href: '/bmi-calculator',
     title: 'Health & Fitness',
     description: 'Track calories, BMI, and fitness goals.',
     icon: <HeartPulse className="size-8 text-primary" />,
-    links: [
-        { href: '/bmi-calculator', name: 'BMI Calculator'},
-    ]
+    links: [{ href: '/bmi-calculator', name: 'BMI Calculator' }],
   },
   {
     href: '/percentage-calculator',
@@ -38,15 +39,19 @@ const calculatorCategories = [
     description: 'Solve complex equations and conversions.',
     icon: <FlaskConical className="size-8 text-primary" />,
     links: [
-        { href: '/percentage-calculator', name: 'Percentage Calculator'},
-    ]
+      { href: '/percentage-calculator', name: 'Percentage Calculator' },
+      { href: '/discount-calculator', name: 'Discount Calculator' },
+    ],
   },
   {
-    href: '#',
+    href: '/age-calculator',
     title: 'Everyday Life',
     description: 'Utilities for daily tasks and planning.',
     icon: <ShoppingBag className="size-8 text-primary" />,
-    links: []
+    links: [
+      { href: '/age-calculator', name: 'Age Calculator' },
+      { href: '/date-calculator', name: 'Date Calculator' },
+    ],
   },
 ];
 
@@ -70,7 +75,14 @@ export default function Home() {
                 </div>
               </div>
               <div className="flex items-center justify-center">
-                 <Sun className="h-32 w-32 text-primary/20 animate-spin [animation-duration:20s]" />
+                <Image
+                  src="https://placehold.co/600x400.png"
+                  alt="Calculator illustration"
+                  width={600}
+                  height={400}
+                  className="rounded-xl shadow-lg"
+                  data-ai-hint="abstract geometric calculator"
+                />
               </div>
             </div>
           </div>
