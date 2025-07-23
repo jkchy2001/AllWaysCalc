@@ -321,9 +321,37 @@ const calculatorCategories = [
   {
     title: 'Engineering & Technical',
     description: 'For mechanical, electrical, and civil engineers.',
-    icon: <Construction className="size-8 text-primary" />,
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="size-8 text-primary"
+      >
+        <path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z" />
+        <path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
+        <path d="M12 2v2" />
+        <path d="M12 22v-2" />
+        <path d="m17 20.66-1-1.73" />
+        <path d="m7 4.08 1 1.73" />
+        <path d="m17 4.08-1 1.73" />
+        <path d="m7 20.66 1-1.73" />
+        <path d="M4 12H2" />
+        <path d="M22 12h-2" />
+        <path d="m20.66 17-1.73-1" />
+        <path d="m4.08 7 1.73 1" />
+        <path d="m20.66 7-1.73 1" />
+        <path d="m4.08 17 1.73-1" />
+      </svg>
+    ),
     links: [
-      { href: '/ohms-law-calculator', name: 'Ohm\'s Law Calculator', icon: <Zap className="size-4" /> },
+      { href: '/ohms-law-calculator', name: "Ohm's Law Calculator", icon: <Zap className="size-4" /> },
       { href: '/newtons-law-calculator', name: "Newton's Second Law Calculator", icon: <Atom className="size-4" /> },
       { href: '/kinetic-energy-calculator', name: 'Kinetic Energy Calculator', icon: <Flame className="size-4" /> },
     ],
@@ -331,7 +359,7 @@ const calculatorCategories = [
   {
     title: 'Travel & Transport',
     description: 'Useful in apps related to logistics or tourism.',
-    icon: <Plane className="size-8 text-primary" />,
+    icon: <Luggage className="size-8 text-primary" />,
     links: [
       { href: '/distance-fuel-cost-calculator', name: 'Distance & Fuel Cost Calculator', icon: <Fuel className="size-4" /> },
       { href: '/travel-time-estimator', name: 'Travel Time Estimator', icon: <Clock className="size-4" /> },
