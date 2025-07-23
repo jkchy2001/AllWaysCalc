@@ -97,7 +97,6 @@ import {
   Zap,
   Box,
   CreditCard,
-  ShieldCheck,
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -148,6 +147,7 @@ const calculatorCategories = [
       { href: '/break-even-point-calculator', name: 'Break-Even Point Calculator', icon: <Target className="size-4" /> },
       { href: '/net-profit-calculator', name: 'Net Profit Calculator', icon: <LineChart className="size-4" /> },
       { href: '/npv-calculator', name: 'NPV Calculator', icon: <CandlestickChart className="size-4" /> },
+      { href: '/tds-late-fee-calculator', name: 'TDS Late Fee/Penalty Calculator', icon: <FileMinus className="size-4" /> },
     ],
   },
   {
@@ -162,20 +162,6 @@ const calculatorCategories = [
       { href: '/emi-in-arrears-vs-advance-calculator', name: 'EMI in Arrears vs Advance', icon: <CalendarClock className="size-4" /> },
       { href: '/credit-score-impact-simulator', name: 'Credit Score Impact Simulator', icon: <BarChart className="size-4" /> },
       { href: '/mortgage-refinance-calculator', name: 'Mortgage Refinance Calculator', icon: <Home className="size-4" /> },
-    ],
-  },
-  {
-    title: 'Legal & Compliance Calculators',
-    description: 'Stamp duty, capital gains, gift tax, and more.',
-    icon: <ShieldCheck className="size-8 text-primary" />,
-    links: [
-        { href: '#', name: 'Notional Rent Calculator', icon: <Home className="size-4" /> },
-        { href: '#', name: 'Capital Gains Indexation', icon: <TrendingUp className="size-4" /> },
-        { href: '#', name: 'Gift Tax Calculator', icon: <Gift className="size-4" /> },
-        { href: '/tds-late-fee-calculator', name: 'TDS Late Fee/Penalty Calculator', icon: <FileMinus className="size-4" /> },
-        { href: '/gratuity-calculator', name: 'Gratuity Calculator', icon: <WalletCards className="size-4" /> },
-        { href: '#', name: 'Income Splitting Calculator', icon: <Users className="size-4" /> },
-        { href: '#', name: 'Inheritance Tax Estimator', icon: <Building2 className="size-4" /> },
     ],
   },
   {
