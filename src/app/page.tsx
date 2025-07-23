@@ -397,21 +397,21 @@ export default function HomePage({
   const filteredCategories = calculatorCategories
     .map(category => {
       if (!category) return null;
+
+      // Filter links based on search query
       const filteredLinks = category.links.filter(link =>
         link.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
+
+      // If the category has matching links and matches the selected category filter, return it
       if (filteredLinks.length > 0) {
-        return { ...category, links: filteredLinks };
+        if (selectedCategory === 'All' || category.title === selectedCategory) {
+          return { ...category, links: filteredLinks };
+        }
       }
       return null;
     })
-    .filter(Boolean)
-    .filter(category => {
-      if (selectedCategory === 'All' || !category) {
-        return true;
-      }
-      return category.title === selectedCategory;
-    });
+    .filter((category): category is NonNullable<typeof category> => category !== null);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -485,7 +485,6 @@ export default function HomePage({
             </div>
             <div className="mx-auto grid grid-cols-1 gap-6 py-12 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
               {filteredCategories
-                .filter(cat => cat && cat.links.length > 0)
                 .map((card) => (
                   <CalculatorCard
                     key={card!.title}
