@@ -2,7 +2,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useForm, useFieldArray } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
@@ -30,7 +30,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const formSchema = z.object({
-  operation: z.enum(['determinant', 'add']),
+  operation: z.enum(['determinant', 'add', 'subtract', 'multiply', 'transpose']),
   size: z.enum(['2x2', '3x3']),
   matrixA: z.array(z.array(z.coerce.number())),
   matrixB: z.array(z.array(z.coerce.number())).optional(),
@@ -41,7 +41,8 @@ type FormValues = z.infer<typeof formSchema>;
 type CalculationResult = {
   determinant?: number;
   resultMatrix?: number[][];
-  operation: 'determinant' | 'add';
+  operation: 'determinant' | 'add' | 'subtract' | 'multiply' | 'transpose';
+  error?: string;
 };
 
 const getInitialMatrix = (size: 2 | 3) => {
@@ -62,7 +63,7 @@ export default function MatrixCalculatorPage() {
     },
   });
 
-  const { register, handleSubmit, setValue, watch, control } = form;
+  const { register, handleSubmit, setValue, watch } = form;
 
   const operation = watch('operation');
   const size = watch('size');
@@ -76,33 +77,61 @@ export default function MatrixCalculatorPage() {
   };
   
   const handleOperationChange = (newOperation: string) => {
-      setValue('operation', newOperation as 'determinant' | 'add');
+      setValue('operation', newOperation as any);
       setResult(null);
   }
 
   const onSubmit = (data: FormValues) => {
     const { matrixA, matrixB, size, operation } = data;
-    
-    if (operation === 'determinant') {
-        let det = 0;
-        if (size === '2x2') {
-          det = matrixA[0][0] * matrixA[1][1] - matrixA[0][1] * matrixA[1][0];
-        } else if (size === '3x3') {
-          det = 
-              matrixA[0][0] * (matrixA[1][1] * matrixA[2][2] - matrixA[1][2] * matrixA[2][1])
-            - matrixA[0][1] * (matrixA[1][0] * matrixA[2][2] - matrixA[1][2] * matrixA[2][0])
-            + matrixA[0][2] * (matrixA[1][0] * matrixA[2][1] - matrixA[1][1] * matrixA[2][0]);
-        }
-        setResult({ determinant: det, operation });
-    } else if (operation === 'add' && matrixB) {
-        const resultMatrix: number[][] = [];
-        for (let i = 0; i < matrixA.length; i++) {
-            resultMatrix[i] = [];
-            for (let j = 0; j < matrixA[i].length; j++) {
-                resultMatrix[i][j] = matrixA[i][j] + matrixB[i][j];
+    setResult(null); // Clear previous results
+
+    try {
+        if (operation === 'determinant') {
+            let det = 0;
+            if (size === '2x2') {
+              det = matrixA[0][0] * matrixA[1][1] - matrixA[0][1] * matrixA[1][0];
+            } else if (size === '3x3') {
+              det = 
+                  matrixA[0][0] * (matrixA[1][1] * matrixA[2][2] - matrixA[1][2] * matrixA[2][1])
+                - matrixA[0][1] * (matrixA[1][0] * matrixA[2][2] - matrixA[1][2] * matrixA[2][0])
+                + matrixA[0][2] * (matrixA[1][0] * matrixA[2][1] - matrixA[1][1] * matrixA[2][0]);
             }
+            setResult({ determinant: det, operation });
+        } else if (operation === 'transpose') {
+            const resultMatrix: number[][] = Array.from({length: matrixA[0].length}, () => []);
+            for (let i = 0; i < matrixA.length; i++) {
+                for(let j = 0; j < matrixA[i].length; j++) {
+                    resultMatrix[j][i] = matrixA[i][j];
+                }
+            }
+            setResult({ resultMatrix, operation });
         }
-        setResult({ resultMatrix, operation });
+        else if (matrixB) {
+            const resultMatrix: number[][] = [];
+            for (let i = 0; i < matrixA.length; i++) {
+                resultMatrix[i] = [];
+                for (let j = 0; j < matrixA[i].length; j++) {
+                    if(operation === 'add') resultMatrix[i][j] = matrixA[i][j] + matrixB[i][j];
+                    if(operation === 'subtract') resultMatrix[i][j] = matrixA[i][j] - matrixB[i][j];
+                }
+            }
+
+            if(operation === 'multiply') {
+                for (let i = 0; i < matrixA.length; i++) {
+                    resultMatrix[i] = [];
+                    for (let j = 0; j < matrixB[0].length; j++) {
+                        let sum = 0;
+                        for (let k = 0; k < matrixA[0].length; k++) {
+                            sum += matrixA[i][k] * matrixB[k][j];
+                        }
+                        resultMatrix[i][j] = sum;
+                    }
+                }
+            }
+            setResult({ resultMatrix, operation });
+        }
+    } catch(e) {
+        setResult({ operation, error: 'An error occurred during calculation.'})
     }
   };
 
@@ -150,6 +179,9 @@ export default function MatrixCalculatorPage() {
                         <SelectContent>
                           <SelectItem value="determinant">Determinant</SelectItem>
                           <SelectItem value="add">Addition</SelectItem>
+                          <SelectItem value="subtract">Subtraction</SelectItem>
+                          <SelectItem value="multiply">Multiplication</SelectItem>
+                          <SelectItem value="transpose">Transpose</SelectItem>
                         </SelectContent>
                       </Select>
                   </div>
@@ -175,7 +207,7 @@ export default function MatrixCalculatorPage() {
                     <Label>Matrix A</Label>
                     <MatrixGrid matrixName="matrixA" />
                   </div>
-                  {operation === 'add' && (
+                  {(operation === 'add' || operation === 'subtract' || operation === 'multiply') && (
                      <div className="space-y-2">
                         <Label>Matrix B</Label>
                         <MatrixGrid matrixName="matrixB" />
@@ -194,13 +226,14 @@ export default function MatrixCalculatorPage() {
                   <CardTitle className="font-headline">Result</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4 text-center">
-                  {result.operation === 'determinant' && (
+                  {result.error && <p className="text-destructive">{result.error}</p>}
+                  {result.operation === 'determinant' && result.determinant !== undefined && (
                     <>
                       <p className="text-muted-foreground">The determinant of the matrix is:</p>
                       <div className="text-6xl font-bold text-primary">{result.determinant}</div>
                     </>
                   )}
-                  {result.operation === 'add' && result.resultMatrix && (
+                  {result.resultMatrix && (
                      <>
                       <p className="text-muted-foreground">The resulting matrix is:</p>
                       <div className="flex justify-center">
@@ -235,27 +268,37 @@ export default function MatrixCalculatorPage() {
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-                The determinant is a special number that can be calculated from a square matrix. It is useful in solving systems of linear equations, finding the inverse of a matrix, and in calculus.
+                This calculator performs several common matrix operations. Matrices are arrays of numbers arranged in rows and columns, fundamental to linear algebra and many scientific fields.
               </p>
               <div className="space-y-4">
                 <div>
-                  <h3 className="font-bold font-headline">Formulas Used</h3>
-                  <div className="mt-2">
-                    <h4 className="font-semibold">For a 2x2 matrix:</h4>
-                    <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm">
-                        <code>det(A) = ad - bc</code>
-                    </pre>
-                  </div>
-                   <div className="mt-4">
-                    <h4 className="font-semibold">For a 3x3 matrix:</h4>
-                    <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm">
-                        <code>det(A) = a(ei - fh) - b(di - fg) + c(dh - eg)</code>
-                    </pre>
-                  </div>
-                   <div className="mt-4">
-                    <h4 className="font-semibold">For Matrix Addition:</h4>
-                    <p>Addition is performed element-wise. For two matrices A and B of the same dimensions, the resulting matrix C is calculated as C[i][j] = A[i][j] + B[i][j].</p>
-                  </div>
+                  <h3 className="font-bold font-headline">Operations</h3>
+                  <Accordion type="single" collapsible className="w-full">
+                    <AccordionItem value="item-1">
+                      <AccordionTrigger>Determinant</AccordionTrigger>
+                      <AccordionContent>
+                        The determinant is a special scalar value that can be computed from a square matrix. For a 2x2 matrix, it is `ad - bc`. For a 3x3 matrix, the calculation is more complex.
+                      </AccordionContent>
+                    </AccordionItem>
+                     <AccordionItem value="item-2">
+                      <AccordionTrigger>Addition & Subtraction</AccordionTrigger>
+                      <AccordionContent>
+                       These operations are performed element-wise. For two matrices A and B of the same dimensions, the resulting matrix C is calculated as C[i,j] = A[i,j] ± B[i,j].
+                      </AccordionContent>
+                    </AccordionItem>
+                    <AccordionItem value="item-3">
+                        <AccordionTrigger>Multiplication</AccordionTrigger>
+                        <AccordionContent>
+                        Matrix multiplication involves taking the dot product of the rows of the first matrix with the columns of the second matrix.
+                        </AccordionContent>
+                    </AccordionItem>
+                    <AccordionItem value="item-4">
+                        <AccordionTrigger>Transpose</AccordionTrigger>
+                        <AccordionContent>
+                        The transpose of a matrix is found by flipping the matrix over its main diagonal, switching the row and column indices.
+                        </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
                 </div>
               </div>
             </CardContent>
