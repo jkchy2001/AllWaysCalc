@@ -18,13 +18,22 @@ import {
   Percent,
   Wallet,
   Home,
-  BrainCircuit
+  BrainCircuit,
+  Sparkles
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
 import Image from 'next/image';
 
 const calculatorCategories = [
+   {
+    title: 'AI Calculators',
+    description: 'Solve complex problems with AI.',
+    icon: <Sparkles className="size-8 text-primary" />,
+    links: [
+      { href: '/ai-math-solver', name: 'AI Math Problem Solver' },
+    ],
+  },
   {
     title: 'Finance & Investment',
     description: 'EMI, SIP, Loans, Compound Interest, Investments.',
