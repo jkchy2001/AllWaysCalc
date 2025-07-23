@@ -2,7 +2,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useFieldArray } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home } from 'lucide-react';
+import { Home, Trash2 } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
 import {
   Accordion,
@@ -30,11 +30,17 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 
+const taxSlabSchema = z.object({
+  limit: z.coerce.number().min(0),
+  rate: z.coerce.number().min(0).max(100),
+});
+
 const formSchema = z.object({
   grossIncome: z.coerce.number().min(0, 'Gross income must be a positive number.'),
   deductions80c: z.coerce.number().min(0, 'Deductions must be a positive number.'),
   standardDeduction: z.coerce.number().min(0, 'Standard deduction must be a positive number.'),
-  taxRegime: z.enum(['old', 'new']),
+  taxRegime: z.enum(['old', 'new', 'custom']),
+  customSlabs: z.array(taxSlabSchema).optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -43,6 +49,23 @@ type CalculationResult = {
   totalTax: number;
   installments: { dueDate: string; amount: number; percentage: number }[];
 };
+
+const newRegimeSlabs = [
+  { limit: 300000, rate: 0 },
+  { limit: 600000, rate: 5 },
+  { limit: 900000, rate: 10 },
+  { limit: 1200000, rate: 15 },
+  { limit: 1500000, rate: 20 },
+  { limit: Infinity, rate: 30 },
+];
+
+const oldRegimeSlabs = [
+  { limit: 250000, rate: 0 },
+  { limit: 500000, rate: 5 },
+  { limit: 1000000, rate: 20 },
+  { limit: Infinity, rate: 30 },
+];
+
 
 export default function AdvanceTaxCalculatorPage() {
   const [result, setResult] = useState<CalculationResult | null>(null);
@@ -54,30 +77,35 @@ export default function AdvanceTaxCalculatorPage() {
       deductions80c: 0,
       standardDeduction: 50000,
       taxRegime: 'new',
+      customSlabs: [{ limit: 500000, rate: 10 }, { limit: 1000000, rate: 20 }, { limit: Infinity, rate: 30 }],
     },
   });
 
-  const { register, handleSubmit, watch, formState: { errors } } = form;
+  const { register, handleSubmit, watch, control, formState: { errors } } = form;
+  
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "customSlabs",
+  });
 
   const taxRegime = watch('taxRegime');
 
-  const calculateTax = (taxableIncome: number, regime: 'old' | 'new'): number => {
+  const calculateTax = (taxableIncome: number, regime: 'old' | 'new' | 'custom', customSlabs: {limit: number, rate: number}[]): number => {
     let tax = 0;
-    const slabs = regime === 'new'
-      ? [
-          { limit: 300000, rate: 0 },
-          { limit: 600000, rate: 0.05 },
-          { limit: 900000, rate: 0.10 },
-          { limit: 1200000, rate: 0.15 },
-          { limit: 1500000, rate: 0.20 },
-          { limit: Infinity, rate: 0.30 },
-        ]
-      : [
-          { limit: 250000, rate: 0 },
-          { limit: 500000, rate: 0.05 },
-          { limit: 1000000, rate: 0.20 },
-          { limit: Infinity, rate: 0.30 },
-        ];
+    
+    let slabs: {limit: number, rate: number}[];
+
+    switch(regime) {
+        case 'new':
+            slabs = newRegimeSlabs.map(s => ({...s, rate: s.rate / 100}));
+            break;
+        case 'old':
+            slabs = oldRegimeSlabs.map(s => ({...s, rate: s.rate / 100}));
+            break;
+        case 'custom':
+            slabs = [...customSlabs].sort((a,b) => a.limit - b.limit).map(s => ({...s, rate: s.rate / 100}));
+            break;
+    }
 
     let lastLimit = 0;
     for (const slab of slabs) {
@@ -86,19 +114,26 @@ export default function AdvanceTaxCalculatorPage() {
         tax += taxableInSlab * slab.rate;
       }
       lastLimit = slab.limit;
+      if(lastLimit === Infinity) break;
     }
     return tax;
   };
 
   const onSubmit = (data: FormValues) => {
-    const { grossIncome, deductions80c, standardDeduction, taxRegime } = data;
+    const { grossIncome, deductions80c, standardDeduction, taxRegime, customSlabs = [] } = data;
     
-    let applicableDeductions = taxRegime === 'new' ? standardDeduction : Math.min(deductions80c, 150000) + standardDeduction;
+    let applicableDeductions = 0;
+    if(taxRegime === 'old') {
+        applicableDeductions = Math.min(deductions80c, 150000) + 50000;
+    } else if (taxRegime === 'new' || taxRegime === 'custom') {
+        applicableDeductions = standardDeduction;
+    }
+
     let taxableIncome = grossIncome - applicableDeductions;
     if (taxableIncome < 0) taxableIncome = 0;
 
     const incomeForRebate = grossIncome - applicableDeductions;
-    let taxAmount = calculateTax(taxableIncome, taxRegime);
+    let taxAmount = calculateTax(taxableIncome, taxRegime, customSlabs);
 
     if (taxRegime === 'new' && incomeForRebate <= 700000) {
         taxAmount = 0;
@@ -121,9 +156,9 @@ export default function AdvanceTaxCalculatorPage() {
     
     const installments = totalTax < 10000 ? [] : [
         { dueDate: 'On or before 15th June', percentage: 15, amount: totalTax * 0.15 },
-        { dueDate: 'On or before 15th September', percentage: 45, amount: totalTax * 0.30 }, // Cumulative 45%, so installment is 30%
-        { dueDate: 'On or before 15th December', percentage: 75, amount: totalTax * 0.30 }, // Cumulative 75%, so installment is 30%
-        { dueDate: 'On or before 15th March', percentage: 100, amount: totalTax * 0.25 }, // Cumulative 100%, so installment is 25%
+        { dueDate: 'On or before 15th September', percentage: 45, amount: totalTax * 0.30 },
+        { dueDate: 'On or before 15th December', percentage: 75, amount: totalTax * 0.30 },
+        { dueDate: 'On or before 15th March', percentage: 100, amount: totalTax * 0.25 },
     ];
 
     setResult({
@@ -167,17 +202,21 @@ export default function AdvanceTaxCalculatorPage() {
 
                   <RadioGroup
                     defaultValue="new"
-                    className="grid grid-cols-2 gap-4"
+                    className="grid grid-cols-3 gap-4"
                     value={taxRegime}
-                    onValueChange={(value) => form.setValue('taxRegime', value as 'old' | 'new')}
+                    onValueChange={(value) => form.setValue('taxRegime', value as 'old' | 'new' | 'custom')}
                   >
                     <div>
                       <RadioGroupItem value="new" id="new" className="peer sr-only" />
-                      <Label htmlFor="new" className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">New Regime</Label>
+                      <Label htmlFor="new" className="flex flex-col items-center justify-center rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">New</Label>
                     </div>
                     <div>
                       <RadioGroupItem value="old" id="old" className="peer sr-only" />
-                      <Label htmlFor="old" className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">Old Regime</Label>
+                      <Label htmlFor="old" className="flex flex-col items-center justify-center rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">Old</Label>
+                    </div>
+                     <div>
+                      <RadioGroupItem value="custom" id="custom" className="peer sr-only" />
+                      <Label htmlFor="custom" className="flex flex-col items-center justify-center rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">Custom</Label>
                     </div>
                   </RadioGroup>
                   
@@ -189,10 +228,26 @@ export default function AdvanceTaxCalculatorPage() {
                     </div>
                   )}
 
-                  <div className="space-y-2">
-                    <Label htmlFor="standardDeduction">Standard Deduction (₹)</Label>
-                    <Input id="standardDeduction" type="number" step="0.01" {...register('standardDeduction')} disabled={taxRegime === 'old'}/>
-                  </div>
+                  {(taxRegime === 'new' || taxRegime === 'custom') && (
+                     <div className="space-y-2">
+                        <Label htmlFor="standardDeduction">Standard Deduction (₹)</Label>
+                        <Input id="standardDeduction" type="number" step="0.01" {...register('standardDeduction')} />
+                    </div>
+                  )}
+                  
+                  {taxRegime === 'custom' && (
+                    <div className="space-y-4 rounded-md border p-4">
+                        <Label className="font-semibold">Custom Tax Slabs</Label>
+                        {fields.map((field, index) => (
+                           <div key={field.id} className="flex items-center gap-2">
+                                <Input type="number" placeholder="Up to Amount (₹)" {...register(`customSlabs.${index}.limit`)} />
+                                <Input type="number" placeholder="Rate (%)" {...register(`customSlabs.${index}.rate`)} />
+                                <Button type="button" variant="destructive" size="icon" onClick={() => remove(index)}><Trash2 className="h-4 w-4" /></Button>
+                           </div>
+                        ))}
+                        <Button type="button" variant="outline" size="sm" onClick={() => append({ limit: 0, rate: 0 })}>Add Slab</Button>
+                    </div>
+                  )}
 
                 </CardContent>
                 <CardFooter>
@@ -247,12 +302,16 @@ export default function AdvanceTaxCalculatorPage() {
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-               Advance tax is the income tax paid in advance during the financial year instead of in a lump sum at year-end. It is applicable if your total tax liability for the year is ₹10,000 or more.
+               Advance tax is the income tax paid in advance during the financial year instead of in a lump sum at year-end. It is applicable if your total tax liability for the year is ₹10,000 or more. This prevents a large tax burden at the end of the year and helps the government with a steady flow of revenue.
               </p>
               <div className="space-y-4">
                 <div>
                   <h3 className="font-bold font-headline">Who should pay Advance Tax?</h3>
-                  <p>Any person whose estimated tax liability for the financial year is ₹10,000 or more is required to pay advance tax. This applies to salaried individuals, freelancers, and businesses.</p>
+                  <p>Any person—including salaried individuals, freelancers, and businesses—whose estimated tax liability for the financial year is ₹10,000 or more is required to pay advance tax. Senior citizens (aged 60 years or more) not having any income from business or profession are exempt from paying advance tax.</p>
+                </div>
+                <div>
+                  <h3 className="font-bold font-headline">Old vs. New Tax Regime</h3>
+                  <p>The choice of tax regime significantly impacts your tax calculation. The Old Regime allows for various deductions (like 80C, 80D, HRA), while the New Regime offers lower slab rates but forgoes most deductions. Choose the one that is more beneficial for you.</p>
                 </div>
                 <div>
                   <h3 className="font-bold font-headline">FAQs</h3>
@@ -260,14 +319,20 @@ export default function AdvanceTaxCalculatorPage() {
                     <AccordionItem value="item-1">
                       <AccordionTrigger>What happens if I miss a payment?</AccordionTrigger>
                       <AccordionContent>
-                       If you fail to pay or pay less than the required amount of advance tax, you will be liable to pay interest under sections 234B and 234C of the Income Tax Act.
+                       If you fail to pay, or pay less than the required amount of advance tax in any installment, you will be liable to pay interest under sections 234B (for non-payment or short payment) and 234C (for deferment of installments) of the Income Tax Act.
                       </AccordionContent>
                     </AccordionItem>
                      <AccordionItem value="item-2">
-                      <AccordionTrigger>Can I pay more than the installment amount?</AccordionTrigger>
+                      <AccordionTrigger>Can I adjust the amount in subsequent installments?</AccordionTrigger>
                       <AccordionContent>
-                       Yes, you can pay more than the minimum required amount in any installment. Your total tax liability is based on your actual income for the year, and any excess paid can be claimed as a refund when you file your return.
+                       Yes. If your estimated income changes during the year, you can revise your advance tax in the remaining installments to ensure you meet the required payment percentages by each due date.
                       </AccordionContent>
+                    </AccordionItem>
+                    <AccordionItem value="item-3">
+                        <AccordionTrigger>How do I pay Advance Tax?</AccordionTrigger>
+                        <AccordionContent>
+                        You can pay advance tax online through the Income Tax Department's e-payment portal using Challan 280.
+                        </AccordionContent>
                     </AccordionItem>
                   </Accordion>
                 </div>
@@ -279,3 +344,5 @@ export default function AdvanceTaxCalculatorPage() {
     </div>
   );
 }
+
+    
