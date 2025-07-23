@@ -35,6 +35,7 @@ import {
   WalletCards,
   DownloadCloud,
   Signal,
+  Network,
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -200,6 +201,7 @@ const calculatorCategories = [
     links: [
         { href: '/download-time-calculator', name: 'Download Time Calculator', icon: <DownloadCloud className="size-4" /> },
         { href: '/bandwidth-calculator', name: 'Bandwidth Calculator', icon: <Signal className="size-4" /> },
+        { href: '/ip-subnet-calculator', name: 'IP Subnet Calculator', icon: <Network className="size-4" /> },
     ],
   },
   {
