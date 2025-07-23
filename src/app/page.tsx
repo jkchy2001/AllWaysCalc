@@ -101,7 +101,8 @@ import {
   Fuel,
   Luggage,
   CircleDollarSign,
-  Stamp
+  Stamp,
+  ShieldCheck,
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -328,6 +329,7 @@ const calculatorCategories = [
     links: [
       { href: '/distance-fuel-cost-calculator', name: 'Distance & Fuel Cost Calculator', icon: <Fuel className="size-4" /> },
       { href: '/travel-time-estimator', name: 'Travel Time Estimator', icon: <Clock className="size-4" /> },
+      { href: '/speed-converter', name: 'Speed Converter', icon: <Gauge className="size-4" /> },
     ],
   },
 ];
