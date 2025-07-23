@@ -98,10 +98,9 @@ import {
   Box,
   CreditCard,
   Plane,
-  Fuel,
   Luggage,
-  CircleDollarSign,
-  ShieldCheck,
+  Fuel,
+  Cog,
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -316,6 +315,7 @@ const calculatorCategories = [
       { href: '/ideal-gas-law-calculator', name: 'Ideal Gas Law Calculator', icon: <FlaskConical className="size-4" /> },
       { href: '/density-calculator', name: 'Density Calculator', icon: <Box className="size-4" /> },
       { href: '/acceleration-calculator', name: 'Acceleration Calculator', icon: <TrendingUp className="size-4" /> },
+      { href: '/ohms-law-calculator', name: "Ohm's Law Calculator", icon: <Zap className="size-4" /> },
     ],
   },
   {
@@ -351,6 +351,7 @@ const calculatorCategories = [
       </svg>
     ),
     links: [
+      { href: '/gear-ratio-calculator', name: 'Gear Ratio Calculator', icon: <Cog className="size-4" /> },
       { href: '/ohms-law-calculator', name: "Ohm's Law Calculator", icon: <Zap className="size-4" /> },
       { href: '/newtons-law-calculator', name: "Newton's Second Law Calculator", icon: <Atom className="size-4" /> },
       { href: '/kinetic-energy-calculator', name: 'Kinetic Energy Calculator', icon: <Flame className="size-4" /> },
