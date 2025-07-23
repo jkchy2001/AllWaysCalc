@@ -33,6 +33,7 @@ import {
   Layers3,
   PaintBucket,
   WalletCards,
+  DownloadCloud,
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -195,7 +196,9 @@ const calculatorCategories = [
     title: 'Tech & Digital',
     description: 'Download Time, Bandwidth, Subnet, Aspect Ratio.',
     icon: <Monitor className="size-8 text-primary" />,
-    links: [],
+    links: [
+        { href: '/download-time-calculator', name: 'Download Time Calculator', icon: <DownloadCloud className="size-4" /> },
+    ],
   },
   {
     title: 'Environment & Agriculture',
