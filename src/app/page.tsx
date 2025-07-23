@@ -120,6 +120,7 @@ const calculatorCategories = [
         { href: '/bmi-calculator', name: 'BMI Calculator' },
         { href: '/bmr-calculator', name: 'BMR Calculator' },
         { href: '/calorie-intake-calculator', name: 'Calorie Intake Calculator' },
+        { href: '/ideal-weight-calculator', name: 'Ideal Weight Calculator' },
     ],
   },
    {
