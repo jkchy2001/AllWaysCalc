@@ -132,7 +132,7 @@ export default function PaintCalculatorPage() {
                             <Input id="wallHeight" type="number" step="0.1" {...register('wallHeight')} />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="wallWidth">Wall Width ({unit === 'metric' ? 'm' : 'ft'})</Label>
+                            <Label htmlFor="wallWidth">Wall Length ({unit === 'metric' ? 'm' : 'ft'})</Label>
                             <Input id="wallWidth" type="number" step="0.1" {...register('wallWidth')} />
                         </div>
                     </div>
