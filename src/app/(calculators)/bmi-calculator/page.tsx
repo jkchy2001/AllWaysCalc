@@ -119,8 +119,8 @@ export default function BmiCalculatorPage() {
                                 <RadioGroup
                                     defaultValue="metric"
                                     className="grid grid-cols-2 gap-4"
-                                    {...register('unit')}
                                     onValueChange={(value) => form.setValue('unit', value as 'metric' | 'imperial')}
+                                    {...register('unit')}
                                 >
                                     <div>
                                         <RadioGroupItem value="metric" id="metric" className="peer sr-only" />

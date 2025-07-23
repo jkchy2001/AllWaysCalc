@@ -53,7 +53,7 @@ const calculatorCategories = [
     title: 'Math & Geometry',
     description: 'Scientific, Algebra, Trigonometry, Unit Converters.',
     icon: <Shapes className="size-8 text-primary" />,
-    href: '/percentage-calculator',
+    href: '#',
     links: [], // No existing calculators here yet
   },
   {
@@ -148,11 +148,11 @@ export default function Home() {
                 </p>
               </div>
             </div>
-            <div className="mx-auto grid grid-cols-1 gap-6 py-12 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="mx-auto grid grid-cols-1 gap-6 py-12 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
               {calculatorCategories.map((card) => (
                 <CalculatorCard
                   key={card.title}
-                  href={card.href}
+                  href={card.links.length > 0 ? card.links[0].href : '#'}
                   icon={card.icon}
                   title={card.title}
                   description={card.description}

@@ -107,8 +107,8 @@ export default function DateCalculatorPage() {
                                 <RadioGroup
                                     defaultValue="duration"
                                     className="grid grid-cols-3 gap-4"
-                                    {...register('calculationType')}
                                     onValueChange={(value) => form.setValue('calculationType', value as 'duration' | 'add' | 'subtract')}
+                                    {...register('calculationType')}
                                 >
                                     <div>
                                         <RadioGroupItem value="duration" id="duration" className="peer sr-only" />
