@@ -95,6 +95,7 @@ const calculatorCategories = [
     links: [
       { href: '/basic-arithmetic-calculator', name: 'Basic Arithmetic Calculator' },
       { href: '/scientific-calculator', name: 'Scientific Calculator' },
+      { href: '/geometry-calculator', name: 'Geometry Calculator' },
       { href: '/trigonometry-calculator', name: 'Trigonometry Calculator' },
       { href: '/percentage-change-calculator', name: 'Percentage Change Calculator' },
       { href: '/quadratic-equation-solver', name: 'Quadratic Equation Solver' },
