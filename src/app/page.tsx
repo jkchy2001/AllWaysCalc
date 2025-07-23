@@ -174,7 +174,7 @@ const calculatorCategories = [
         { href: '#', name: 'Capital Gains Indexation', icon: <TrendingUp className="size-4" /> },
         { href: '#', name: 'Gift Tax Calculator', icon: <Gift className="size-4" /> },
         { href: '/tds-late-fee-calculator', name: 'TDS Late Fee/Penalty Calculator', icon: <FileMinus className="size-4" /> },
-        { href: '#', name: 'Provident Fund Interest', icon: <PiggyBank className="size-4" /> },
+        { href: '/gratuity-calculator', name: 'Gratuity Calculator', icon: <WalletCards className="size-4" /> },
         { href: '#', name: 'Income Splitting Calculator', icon: <Users className="size-4" /> },
         { href: '#', name: 'Inheritance Tax Estimator', icon: <Building2 className="size-4" /> },
     ],
