@@ -326,6 +326,8 @@ const calculatorCategories = [
       { href: '/density-calculator', name: 'Density Calculator', icon: <Box className="size-4" /> },
       { href: '/acceleration-calculator', name: 'Acceleration Calculator', icon: <TrendingUp className="size-4" /> },
       { href: '/ohms-law-calculator', name: "Ohm's Law Calculator", icon: <Zap className="size-4" /> },
+      { href: '/newtons-law-calculator', name: "Newton's Second Law Calculator", icon: <Atom className="size-4" /> },
+      { href: '/kinetic-energy-calculator', name: 'Kinetic Energy Calculator', icon: <Flame className="size-4" /> },
     ],
   },
   {
@@ -390,6 +392,7 @@ export default function HomePage() {
 
   const filteredCategories = calculatorCategories
     .map(category => {
+      if (!category) return null;
       const filteredLinks = category.links.filter(link =>
         link.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
@@ -400,10 +403,10 @@ export default function HomePage() {
     })
     .filter(Boolean)
     .filter(category => {
-      if (selectedCategory === 'All') {
+      if (selectedCategory === 'All' || !category) {
         return true;
       }
-      return category?.title === selectedCategory;
+      return category.title === selectedCategory;
     });
 
   return (
@@ -498,11 +501,6 @@ export default function HomePage() {
           </div>
         </section>
       </main>
-      <footer className="flex items-center justify-center py-6 px-4 md:px-6 border-t bg-background">
-        <p className="text-sm text-muted-foreground">
-          © {new Date().getFullYear()} AllWaysCalc. All rights reserved.
-        </p>
-      </footer>
     </div>
   );
 }
