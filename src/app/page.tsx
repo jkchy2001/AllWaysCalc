@@ -26,6 +26,7 @@ import {
   BedDouble,
   PersonStanding,
   Timer,
+  HeartHandshake,
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -158,6 +159,7 @@ const calculatorCategories = [
       { href: '/ovulation-calculator', name: 'Ovulation Calculator' },
       { href: '/sleep-cycle-calculator', name: 'Sleep Cycle Calculator' },
       { href: '/tip-calculator', name: 'Tip Calculator' },
+      { href: '/life-expectancy-calculator', name: 'Life Expectancy Calculator' },
     ],
   },
   {
