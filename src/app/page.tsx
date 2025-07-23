@@ -7,7 +7,7 @@ import {
   GraduationCap,
   Shapes,
   Heart,
-  HardHat,
+  Construction,
   Monitor,
   Leaf,
   Atom,
@@ -173,7 +173,7 @@ const calculatorCategories = [
   {
     title: 'Construction & Home',
     description: 'Paint, Tile, Concrete, Flooring Costs.',
-    icon: <HardHat className="size-8 text-primary" />,
+    icon: <Construction className="size-8 text-primary" />,
     links: [
       { href: '/paint-calculator', name: 'Paint Calculator' },
     ],
