@@ -288,6 +288,7 @@ const calculatorCategories = [
     icon: <Atom className="size-8 text-primary" />,
     links: [
       { href: '/molar-mass-calculator', name: 'Molar Mass Calculator', icon: <TestTube className="size-4" /> },
+      { href: '/ph-calculator', name: 'pH Calculator', icon: <Beaker className="size-4" /> },
     ],
   },
 ];
