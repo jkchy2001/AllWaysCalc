@@ -314,11 +314,18 @@ const calculatorCategories = [
       { href: '/molar-mass-calculator', name: 'Molar Mass Calculator', icon: <TestTube className="size-4" /> },
       { href: '/ph-calculator', name: 'pH Calculator', icon: <Beaker className="size-4" /> },
       { href: '/ideal-gas-law-calculator', name: 'Ideal Gas Law Calculator', icon: <FlaskConical className="size-4" /> },
-      { href: '/newtons-law-calculator', name: 'Newton\'s Law Calculator', icon: <Atom className="size-4" /> },
-      { href: '/ohms-law-calculator', name: 'Ohm\'s Law Calculator', icon: <Zap className="size-4" /> },
-      { href: '/kinetic-energy-calculator', name: 'Kinetic Energy Calculator', icon: <Flame className="size-4" /> },
       { href: '/density-calculator', name: 'Density Calculator', icon: <Box className="size-4" /> },
       { href: '/acceleration-calculator', name: 'Acceleration Calculator', icon: <TrendingUp className="size-4" /> },
+    ],
+  },
+  {
+    title: 'Engineering & Technical',
+    description: 'For mechanical, electrical, and civil engineers.',
+    icon: <Construction className="size-8 text-primary" />,
+    links: [
+      { href: '/ohms-law-calculator', name: 'Ohm\'s Law Calculator', icon: <Zap className="size-4" /> },
+      { href: '/newtons-law-calculator', name: "Newton's Second Law Calculator", icon: <Atom className="size-4" /> },
+      { href: '/kinetic-energy-calculator', name: 'Kinetic Energy Calculator', icon: <Flame className="size-4" /> },
     ],
   },
   {
