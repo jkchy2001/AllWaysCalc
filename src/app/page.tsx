@@ -21,7 +21,8 @@ import {
   BrainCircuit,
   Sparkles,
   Ruler,
-  Baby
+  Baby,
+  Droplet
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -124,6 +125,7 @@ const calculatorCategories = [
         { href: '/ideal-weight-calculator', name: 'Ideal Weight Calculator' },
         { href: '/body-fat-percentage-calculator', name: 'Body Fat Percentage' },
         { href: '/macronutrient-calculator', name: 'Macronutrient Calculator' },
+        { href: '/water-intake-calculator', name: 'Water Intake Calculator' },
     ],
   },
    {
