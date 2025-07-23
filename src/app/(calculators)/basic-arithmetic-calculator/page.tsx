@@ -137,11 +137,11 @@ export default function BasicArithmeticCalculatorPage() {
 
   const buttonClass = "h-16 w-16 text-2xl rounded-full shadow-lg transition-all duration-150 transform hover:scale-105 active:scale-95";
   const numberButtonClass = "bg-secondary/70 text-secondary-foreground hover:bg-secondary";
-  const operatorButtonClass = "bg-accent/80 text-accent-foreground hover:bg-accent";
+  const operatorButtonClass = "bg-accent text-accent-foreground hover:bg-accent/90";
   const functionButtonClass = "bg-muted/70 text-muted-foreground hover:bg-muted";
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-background to-secondary">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-background to-secondary/30">
       <Header />
       <main className="flex-1 p-4 md:p-8 flex items-center justify-center">
         <div className="w-full max-w-sm space-y-4">
@@ -155,7 +155,7 @@ export default function BasicArithmeticCalculatorPage() {
               <CardTitle className="font-headline text-2xl text-center">Basic Calculator</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="bg-foreground/10 text-right rounded-lg p-4 mb-6 text-5xl font-mono break-all h-24 flex items-center justify-end shadow-inner text-primary-foreground [text-shadow:0_0_8px_hsl(var(--primary-foreground))]">
+              <div className="bg-foreground/10 text-right rounded-lg p-4 mb-6 text-5xl font-mono break-all h-24 flex items-center justify-end shadow-inner text-primary [text-shadow:0_0_8px_hsl(var(--primary))]">
                 {displayValue}
               </div>
               <div className="grid grid-cols-4 gap-3">
