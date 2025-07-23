@@ -58,6 +58,7 @@ const calculatorCategories = [
       { href: '/markup-calculator', name: 'Markup Calculator' },
       { href: '/break-even-point-calculator', name: 'Break-Even Point Calculator' },
       { href: '/net-profit-calculator', name: 'Net Profit Calculator' },
+      { href: '/npv-calculator', name: 'NPV Calculator' },
     ],
   },
   {
