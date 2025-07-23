@@ -297,6 +297,7 @@ const calculatorCategories = [
       { href: '/ohms-law-calculator', name: 'Ohm\'s Law Calculator', icon: <Zap className="size-4" /> },
       { href: '/kinetic-energy-calculator', name: 'Kinetic Energy Calculator', icon: <Flame className="size-4" /> },
       { href: '/density-calculator', name: 'Density Calculator', icon: <Box className="size-4" /> },
+      { href: '/acceleration-calculator', name: 'Acceleration Calculator', icon: <TrendingUp className="size-4" /> },
     ],
   },
 ];
