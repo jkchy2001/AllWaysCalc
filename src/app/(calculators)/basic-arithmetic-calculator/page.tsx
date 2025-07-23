@@ -14,6 +14,7 @@ import { Header } from '@/components/header';
 import Link from 'next/link';
 import { Home, Delete } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { motion } from 'framer-motion';
 
 export default function BasicArithmeticCalculatorPage() {
   const [displayValue, setDisplayValue] = useState('0');
@@ -118,11 +119,9 @@ export default function BasicArithmeticCalculatorPage() {
   const inputPercent = () => {
     const currentValue = parseFloat(displayValue);
     if (firstOperand !== null && operator) {
-      // Calculate percentage of the first operand
       const percentValue = (firstOperand * currentValue) / 100;
       setDisplayValue(String(percentValue));
     } else {
-       // Just calculate the percentage of the current value
       setDisplayValue(String(currentValue / 100));
     }
   };
@@ -136,69 +135,53 @@ export default function BasicArithmeticCalculatorPage() {
     }
   }
 
+  const buttonClass = "h-16 w-16 text-2xl rounded-full shadow-lg transition-all duration-150 transform hover:scale-105 active:scale-95";
+  const numberButtonClass = "bg-secondary/70 text-secondary-foreground hover:bg-secondary";
+  const operatorButtonClass = "bg-accent/80 text-accent-foreground hover:bg-accent";
+  const functionButtonClass = "bg-muted/70 text-muted-foreground hover:bg-muted";
+
   return (
-    <div className="flex flex-col min-h-screen bg-secondary/30">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-background to-secondary">
       <Header />
       <main className="flex-1 p-4 md:p-8 flex items-center justify-center">
-        <div className="w-full max-w-sm space-y-8">
+        <div className="w-full max-w-sm space-y-4">
           <div className="mb-4">
             <Link href="/" className="text-sm text-muted-foreground hover:text-primary flex items-center gap-2">
               <Home className="size-4" /> Home
             </Link>
           </div>
-          <Card className="shadow-2xl">
+          <Card className="shadow-2xl bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60 border border-border/20">
             <CardHeader>
-              <CardTitle className="font-headline text-2xl">Basic Arithmetic Calculator</CardTitle>
-              <CardDescription>Your everyday calculator.</CardDescription>
+              <CardTitle className="font-headline text-2xl text-center">Basic Calculator</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="bg-muted text-right rounded-lg p-4 mb-4 text-4xl font-mono break-all h-20 flex items-center justify-end">
+              <div className="bg-foreground/10 text-right rounded-lg p-4 mb-6 text-5xl font-mono break-all h-24 flex items-center justify-end shadow-inner text-primary-foreground [text-shadow:0_0_8px_hsl(var(--primary-foreground))]">
                 {displayValue}
               </div>
-              <div className="grid grid-cols-4 gap-2">
-                <Button variant="outline" className="text-xl py-8" onClick={clearAll}>AC</Button>
-                <Button variant="outline" className="text-xl py-8" onClick={toggleSign}>+/-</Button>
-                <Button variant="outline" className="text-xl py-8" onClick={inputPercent}>%</Button>
-                <Button variant="outline" className="text-xl py-8 bg-accent/20" onClick={() => handleOperator('/')}>÷</Button>
+              <div className="grid grid-cols-4 gap-3">
+                <motion.div whileTap={{ scale: 0.9 }}><Button variant="ghost" className={`${buttonClass} ${functionButtonClass}`} onClick={clearAll}>AC</Button></motion.div>
+                <motion.div whileTap={{ scale: 0.9 }}><Button variant="ghost" className={`${buttonClass} ${functionButtonClass}`} onClick={toggleSign}>+/-</Button></motion.div>
+                <motion.div whileTap={{ scale: 0.9 }}><Button variant="ghost" className={`${buttonClass} ${functionButtonClass}`} onClick={inputPercent}>%</Button></motion.div>
+                <motion.div whileTap={{ scale: 0.9 }}><Button variant="ghost" className={`${buttonClass} ${operatorButtonClass}`} onClick={() => handleOperator('/')}>÷</Button></motion.div>
 
-                <Button variant="secondary" className="text-xl py-8" onClick={() => inputDigit('7')}>7</Button>
-                <Button variant="secondary" className="text-xl py-8" onClick={() => inputDigit('8')}>8</Button>
-                <Button variant="secondary" className="text-xl py-8" onClick={() => inputDigit('9')}>9</Button>
-                <Button variant="outline" className="text-xl py-8 bg-accent/20" onClick={() => handleOperator('*')}>×</Button>
+                <motion.div whileTap={{ scale: 0.9 }}><Button variant="ghost" className={`${buttonClass} ${numberButtonClass}`} onClick={() => inputDigit('7')}>7</Button></motion.div>
+                <motion.div whileTap={{ scale: 0.9 }}><Button variant="ghost" className={`${buttonClass} ${numberButtonClass}`} onClick={() => inputDigit('8')}>8</Button></motion.div>
+                <motion.div whileTap={{ scale: 0.9 }}><Button variant="ghost" className={`${buttonClass} ${numberButtonClass}`} onClick={() => inputDigit('9')}>9</Button></motion.div>
+                <motion.div whileTap={{ scale: 0.9 }}><Button variant="ghost" className={`${buttonClass} ${operatorButtonClass}`} onClick={() => handleOperator('*')}>×</Button></motion.div>
 
-                <Button variant="secondary" className="text-xl py-8" onClick={() => inputDigit('4')}>4</Button>
-                <Button variant="secondary" className="text-xl py-8" onClick={() => inputDigit('5')}>5</Button>
-                <Button variant="secondary" className="text-xl py-8" onClick={() => inputDigit('6')}>6</Button>
-                <Button variant="outline" className="text-xl py-8 bg-accent/20" onClick={() => handleOperator('-')}>-</Button>
+                <motion.div whileTap={{ scale: 0.9 }}><Button variant="ghost" className={`${buttonClass} ${numberButtonClass}`} onClick={() => inputDigit('4')}>4</Button></motion.div>
+                <motion.div whileTap={{ scale: 0.9 }}><Button variant="ghost" className={`${buttonClass} ${numberButtonClass}`} onClick={() => inputDigit('5')}>5</Button></motion.div>
+                <motion.div whileTap={{ scale: 0.9 }}><Button variant="ghost" className={`${buttonClass} ${numberButtonClass}`} onClick={() => inputDigit('6')}>6</Button></motion.div>
+                <motion.div whileTap={{ scale: 0.9 }}><Button variant="ghost" className={`${buttonClass} ${operatorButtonClass}`} onClick={() => handleOperator('-')}>-</Button></motion.div>
 
-                <Button variant="secondary" className="text-xl py-8" onClick={() => inputDigit('1')}>1</Button>
-                <Button variant="secondary" className="text-xl py-8" onClick={() => inputDigit('2')}>2</Button>
-                <Button variant="secondary" className="text-xl py-8" onClick={() => inputDigit('3')}>3</Button>
-                <Button variant="outline" className="text-xl py-8 bg-accent/20" onClick={() => handleOperator('+')}>+</Button>
-
-                <Button variant="secondary" className="col-span-2 text-xl py-8" onClick={() => inputDigit('0')}>0</Button>
-                <Button variant="secondary" className="text-xl py-8" onClick={inputDecimal}>.</Button>
-                <Button className="text-xl py-8 bg-accent hover:bg-accent/90" onClick={handleEquals}>=</Button>
-              </div>
-            </CardContent>
-          </Card>
-           <Card>
-            <CardHeader>
-              <CardTitle className="font-headline">How It Works</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="mb-4">
-               This calculator mimics the functionality of a standard handheld electronic calculator, performing basic arithmetic operations like addition, subtraction, multiplication, and division.
-              </p>
-              <div className="space-y-4">
-                <div>
-                  <h3 className="font-bold font-headline">Features</h3>
-                   <ul className="list-disc list-inside space-y-1">
-                      <li><b>AC (All Clear):</b> Resets the entire calculation.</li>
-                      <li><b>+/- (Toggle Sign):</b> Changes the current number from positive to negative and vice versa.</li>
-                      <li><b>% (Percent):</b> Converts the current number to its decimal equivalent (divides by 100) or calculates a percentage of the first operand in a two-number operation.</li>
-                   </ul>
-                </div>
+                <motion.div whileTap={{ scale: 0.9 }}><Button variant="ghost" className={`${buttonClass} ${numberButtonClass}`} onClick={() => inputDigit('1')}>1</Button></motion.div>
+                <motion.div whileTap={{ scale: 0.9 }}><Button variant="ghost" className={`${buttonClass} ${numberButtonClass}`} onClick={() => inputDigit('2')}>2</Button></motion.div>
+                <motion.div whileTap={{ scale: 0.9 }}><Button variant="ghost" className={`${buttonClass} ${numberButtonClass}`} onClick={() => inputDigit('3')}>3</Button></motion.div>
+                <motion.div whileTap={{ scale: 0.9 }}><Button variant="ghost" className={`${buttonClass} ${operatorButtonClass}`} onClick={() => handleOperator('+')}>+</Button></motion.div>
+                
+                <motion.div whileTap={{ scale: 0.9 }} className="col-span-2"><Button variant="ghost" className={`h-16 w-full text-2xl rounded-full shadow-lg transition-all duration-150 transform hover:scale-105 active:scale-95 ${numberButtonClass}`} onClick={() => inputDigit('0')}>0</Button></motion.div>
+                <motion.div whileTap={{ scale: 0.9 }}><Button variant="ghost" className={`${buttonClass} ${numberButtonClass}`} onClick={inputDecimal}>.</Button></motion.div>
+                <motion.div whileTap={{ scale: 0.9 }}><Button className={`${buttonClass} bg-primary text-primary-foreground hover:bg-primary/90`} onClick={handleEquals}>=</Button></motion.div>
               </div>
             </CardContent>
           </Card>
