@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import {
   ArrowRight,
@@ -58,6 +59,7 @@ const calculatorCategories = [
       { href: '/income-tax-calculator', name: 'Income Tax Calculator' },
       { href: '/hra-calculator', name: 'HRA Calculator' },
       { href: '/gratuity-calculator', name: 'Gratuity Calculator' },
+      { href: '/tds-calculator', name: 'TDS Calculator' },
       { href: '/discount-calculator', name: 'Discount Calculator' },
       { href: '/profit-margin-calculator', name: 'Profit Margin Calculator' },
       { href: '/markup-calculator', name: 'Markup Calculator' },
