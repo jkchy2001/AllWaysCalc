@@ -128,6 +128,7 @@ const calculatorCategories = [
         { href: '/macronutrient-calculator', name: 'Macronutrient Calculator' },
         { href: '/water-intake-calculator', name: 'Water Intake Calculator' },
         { href: '/heart-rate-calculator', name: 'Heart Rate Calculator' },
+        { href: '/steps-to-calories-calculator', name: 'Steps to Calories Calculator' },
     ],
   },
    {
