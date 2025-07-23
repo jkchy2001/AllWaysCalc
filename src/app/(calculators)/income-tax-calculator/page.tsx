@@ -230,10 +230,10 @@ export default function IncomeTaxCalculatorPage() {
 
     let healthAndEducationCess = (taxAmount + surcharge) * 0.04;
 
-    if (taxRegime === 'new' && maxRebateAmountNew && taxAmount > 0 && taxAmount <= maxRebateAmountNew) {
+    if (taxRegime === 'new' && maxRebateAmountNew && taxAmount > 0 && taxableIncome <= 700000) {
         taxAmount = 0; surcharge = 0; healthAndEducationCess = 0;
         rebateApplied = true;
-    } else if (taxRegime === 'old' && maxRebateAmountOld && taxAmount > 0 && taxAmount <= maxRebateAmountOld) {
+    } else if (taxRegime === 'old' && maxRebateAmountOld && taxAmount > 0 && taxableIncome <= 500000) {
         taxAmount = 0; surcharge = 0; healthAndEducationCess = 0;
         rebateApplied = true;
     } else if (taxRegime === 'custom' && customMaxRebateAmount && taxAmount > 0 && taxAmount <= customMaxRebateAmount) {
@@ -272,7 +272,7 @@ export default function IncomeTaxCalculatorPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">Advanced Income Tax Calculator</CardTitle>
-                <CardDescription>Estimate your tax liability for FY 2025-26 with advanced options.</CardDescription>
+                <CardDescription>Estimate your tax liability for FY 2025-26 (AY 2026-27).</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-6">
@@ -543,5 +543,3 @@ export default function IncomeTaxCalculatorPage() {
     </div>
   );
 }
-
-    

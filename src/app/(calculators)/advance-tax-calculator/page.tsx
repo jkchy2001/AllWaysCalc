@@ -206,7 +206,6 @@ export default function AdvanceTaxCalculatorPage() {
     
     let healthAndEducationCess = (taxAmount + surcharge) * 0.04;
 
-    // Rebate logic based on calculated tax amount
     if (taxRegime === 'new' && maxRebateAmountNew && taxAmount > 0 && taxableIncome <= 700000) {
         taxAmount = 0; surcharge = 0; healthAndEducationCess = 0;
         rebateApplied = true;
