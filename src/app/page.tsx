@@ -222,6 +222,7 @@ const calculatorCategories = [
         { href: '/ideal-weight-calculator', name: 'Ideal Weight Calculator', icon: <PersonStanding className="size-4" /> },
         { href: '/body-fat-percentage-calculator', name: 'Body Fat Percentage', icon: <Bone className="size-4" /> },
         { href: '/waist-to-height-ratio-calculator', name: 'Waist-to-Height Ratio', icon: <Ruler className="size-4" /> },
+        { href: '/waist-to-hip-ratio-calculator', name: 'Waist-to-Hip Ratio', icon: <Ruler className="size-4" /> },
         { href: '/macronutrient-calculator', name: 'Macronutrient Calculator', icon: <Dumbbell className="size-4" /> },
         { href: '/water-intake-calculator', name: 'Water Intake Calculator', icon: <Droplet className="size-4" /> },
         { href: '/heart-rate-calculator', name: 'Heart Rate Calculator', icon: <Activity className="size-4" /> },
