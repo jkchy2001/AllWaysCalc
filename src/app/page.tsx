@@ -323,7 +323,7 @@ export default function HomePage() {
                 .map((card) => (
                   <CalculatorCard
                     key={card.title}
-                    href={card.links.length > 0 ? card.links[0].href : '#'}
+                    href={'/'}
                     icon={card.icon}
                     title={card.title}
                     description={card.description}

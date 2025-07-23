@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
 import { ArrowRight } from 'lucide-react';
@@ -41,7 +42,7 @@ export function CalculatorCard({ href, icon, title, description, links }: Calcul
                     ))}
                     {links.length > 5 && (
                          <li>
-                            <Link href={href} className="text-primary font-semibold text-xs flex items-center justify-between group">
+                            <Link href={'/'} className="text-primary font-semibold text-xs flex items-center justify-between group">
                                 <span>View all...</span>
                                 <ArrowRight className="w-4 h-4" />
                             </Link>
