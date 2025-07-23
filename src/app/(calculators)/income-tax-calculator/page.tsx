@@ -215,24 +215,6 @@ export default function IncomeTaxCalculatorPage() {
       taxAmount -= taxOnAgri;
     }
 
-    // Rebate logic
-    if (taxRegime === 'new' && taxableIncome <= 700000) {
-        taxAmount = 0;
-        rebateApplied = true;
-    } else if (taxRegime === 'old' && taxableIncome <= 500000) {
-        if (taxAmount <= 12500) {
-            taxAmount = 0;
-            rebateApplied = true;
-        }
-    } else if (taxRegime === 'custom' && customRebateLimit && taxableIncome <= customRebateLimit) {
-        taxAmount = 0;
-        rebateApplied = true;
-    }
-
-    if (rebateApplied) {
-        slabWiseTax = [{ slab: 'Tax Rebate Applied u/s 87A', tax: 0 }];
-    }
-
     let surcharge = 0;
     if (taxableIncome > 5000000) {
         if (taxableIncome <= 10000000) surcharge = taxAmount * 0.10;
@@ -241,14 +223,31 @@ export default function IncomeTaxCalculatorPage() {
         else surcharge = taxAmount * 0.37;
     }
 
-    const healthAndEducationCess = (taxAmount + surcharge) * 0.04;
+    let healthAndEducationCess = (taxAmount + surcharge) * 0.04;
+    
+    // Rebate logic
+    if (taxRegime === 'new' && taxableIncome <= 700000) {
+        taxAmount = 0; surcharge = 0; healthAndEducationCess = 0;
+        rebateApplied = true;
+    } else if (taxRegime === 'old' && taxableIncome <= 500000) {
+        taxAmount = 0; surcharge = 0; healthAndEducationCess = 0;
+        rebateApplied = true;
+    } else if (taxRegime === 'custom' && customRebateLimit && taxableIncome <= customRebateLimit) {
+        taxAmount = 0; surcharge = 0; healthAndEducationCess = 0;
+        rebateApplied = true;
+    }
+
+    if (rebateApplied) {
+        slabWiseTax = [{ slab: 'Tax Rebate Applied u/s 87A', tax: 0 }];
+    }
+    
     const totalTax = taxAmount + surcharge + healthAndEducationCess;
     
     setResult({
       taxableIncome,
-      taxAmount: rebateApplied ? 0 : taxAmount,
+      taxAmount: taxAmount,
       surcharge,
-      healthAndEducationCess: rebateApplied ? 0 : healthAndEducationCess,
+      healthAndEducationCess: healthAndEducationCess,
       totalTax,
       slabWiseTax
     });

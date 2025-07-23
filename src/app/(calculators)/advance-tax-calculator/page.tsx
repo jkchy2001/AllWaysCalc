@@ -190,17 +190,6 @@ export default function AdvanceTaxCalculatorPage() {
       taxAmount -= taxOnAgri;
     }
 
-    // Rebate logic
-    if (taxRegime === 'new' && taxableIncome <= 700000) {
-        taxAmount = 0;
-    } else if (taxRegime === 'old' && taxableIncome <= 500000) {
-        if (taxAmount <= 12500) {
-            taxAmount = 0;
-        }
-    } else if (taxRegime === 'custom' && customRebateLimit && taxableIncome <= customRebateLimit) {
-        taxAmount = 0;
-    }
-
     let surcharge = 0;
     if (taxableIncome > 5000000) {
         if (taxableIncome <= 10000000) surcharge = taxAmount * 0.10;
@@ -208,8 +197,18 @@ export default function AdvanceTaxCalculatorPage() {
         else if (taxableIncome <= 50000000) surcharge = taxAmount * 0.25;
         else surcharge = taxAmount * 0.37;
     }
+    
+    let healthAndEducationCess = (taxAmount + surcharge) * 0.04;
 
-    const healthAndEducationCess = (taxAmount + surcharge) * 0.04;
+    // Rebate logic
+    if (taxRegime === 'new' && taxableIncome <= 700000) {
+        taxAmount = 0; surcharge = 0; healthAndEducationCess = 0;
+    } else if (taxRegime === 'old' && taxableIncome <= 500000) {
+        taxAmount = 0; surcharge = 0; healthAndEducationCess = 0;
+    } else if (taxRegime === 'custom' && customRebateLimit && taxableIncome <= customRebateLimit) {
+        taxAmount = 0; surcharge = 0; healthAndEducationCess = 0;
+    }
+    
     const totalTax = taxAmount + surcharge + healthAndEducationCess;
     
     const installments = totalTax < 10000 ? [] : [
