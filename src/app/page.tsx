@@ -37,6 +37,7 @@ import {
   Signal,
   Network,
   Scaling,
+  Crop,
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -204,6 +205,7 @@ const calculatorCategories = [
         { href: '/bandwidth-calculator', name: 'Bandwidth Calculator', icon: <Signal className="size-4" /> },
         { href: '/ip-subnet-calculator', name: 'IP Subnet Calculator', icon: <Network className="size-4" /> },
         { href: '/pixel-to-em-converter', name: 'Pixel to EM Converter', icon: <Scaling className="size-4" /> },
+        { href: '/aspect-ratio-calculator', name: 'Aspect Ratio Calculator', icon: <Crop className="size-4" /> },
     ],
   },
   {
