@@ -98,6 +98,7 @@ const calculatorCategories = [
       { href: '/percentage-change-calculator', name: 'Percentage Change Calculator' },
       { href: '/quadratic-equation-solver', name: 'Quadratic Equation Solver' },
       { href: '/matrix-calculator', name: 'Matrix Calculator' },
+      { href: '/derivative-calculator', name: 'Derivative Calculator' },
     ],
   },
   {
