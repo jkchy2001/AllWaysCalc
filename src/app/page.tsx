@@ -89,6 +89,7 @@ const calculatorCategories = [
     links: [
       { href: '/age-calculator', name: 'Age Calculator' },
       { href: '/date-calculator', name: 'Date Calculator' },
+      { href: '/tip-calculator', name: 'Tip Calculator' },
     ],
   },
   {
