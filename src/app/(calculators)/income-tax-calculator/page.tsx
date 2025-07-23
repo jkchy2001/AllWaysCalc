@@ -51,6 +51,9 @@ const formSchema = z.object({
   customSlabs: z.array(taxSlabSchema).optional(),
   customStandardDeduction: z.coerce.number().min(0).optional(),
   customMaxRebateAmount: z.coerce.number().min(0).optional(),
+  
+  oldMaxRebateAmount: z.coerce.number().min(0).optional(),
+  newMaxRebateAmount: z.coerce.number().min(0).optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -114,6 +117,8 @@ export default function IncomeTaxCalculatorPage() {
       customSlabs: [{ limit: 300000, rate: 5 }, { limit: 700000, rate: 10 }, { limit: Infinity, rate: 20 }],
       customStandardDeduction: 75000,
       customMaxRebateAmount: 25000,
+      oldMaxRebateAmount: 12500,
+      newMaxRebateAmount: 25000,
     },
   });
 
@@ -180,6 +185,7 @@ export default function IncomeTaxCalculatorPage() {
     const { 
         ageGroup, salaryIncome=0, businessIncome=0, pensionIncome=0, agriculturalIncome=0, otherIncome=0,
         deductions80c, taxRegime, customSlabs = [], customStandardDeduction, customMaxRebateAmount,
+        oldMaxRebateAmount, newMaxRebateAmount,
     } = data;
     
     const grossIncome = salaryIncome + businessIncome + pensionIncome + otherIncome; 
@@ -223,15 +229,16 @@ export default function IncomeTaxCalculatorPage() {
     }
 
     let healthAndEducationCess = (taxAmount + surcharge) * 0.04;
+    
+    let maxRebateAmount = 0;
+    if (taxRegime === 'new') maxRebateAmount = newMaxRebateAmount || 0;
+    else if (taxRegime === 'old') maxRebateAmount = oldMaxRebateAmount || 0;
+    else if (taxRegime === 'custom') maxRebateAmount = customMaxRebateAmount || 0;
 
-    if (taxRegime === 'new' && taxableIncome <= 700000) {
-        taxAmount = 0; surcharge = 0; healthAndEducationCess = 0;
-        rebateApplied = true;
-    } else if (taxRegime === 'old' && taxableIncome <= 500000) {
-        taxAmount = 0; surcharge = 0; healthAndEducationCess = 0;
-        rebateApplied = true;
-    } else if (taxRegime === 'custom' && customMaxRebateAmount && taxAmount > 0 && taxAmount <= customMaxRebateAmount) {
-        taxAmount = 0; surcharge = 0; healthAndEducationCess = 0;
+    if (taxAmount > 0 && taxAmount <= maxRebateAmount) {
+        taxAmount = 0;
+        surcharge = 0;
+        healthAndEducationCess = 0;
         rebateApplied = true;
     }
     
@@ -353,7 +360,7 @@ export default function IncomeTaxCalculatorPage() {
                    {taxRegime === 'old' && (
                     <div className="space-y-4 rounded-md border p-4">
                         <h3 className="font-semibold">Old Regime Options</h3>
-                        <p className="text-xs text-muted-foreground">Rebate u/s 87A applied automatically for taxable income up to ₹5,00,000.</p>
+                        <p className="text-xs text-muted-foreground">Rebate u/s 87A applied if tax amount is up to the specified rebate amount.</p>
                         <div className="space-y-2">
                           <Label htmlFor="deductions80c">Deductions (80C, 80D, HRA etc.) (₹)</Label>
                           <Input id="deductions80c" type="number" step="0.01" {...register('deductions80c')} />
@@ -363,16 +370,24 @@ export default function IncomeTaxCalculatorPage() {
                           <Label>Standard Deduction</Label>
                           <Input type="text" value="₹50,000" disabled />
                         </div>
+                        <div className="space-y-2">
+                           <Label htmlFor="oldMaxRebateAmount">Max Rebate Amount (on Tax)</Label>
+                           <Input id="oldMaxRebateAmount" type="number" {...register('oldMaxRebateAmount')} />
+                        </div>
                     </div>
                   )}
 
                   {taxRegime === 'new' && (
                      <div className="space-y-4 rounded-md border p-4">
                         <h3 className="font-semibold">New Regime Options</h3>
-                        <p className="text-xs text-muted-foreground">Rebate u/s 87A applied automatically for taxable income up to ₹7,00,000.</p>
+                         <p className="text-xs text-muted-foreground">Rebate u/s 87A applied if tax amount is up to the specified rebate amount.</p>
                         <div>
                           <Label>Standard Deduction</Label>
                           <Input type="text" value="₹75,000" disabled />
+                        </div>
+                         <div className="space-y-2">
+                           <Label htmlFor="newMaxRebateAmount">Max Rebate Amount (on Tax)</Label>
+                           <Input id="newMaxRebateAmount" type="number" {...register('newMaxRebateAmount')} />
                         </div>
                      </div>
                   )}
@@ -512,7 +527,7 @@ export default function IncomeTaxCalculatorPage() {
                      <AccordionItem value="item-2">
                       <AccordionTrigger>What is a Tax Rebate under Section 87A?</AccordionTrigger>
                       <AccordionContent>
-                        A tax rebate is a relief that makes your tax liability zero if your taxable income is below a certain threshold. Under the New Regime, this threshold is ₹7,00,000. Under the Old Regime, it's ₹5,00,000.
+                        A tax rebate is a relief that makes your tax liability zero if your calculated tax amount is below a certain threshold defined by the government.
                       </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="item-3">
@@ -531,3 +546,5 @@ export default function IncomeTaxCalculatorPage() {
     </div>
   );
 }
+
+    
