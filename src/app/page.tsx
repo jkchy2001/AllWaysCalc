@@ -103,6 +103,7 @@ const calculatorCategories = [
       { href: '/lcm-hcf-calculator', name: 'LCM & HCF Calculator' },
       { href: '/modulo-calculator', name: 'Modulo Calculator' },
       { href: '/mean-median-mode-calculator', name: 'Mean, Median, Mode Calculator' },
+      { href: '/permutations-combinations-calculator', name: 'Permutations & Combinations' },
     ],
   },
   {
