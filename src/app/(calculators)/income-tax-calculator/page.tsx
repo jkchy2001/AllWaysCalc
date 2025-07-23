@@ -211,6 +211,7 @@ export default function IncomeTaxCalculatorPage() {
                   <div className="space-y-2">
                     <Label htmlFor="grossIncome">Gross Annual Income (₹)</Label>
                     <Input id="grossIncome" type="number" step="0.01" {...register('grossIncome')} />
+                    <p className="text-xs text-muted-foreground">This is your total income before any deductions.</p>
                     {errors.grossIncome && <p className="text-destructive text-sm">{errors.grossIncome.message}</p>}
                   </div>
 
@@ -334,7 +335,7 @@ export default function IncomeTaxCalculatorPage() {
               <div className="space-y-4">
                 <div>
                   <h3 className="font-bold font-headline">How is Tax Calculated?</h3>
-                  <p>Income tax is calculated based on a slab system. This means that different portions of your income are taxed at different rates. For example, the first part of your income might be tax-free, the next portion taxed at 5%, the next at 10%, and so on. The total tax is the sum of the tax calculated for each slab.</p>
+                  <p>Income tax is calculated based on a slab system. Your taxable income (Gross Income - Deductions) is divided into different slabs, and each slab has a specific tax rate. The total tax is the sum of the tax calculated for each slab.</p>
                 </div>
                 <div>
                   <h3 className="font-bold font-headline">FAQs</h3>

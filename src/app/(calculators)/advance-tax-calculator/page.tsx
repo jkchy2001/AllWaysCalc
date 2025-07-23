@@ -197,6 +197,7 @@ export default function AdvanceTaxCalculatorPage() {
                   <div className="space-y-2">
                     <Label htmlFor="grossIncome">Estimated Gross Annual Income (₹)</Label>
                     <Input id="grossIncome" type="number" step="0.01" {...register('grossIncome')} />
+                    <p className="text-xs text-muted-foreground">This is your total income before any deductions.</p>
                     {errors.grossIncome && <p className="text-destructive text-sm">{errors.grossIncome.message}</p>}
                   </div>
 
