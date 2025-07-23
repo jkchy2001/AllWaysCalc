@@ -97,6 +97,11 @@ import {
   Zap,
   Box,
   CreditCard,
+  Plane,
+  Fuel,
+  Stamp,
+  CircleDollarSign,
+  Luggage
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -314,6 +319,20 @@ const calculatorCategories = [
       { href: '/kinetic-energy-calculator', name: 'Kinetic Energy Calculator', icon: <Flame className="size-4" /> },
       { href: '/density-calculator', name: 'Density Calculator', icon: <Box className="size-4" /> },
       { href: '/acceleration-calculator', name: 'Acceleration Calculator', icon: <TrendingUp className="size-4" /> },
+    ],
+  },
+  {
+    title: 'Travel & Transport',
+    description: 'Useful in apps related to logistics or tourism.',
+    icon: <Plane className="size-8 text-primary" />,
+    links: [
+      { href: '#', name: 'Distance & Fuel Cost Calculator', icon: <Fuel className="size-4" /> },
+      { href: '#', name: 'Cab Fare Estimator', icon: <Car className="size-4" /> },
+      { href: '#', name: 'Toll Calculator (India-specific)', icon: <Landmark className="size-4" /> },
+      { href: '#', name: 'Travel Time Estimator', icon: <Clock className="size-4" /> },
+      { href: '#', name: 'Visa Fee Calculator', icon: <Stamp className="size-4" /> },
+      { href: '#', name: 'Currency Exchange Loss Calculator', icon: <CircleDollarSign className="size-4" /> },
+      { href: '#', name: 'Luggage Weight Calculator (for flights)', icon: <Luggage className="size-4" /> },
     ],
   },
 ];
