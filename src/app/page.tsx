@@ -75,7 +75,8 @@ const calculatorCategories = [
     description: 'GPA, CGPA, Percentage, Study Planners.',
     icon: <GraduationCap className="size-8 text-primary" />,
     links: [
-      { href: '/percentage-calculator', name: 'Percentage Calculator' }
+      { href: '/percentage-calculator', name: 'Percentage Calculator' },
+      { href: '/gpa-calculator', name: 'GPA Calculator' }
     ],
   },
   {
