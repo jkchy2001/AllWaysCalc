@@ -57,7 +57,7 @@ export default function NetProfitCalculatorPage() {
   const onSubmit = (data: FormValues) => {
     const grossProfit = data.revenue - data.cogs;
     const netProfit = grossProfit - data.operatingExpenses;
-    const netProfitMargin = (netProfit / data.revenue) * 100;
+    const netProfitMargin = data.revenue > 0 ? (netProfit / data.revenue) * 100 : 0;
     
     setResult({
       netProfit,
@@ -148,7 +148,7 @@ export default function NetProfitCalculatorPage() {
                   <h3 className="font-bold font-headline">Formula Used</h3>
                    <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
                     <code>
-                      Net Profit = (Total Revenue - COGS - Operating Expenses)
+                      Net Profit = Total Revenue - COGS - Operating Expenses
                     </code>
                   </pre>
                 </div>
