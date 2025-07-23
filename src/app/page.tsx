@@ -89,9 +89,11 @@ const calculatorCategories = [
   },
   {
     title: 'Math & Geometry',
-    description: 'Scientific, Algebra, Trigonometry, Unit Converters.',
+    description: 'Percentage Change, Mean, Median, Mode.',
     icon: <Calculator className="size-8 text-primary" />,
-    links: [],
+    links: [
+      { href: '/percentage-change-calculator', name: 'Percentage Change Calculator' },
+    ],
   },
   {
     title: 'Health & Fitness',
