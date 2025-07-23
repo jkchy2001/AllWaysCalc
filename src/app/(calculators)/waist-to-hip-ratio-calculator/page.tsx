@@ -55,7 +55,11 @@ const getCategory = (ratio: number, gender: 'male' | 'female') => {
     }
 };
 
-export default function WaistToHipRatioCalculatorPage() {
+export default function WaistToHipRatioCalculatorPage({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
   const [result, setResult] = useState<CalculationResult | null>(null);
 
   const form = useForm<FormValues>({

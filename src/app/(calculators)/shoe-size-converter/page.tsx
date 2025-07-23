@@ -52,7 +52,11 @@ const womensSizes = [
 type SizeChart = typeof mensSizes;
 type Region = 'us' | 'uk' | 'india' | 'eu';
 
-export default function ShoeSizeConverterPage() {
+export default function ShoeSizeConverterPage({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
   const [result, setResult] = useState<any>(null);
   
   const form = useForm({

@@ -41,7 +41,11 @@ type CalculationResult = {
   backupTimeHours: number;
 };
 
-export default function BatteryBackupCalculatorPage() {
+export default function BatteryBackupCalculatorPage({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
   const [result, setResult] = useState<CalculationResult | null>(null);
 
   const form = useForm<FormValues>({

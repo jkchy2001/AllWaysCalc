@@ -46,7 +46,11 @@ const RESISTIVITY = {
   aluminum: 2.82e-8,
 };
 
-export default function VoltageDropCalculatorPage() {
+export default function VoltageDropCalculatorPage({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
   const [result, setResult] = useState<CalculationResult | null>(null);
 
   const form = useForm<FormValues>({
@@ -68,7 +72,7 @@ export default function VoltageDropCalculatorPage() {
     // Convert area from mm^2 to m^2
     const areaInM2 = wireArea / 1_000_000;
     
-    const resistivity = RESISTIVITY[material];
+    const resistivity = RESISTIVITY[material as keyof typeof RESISTIVITY];
 
     // Formula: VD = 2 * L * ρ * I / A  (2 for two-way length)
     const voltageDrop = (2 * wireLength * resistivity * current) / areaInM2;

@@ -38,7 +38,11 @@ type CalculationResult = {
   unit: string;
 };
 
-export default function AccelerationCalculatorPage() {
+export default function AccelerationCalculatorPage({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
   const [result, setResult] = useState<CalculationResult | null>(null);
 
   const form = useForm<FormValues>({

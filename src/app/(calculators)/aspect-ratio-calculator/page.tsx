@@ -25,7 +25,11 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 
-export default function AspectRatioCalculatorPage() {
+export default function AspectRatioCalculatorPage({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
   const [activeInput, setActiveInput] = useState<'w2' | 'h2' | null>(null);
   
   const form = useForm({
