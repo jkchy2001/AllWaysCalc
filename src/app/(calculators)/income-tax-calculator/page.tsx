@@ -69,11 +69,12 @@ type CalculationResult = {
 };
 
 const newRegimeSlabs = [
-  { limit: 300000, rate: 0 },
-  { limit: 600000, rate: 5 },
-  { limit: 900000, rate: 10 },
-  { limit: 1200000, rate: 15 },
-  { limit: 1500000, rate: 20 },
+  { limit: 400000, rate: 0 },
+  { limit: 800000, rate: 5 },
+  { limit: 1200000, rate: 10 },
+  { limit: 1600000, rate: 15 },
+  { limit: 2000000, rate: 20 },
+  { limit: 2400000, rate: 25 },
   { limit: Infinity, rate: 30 },
 ];
 
@@ -165,7 +166,7 @@ export default function IncomeTaxCalculatorPage() {
         const taxInSlab = taxableInSlab * slab.rate;
         tax += taxInSlab;
         
-        if (taxInSlab > 0) {
+        if (taxInSlab > 0 || (slab.rate === 0 && taxableInSlab > 0)) {
             const slabLabel = lastLimit === 0 
                 ? `Up to ${formatCurrency(slab.limit)}` 
                 : slab.limit === Infinity 
@@ -229,7 +230,6 @@ export default function IncomeTaxCalculatorPage() {
 
     let healthAndEducationCess = (taxAmount + surcharge) * 0.04;
 
-    // Rebate logic based on calculated tax amount
     if (taxRegime === 'new' && maxRebateAmountNew && taxAmount > 0 && taxAmount <= maxRebateAmountNew) {
         taxAmount = 0; surcharge = 0; healthAndEducationCess = 0;
         rebateApplied = true;
@@ -240,7 +240,7 @@ export default function IncomeTaxCalculatorPage() {
         taxAmount = 0; surcharge = 0; healthAndEducationCess = 0;
         rebateApplied = true;
     }
-
+    
     if (rebateApplied) {
         slabWiseTax = [{ slab: 'Tax Rebate Applied u/s 87A', tax: 0 }];
     }
@@ -398,14 +398,22 @@ export default function IncomeTaxCalculatorPage() {
                            {fields.map((field, index) => (
                               <div key={field.id} className="flex items-center gap-2">
                                    <Input 
-                                     type={watch(`customSlabs.${index}.limit`) === Infinity ? "text" : "number"}
+                                     type="number"
                                      placeholder="Up to Amount (₹)" 
                                      {...register(`customSlabs.${index}.limit`)}
                                      disabled={watch(`customSlabs.${index}.limit`) === Infinity}
-                                     value={watch(`customSlabs.${index}.limit`) === Infinity ? "Infinity" : form.getValues(`customSlabs.${index}.limit`)}
+                                     value={watch(`customSlabs.${index}.limit`) === Infinity ? 'Infinity' : form.getValues(`customSlabs.${index}.limit`)}
+                                      onChange={(e) => {
+                                        const value = e.target.value;
+                                        if (value.toLowerCase() === 'infinity') {
+                                            setValue(`customSlabs.${index}.limit`, Infinity);
+                                        } else {
+                                            setValue(`customSlabs.${index}.limit`, Number(value));
+                                        }
+                                     }}
                                    />
                                    <Input type="number" placeholder="Rate (%)" {...register(`customSlabs.${index}.rate`)} />
-                                   {index > 0 && <Button type="button" variant="destructive" size="icon" onClick={() => remove(index)}><Trash2 className="h-4 w-4" /></Button>}
+                                   {fields.length > 1 && watch(`customSlabs.${index}.limit`) !== Infinity && <Button type="button" variant="destructive" size="icon" onClick={() => remove(index)}><Trash2 className="h-4 w-4" /></Button>}
                               </div>
                            ))}
                            <div className="flex gap-2">
@@ -452,7 +460,7 @@ export default function IncomeTaxCalculatorPage() {
                           <span className="font-medium text-foreground">{formatCurrency(result.taxAmount)}</span>
                       </div>
                     </div>
-                     {result.slabWiseTax.length > 0 && (
+                     {result.slabWiseTax.length > 0 && !result.rebateApplied && (
                         <Table>
                             <TableHeader>
                               <TableRow>
@@ -469,6 +477,9 @@ export default function IncomeTaxCalculatorPage() {
                               ))}
                             </TableBody>
                         </Table>
+                     )}
+                     {result.rebateApplied && (
+                        <p className="text-center text-green-600 font-semibold pt-4">Tax Rebate Applied. No tax is due.</p>
                      )}
                     <div className="space-y-2 text-sm text-muted-foreground border-t pt-4">
                       <div className="flex justify-between">
@@ -513,7 +524,7 @@ export default function IncomeTaxCalculatorPage() {
                      <AccordionItem value="item-2">
                       <AccordionTrigger>What is a Tax Rebate under Section 87A?</AccordionTrigger>
                       <AccordionContent>
-                        A tax rebate is a relief for taxpayers. If your calculated tax liability is below a certain threshold (e.g., ₹25,000 in the New Regime), your tax payable becomes zero. This calculator allows you to set this rebate amount.
+                        A tax rebate is a relief for taxpayers. If your calculated tax liability is below a certain threshold (e.g., up to ₹25,000 in the New Regime for incomes up to ₹7 lakh), your tax payable becomes zero. This calculator allows you to set this rebate amount.
                       </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="item-3">
@@ -532,3 +543,5 @@ export default function IncomeTaxCalculatorPage() {
     </div>
   );
 }
+
+    

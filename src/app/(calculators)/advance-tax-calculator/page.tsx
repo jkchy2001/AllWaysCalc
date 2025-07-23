@@ -65,11 +65,12 @@ type CalculationResult = {
 };
 
 const newRegimeSlabs = [
-  { limit: 300000, rate: 0 },
-  { limit: 600000, rate: 5 },
-  { limit: 900000, rate: 10 },
-  { limit: 1200000, rate: 15 },
-  { limit: 1500000, rate: 20 },
+  { limit: 400000, rate: 0 },
+  { limit: 800000, rate: 5 },
+  { limit: 1200000, rate: 10 },
+  { limit: 1600000, rate: 15 },
+  { limit: 2000000, rate: 20 },
+  { limit: 2400000, rate: 25 },
   { limit: Infinity, rate: 30 },
 ];
 
@@ -159,7 +160,7 @@ export default function AdvanceTaxCalculatorPage() {
   const onSubmit = (data: FormValues) => {
     const { 
         ageGroup, salaryIncome=0, businessIncome=0, pensionIncome=0, agriculturalIncome=0, otherIncome=0,
-        deductions80c, taxRegime, customSlabs = [], customStandardDeduction, customMaxRebateAmount,
+        deductions80c, taxRegime, customSlabs = [], customStandardDuction, customMaxRebateAmount,
         maxRebateAmountNew, maxRebateAmountOld
     } = data;
     
@@ -175,7 +176,7 @@ export default function AdvanceTaxCalculatorPage() {
         standardDeduction = 50000;
         applicableDeductions = deductions80c + standardDeduction;
     } else { // custom
-        standardDeduction = customStandardDeduction || 0;
+        standardDeduction = customStandardDuction || 0;
         applicableDeductions = deductions80c + standardDeduction;
     }
 
@@ -206,10 +207,10 @@ export default function AdvanceTaxCalculatorPage() {
     let healthAndEducationCess = (taxAmount + surcharge) * 0.04;
 
     // Rebate logic based on calculated tax amount
-    if (taxRegime === 'new' && maxRebateAmountNew && taxAmount > 0 && taxAmount <= maxRebateAmountNew) {
+    if (taxRegime === 'new' && maxRebateAmountNew && taxAmount > 0 && taxableIncome <= 700000) {
         taxAmount = 0; surcharge = 0; healthAndEducationCess = 0;
         rebateApplied = true;
-    } else if (taxRegime === 'old' && maxRebateAmountOld && taxAmount > 0 && taxAmount <= maxRebateAmountOld) {
+    } else if (taxRegime === 'old' && maxRebateAmountOld && taxAmount > 0 && taxableIncome <= 500000) {
         taxAmount = 0; surcharge = 0; healthAndEducationCess = 0;
         rebateApplied = true;
     } else if (taxRegime === 'custom' && customMaxRebateAmount && taxAmount > 0 && taxAmount <= customMaxRebateAmount) {
@@ -385,14 +386,22 @@ export default function AdvanceTaxCalculatorPage() {
                            {fields.map((field, index) => (
                               <div key={field.id} className="flex items-center gap-2">
                                    <Input 
-                                     type={watch(`customSlabs.${index}.limit`) === Infinity ? "text" : "number"}
+                                     type="number"
                                      placeholder="Up to Amount (₹)" 
                                      {...register(`customSlabs.${index}.limit`)}
                                      disabled={watch(`customSlabs.${index}.limit`) === Infinity}
-                                     value={watch(`customSlabs.${index}.limit`) === Infinity ? "Infinity" : form.getValues(`customSlabs.${index}.limit`)}
+                                     value={watch(`customSlabs.${index}.limit`) === Infinity ? 'Infinity' : form.getValues(`customSlabs.${index}.limit`)}
+                                     onChange={(e) => {
+                                        const value = e.target.value;
+                                        if (value.toLowerCase() === 'infinity') {
+                                            setValue(`customSlabs.${index}.limit`, Infinity);
+                                        } else {
+                                            setValue(`customSlabs.${index}.limit`, Number(value));
+                                        }
+                                     }}
                                    />
                                    <Input type="number" placeholder="Rate (%)" {...register(`customSlabs.${index}.rate`)} />
-                                   {index > 0 && <Button type="button" variant="destructive" size="icon" onClick={() => remove(index)}><Trash2 className="h-4 w-4" /></Button>}
+                                   {fields.length > 1 && watch(`customSlabs.${index}.limit`) !== Infinity && <Button type="button" variant="destructive" size="icon" onClick={() => remove(index)}><Trash2 className="h-4 w-4" /></Button>}
                               </div>
                            ))}
                            <div className="flex gap-2">
@@ -432,7 +441,7 @@ export default function AdvanceTaxCalculatorPage() {
                         <p className="text-center text-muted-foreground pt-4">Your advance tax liability is less than ₹10,000. No advance tax is due.</p>
                     )}
                     {result.rebateApplied && (
-                         <p className="text-center text-muted-foreground pt-4">Tax rebate applied. No advance tax is due.</p>
+                         <p className="text-center text-green-600 font-semibold pt-4">Tax Rebate Applied. No tax is due.</p>
                     )}
                     {result.installments.length > 0 && (
                         <Table>
