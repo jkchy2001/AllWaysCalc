@@ -24,6 +24,7 @@ import {
   Baby,
   Droplet,
   BedDouble,
+  PersonStanding,
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -125,6 +126,7 @@ const calculatorCategories = [
         { href: '/calorie-intake-calculator', name: 'Calorie Intake Calculator' },
         { href: '/ideal-weight-calculator', name: 'Ideal Weight Calculator' },
         { href: '/body-fat-percentage-calculator', name: 'Body Fat Percentage' },
+        { href: '/waist-to-height-ratio-calculator', name: 'Waist-to-Height Ratio' },
         { href: '/macronutrient-calculator', name: 'Macronutrient Calculator' },
         { href: '/water-intake-calculator', name: 'Water Intake Calculator' },
         { href: '/heart-rate-calculator', name: 'Heart Rate Calculator' },
