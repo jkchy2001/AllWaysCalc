@@ -121,6 +121,7 @@ const calculatorCategories = [
         { href: '/bmr-calculator', name: 'BMR Calculator' },
         { href: '/calorie-intake-calculator', name: 'Calorie Intake Calculator' },
         { href: '/ideal-weight-calculator', name: 'Ideal Weight Calculator' },
+        { href: '/body-fat-percentage-calculator', name: 'Body Fat Percentage' },
     ],
   },
    {
