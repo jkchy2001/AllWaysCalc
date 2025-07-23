@@ -80,6 +80,7 @@ const calculatorCategories = [
       { href: '/cgpa-to-percentage-calculator', name: 'CGPA to Percentage' },
       { href: '/semester-grade-calculator', name: 'Semester Grade Calculator' },
       { href: '/exam-marks-needed-calculator', name: 'Exam Marks Needed' },
+      { href: '/attendance-calculator', name: 'Attendance Calculator' },
     ],
   },
   {
