@@ -28,6 +28,7 @@ import {
 } from '@/components/ui/accordion';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const taxSlabSchema = z.object({
   limit: z.coerce.number().min(0),
@@ -35,11 +36,20 @@ const taxSlabSchema = z.object({
 });
 
 const formSchema = z.object({
-  grossIncome: z.coerce.number().min(0, 'Gross income must be a positive number.'),
+  ageGroup: z.enum(['below60', '60to80', 'above80']),
+  occupationType: z.enum(['salaried', 'business', 'pensioner', 'other']),
+  
+  salaryIncome: z.coerce.number().optional(),
+  businessIncome: z.coerce.number().optional(),
+  pensionIncome: z.coerce.number().optional(),
+  agriculturalIncome: z.coerce.number().optional(),
+  otherIncome: z.coerce.number().optional(),
+
   deductions80c: z.coerce.number().min(0, 'Deductions must be a positive number.'),
-  standardDeduction: z.coerce.number().min(0, 'Standard deduction must be a positive number.'),
   taxRegime: z.enum(['old', 'new', 'custom']),
+  
   customSlabs: z.array(taxSlabSchema).optional(),
+  customStandardDeduction: z.coerce.number().min(0).optional(),
   customRebateLimit: z.coerce.number().min(0).optional(),
 });
 
@@ -63,12 +73,25 @@ const newRegimeSlabs = [
   { limit: Infinity, rate: 30 },
 ];
 
-const oldRegimeSlabs = [
-  { limit: 250000, rate: 0 },
-  { limit: 500000, rate: 5 },
-  { limit: 1000000, rate: 20 },
-  { limit: Infinity, rate: 30 },
-];
+const oldRegimeSlabs = {
+    below60: [
+        { limit: 250000, rate: 0 },
+        { limit: 500000, rate: 5 },
+        { limit: 1000000, rate: 20 },
+        { limit: Infinity, rate: 30 },
+    ],
+    '60to80': [
+        { limit: 300000, rate: 0 },
+        { limit: 500000, rate: 5 },
+        { limit: 1000000, rate: 20 },
+        { limit: Infinity, rate: 30 },
+    ],
+    above80: [
+        { limit: 500000, rate: 0 },
+        { limit: 1000000, rate: 20 },
+        { limit: Infinity, rate: 30 },
+    ],
+};
 
 
 export default function IncomeTaxCalculatorPage() {
@@ -77,16 +100,22 @@ export default function IncomeTaxCalculatorPage() {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      grossIncome: undefined,
+      ageGroup: 'below60',
+      occupationType: 'salaried',
+      salaryIncome: 0,
+      businessIncome: 0,
+      pensionIncome: 0,
+      agriculturalIncome: 0,
+      otherIncome: 0,
       deductions80c: 0,
-      standardDeduction: 50000,
       taxRegime: 'new',
       customSlabs: [{ limit: 300000, rate: 5 }, { limit: 700000, rate: 10 }, { limit: Infinity, rate: 20 }],
+      customStandardDeduction: 75000,
       customRebateLimit: 750000,
     },
   });
 
-  const { register, handleSubmit, watch, control, formState: { errors } } = form;
+  const { register, handleSubmit, watch, control, setValue, formState: { errors } } = form;
   
   const { fields, append, remove } = useFieldArray({
     control,
@@ -94,6 +123,7 @@ export default function IncomeTaxCalculatorPage() {
   });
 
   const taxRegime = watch('taxRegime');
+  const ageGroup = watch('ageGroup');
   
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-IN', {
@@ -104,7 +134,7 @@ export default function IncomeTaxCalculatorPage() {
     }).format(value);
   };
 
-  const calculateTax = (taxableIncome: number, regime: 'old' | 'new' | 'custom', customSlabs: {limit: number, rate: number}[]): { tax: number, slabWiseTax: { slab: string, tax: number }[]} => {
+  const calculateTax = (taxableIncome: number, regime: 'old' | 'new' | 'custom', ageGroup: FormValues['ageGroup'], customSlabs: {limit: number, rate: number}[]): { tax: number, slabWiseTax: { slab: string, tax: number }[]} => {
     let tax = 0;
     const slabWiseTax: { slab: string; tax: number }[] = [];
     
@@ -115,7 +145,7 @@ export default function IncomeTaxCalculatorPage() {
             slabs = newRegimeSlabs.map(s => ({...s, rate: s.rate / 100}));
             break;
         case 'old':
-            slabs = oldRegimeSlabs.map(s => ({...s, rate: s.rate / 100}));
+            slabs = oldRegimeSlabs[ageGroup].map(s => ({...s, rate: s.rate / 100}));
             break;
         case 'custom':
             slabs = [...customSlabs].sort((a,b) => a.limit - b.limit).map(s => ({...s, rate: s.rate / 100}));
@@ -129,13 +159,14 @@ export default function IncomeTaxCalculatorPage() {
         const taxInSlab = taxableInSlab * slab.rate;
         tax += taxInSlab;
         
-        const slabLabel = lastLimit === 0 
-            ? `Up to ${formatCurrency(slab.limit)}` 
-            : slab.limit === Infinity 
-                ? `Above ${formatCurrency(lastLimit)}`
-                : `${formatCurrency(lastLimit + 1)} - ${formatCurrency(slab.limit)}`;
-
-        slabWiseTax.push({ slab: `${slabLabel} @ ${slab.rate * 100}%`, tax: taxInSlab });
+        if (taxInSlab > 0) {
+            const slabLabel = lastLimit === 0 
+                ? `Up to ${formatCurrency(slab.limit)}` 
+                : slab.limit === Infinity 
+                    ? `Above ${formatCurrency(lastLimit)}`
+                    : `${formatCurrency(lastLimit + 1)} - ${formatCurrency(slab.limit)}`;
+            slabWiseTax.push({ slab: `${slabLabel} @ ${slab.rate * 100}%`, tax: taxInSlab });
+        }
       }
       lastLimit = slab.limit;
       if(lastLimit === Infinity) break;
@@ -144,20 +175,44 @@ export default function IncomeTaxCalculatorPage() {
   };
 
   const onSubmit = (data: FormValues) => {
-    const { grossIncome, deductions80c, standardDeduction, taxRegime, customSlabs = [], customRebateLimit } = data;
+    const { 
+        ageGroup, salaryIncome=0, businessIncome=0, pensionIncome=0, agriculturalIncome=0, otherIncome=0,
+        deductions80c, taxRegime, customSlabs = [], customStandardDeduction, customRebateLimit 
+    } = data;
+    
+    const grossIncome = salaryIncome + businessIncome + pensionIncome + otherIncome; // agricultural income handled separately
     
     let applicableDeductions = 0;
-    if (taxRegime === 'old') {
-      applicableDeductions = Math.min(deductions80c, 150000) + standardDeduction;
-    } else { // New and Custom regimes
-      applicableDeductions = standardDeduction;
+    let standardDeduction = 0;
+
+    if (taxRegime === 'new') {
+        standardDeduction = 75000;
+        applicableDeductions = standardDeduction;
+    } else if (taxRegime === 'old') {
+        standardDeduction = 50000;
+        applicableDeductions = deductions80c + standardDeduction;
+    } else { // custom
+        standardDeduction = customStandardDeduction || 0;
+        applicableDeductions = standardDeduction;
     }
 
     let taxableIncome = grossIncome - applicableDeductions;
     if (taxableIncome < 0) taxableIncome = 0;
 
-    let { tax: taxAmount, slabWiseTax } = calculateTax(taxableIncome, taxRegime, customSlabs || []);
+    // Agricultural income logic: added to total income for rate purposes if net agri income > 5000 and total income > basic exemption
+    let finalTaxableIncome = taxableIncome;
+    if (taxRegime === 'old' && agriculturalIncome > 5000 && taxableIncome > oldRegimeSlabs[ageGroup][0].limit) {
+        finalTaxableIncome += agriculturalIncome;
+    }
+
+    let { tax: taxAmount, slabWiseTax } = calculateTax(finalTaxableIncome, taxRegime, ageGroup, customSlabs || []);
     let rebateApplied = false;
+
+    // Adjust tax for agricultural income if applicable
+    if (taxRegime === 'old' && agriculturalIncome > 5000 && taxableIncome > oldRegimeSlabs[ageGroup][0].limit) {
+      const taxOnAgri = calculateTax(agriculturalIncome + oldRegimeSlabs[ageGroup][0].limit, taxRegime, ageGroup, customSlabs).tax;
+      taxAmount -= taxOnAgri;
+    }
 
     // Rebate logic
     if (taxRegime === 'new' && taxableIncome <= 700000) {
@@ -211,19 +266,75 @@ export default function IncomeTaxCalculatorPage() {
           <div className="grid gap-8 lg:grid-cols-2">
             <Card>
               <CardHeader>
-                <CardTitle className="font-headline text-2xl">Income Tax Calculator (India)</CardTitle>
-                <CardDescription>Estimate your tax liability for FY 2024-25.</CardDescription>
+                <CardTitle className="font-headline text-2xl">Advanced Income Tax Calculator</CardTitle>
+                <CardDescription>Estimate your tax liability for FY 2024-25 with advanced options.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
-                <CardContent className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="grossIncome">Gross Annual Income (₹)</Label>
-                    <Input id="grossIncome" type="number" step="0.01" {...register('grossIncome')} />
-                    <p className="text-xs text-muted-foreground">Your total income before any deductions are applied.</p>
-                    {errors.grossIncome && <p className="text-destructive text-sm">{errors.grossIncome.message}</p>}
+                <CardContent className="space-y-6">
+                  {/* Personal Details */}
+                  <div className="space-y-4 rounded-md border p-4">
+                    <h3 className="font-semibold">Personal Details</h3>
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label>Age Group</Label>
+                          <Select onValueChange={(val) => setValue('ageGroup', val as FormValues['ageGroup'])} defaultValue={ageGroup}>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select Age" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="below60">Below 60</SelectItem>
+                              <SelectItem value="60to80">60 to 80</SelectItem>
+                              <SelectItem value="above80">Above 80</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="space-y-2">
+                          <Label>Occupation</Label>
+                           <Select onValueChange={(val) => setValue('occupationType', val as FormValues['occupationType'])} defaultValue={watch('occupationType')}>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select Occupation" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="salaried">Salaried</SelectItem>
+                              <SelectItem value="business">Business/Profession</SelectItem>
+                              <SelectItem value="pensioner">Pensioner</SelectItem>
+                              <SelectItem value="other">Others</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                    </div>
                   </div>
 
-                  <RadioGroup
+                  {/* Income Details */}
+                  <div className="space-y-4 rounded-md border p-4">
+                    <h3 className="font-semibold">Income Details (Annual)</h3>
+                     <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="salaryIncome">Salary Income (₹)</Label>
+                            <Input id="salaryIncome" type="number" step="0.01" {...register('salaryIncome')} />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="businessIncome">Business/Professional Income (₹)</Label>
+                            <Input id="businessIncome" type="number" step="0.01" {...register('businessIncome')} />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="pensionIncome">Pension Income (₹)</Label>
+                            <Input id="pensionIncome" type="number" step="0.01" {...register('pensionIncome')} />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="otherIncome">Other Income (₹)</Label>
+                            <Input id="otherIncome" type="number" step="0.01" {...register('otherIncome')} />
+                        </div>
+                        <div className="space-y-2 col-span-2">
+                            <Label htmlFor="agriculturalIncome">Agricultural Income (₹)</Label>
+                            <Input id="agriculturalIncome" type="number" step="0.01" {...register('agriculturalIncome')} />
+                            <p className="text-xs text-muted-foreground">Exempt from tax, but used for rate calculation in Old Regime.</p>
+                        </div>
+                    </div>
+                  </div>
+
+                  {/* Regime Selection */}
+                   <RadioGroup
                     defaultValue="new"
                     className="grid grid-cols-3 gap-4"
                     value={taxRegime}
@@ -243,41 +354,60 @@ export default function IncomeTaxCalculatorPage() {
                     </div>
                   </RadioGroup>
                   
-                  <div className="space-y-2">
-                      <Label htmlFor="standardDeduction">Standard Deduction (₹)</Label>
-                      <Input id="standardDeduction" type="number" step="0.01" {...register('standardDeduction')} />
-                  </div>
-                  
-                  {taxRegime === 'old' && (
-                    <div className="space-y-2">
-                      <Label htmlFor="deductions80c">Deductions under 80C, 80D etc. (₹)</Label>
-                      <Input id="deductions80c" type="number" step="0.01" {...register('deductions80c')} />
-                      {errors.deductions80c && <p className="text-destructive text-sm">{errors.deductions80c.message}</p>}
+                   {taxRegime === 'old' && (
+                    <div className="space-y-4 rounded-md border p-4">
+                        <h3 className="font-semibold">Old Regime Deductions</h3>
+                        <div className="space-y-2">
+                          <Label htmlFor="deductions80c">Deductions (80C, 80D, HRA etc.) (₹)</Label>
+                          <Input id="deductions80c" type="number" step="0.01" {...register('deductions80c')} />
+                          {errors.deductions80c && <p className="text-destructive text-sm">{errors.deductions80c.message}</p>}
+                        </div>
+                        <div className="space-y-2">
+                          <Label>Standard Deduction</Label>
+                          <Input type="text" value="₹50,000" disabled />
+                        </div>
                     </div>
+                  )}
+
+                  {taxRegime === 'new' && (
+                     <div className="space-y-2 rounded-md border p-4">
+                        <h3 className="font-semibold">New Regime Deductions</h3>
+                        <Label>Standard Deduction</Label>
+                        <Input type="text" value="₹75,000" disabled />
+                     </div>
                   )}
                   
                   {taxRegime === 'custom' && (
                     <div className="space-y-4 rounded-md border p-4">
-                        <Label className="font-semibold">Custom Tax Slabs</Label>
-                        {fields.map((field, index) => (
-                           <div key={field.id} className="flex items-center gap-2">
-                                <Input 
-                                  type={watch(`customSlabs.${index}.limit`) === Infinity ? "text" : "number"}
-                                  placeholder="Up to Amount (₹)" 
-                                  {...register(`customSlabs.${index}.limit`)}
-                                  disabled={watch(`customSlabs.${index}.limit`) === Infinity}
-                                  value={watch(`customSlabs.${index}.limit`) === Infinity ? "Infinity" : watch(`customSlabs.${index}.limit`)}
-                                />
-                                <Input type="number" placeholder="Rate (%)" {...register(`customSlabs.${index}.rate`)} />
-                                {index > 0 && <Button type="button" variant="destructive" size="icon" onClick={() => remove(index)}><Trash2 className="h-4 w-4" /></Button>}
+                        <h3 className="font-semibold">Custom Tax Configuration</h3>
+                        
+                        <div className="space-y-2">
+                           <Label>Custom Tax Slabs</Label>
+                           {fields.map((field, index) => (
+                              <div key={field.id} className="flex items-center gap-2">
+                                   <Input 
+                                     type={watch(`customSlabs.${index}.limit`) === Infinity ? "text" : "number"}
+                                     placeholder="Up to Amount (₹)" 
+                                     {...register(`customSlabs.${index}.limit`)}
+                                     disabled={watch(`customSlabs.${index}.limit`) === Infinity}
+                                     value={watch(`customSlabs.${index}.limit`) === Infinity ? "Infinity" : watch(`customSlabs.${index}.limit`)}
+                                   />
+                                   <Input type="number" placeholder="Rate (%)" {...register(`customSlabs.${index}.rate`)} />
+                                   {index > 0 && <Button type="button" variant="destructive" size="icon" onClick={() => remove(index)}><Trash2 className="h-4 w-4" /></Button>}
+                              </div>
+                           ))}
+                           <div className="flex gap-2">
+                              <Button type="button" variant="outline" size="sm" onClick={() => append({ limit: 0, rate: 0 })}>Add Slab</Button>
+                              <Button type="button" variant="outline" size="sm" onClick={() => append({ limit: Infinity, rate: 0 })}>Add Final Slab</Button>
                            </div>
-                        ))}
-                        <div className="flex gap-2">
-                           <Button type="button" variant="outline" size="sm" onClick={() => append({ limit: 0, rate: 0 })}>Add Slab</Button>
-                           <Button type="button" variant="outline" size="sm" onClick={() => append({ limit: Infinity, rate: 0 })}>Add Final Slab</Button>
                         </div>
-                        <div className="space-y-2 pt-2">
-                            <Label htmlFor="customRebateLimit">Tax Rebate Limit (₹)</Label>
+
+                        <div className="space-y-2">
+                            <Label htmlFor="customStandardDeduction">Custom Standard Deduction (₹)</Label>
+                            <Input id="customStandardDeduction" type="number" {...register('customStandardDeduction')} />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="customRebateLimit">Custom Tax Rebate Limit (₹)</Label>
                             <Input id="customRebateLimit" type="number" placeholder="Taxable income limit for rebate" {...register('customRebateLimit')} />
                         </div>
                     </div>
@@ -310,22 +440,24 @@ export default function IncomeTaxCalculatorPage() {
                           <span className="font-medium text-foreground">{formatCurrency(result.taxAmount)}</span>
                       </div>
                     </div>
-                     <Table>
-                        <TableHeader>
-                          <TableRow>
-                            <TableHead>Slab</TableHead>
-                            <TableHead className="text-right">Tax</TableHead>
-                          </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                          {result.slabWiseTax.map((slab, i) => (
-                            <TableRow key={i}>
-                              <TableCell className="text-xs">{slab.slab}</TableCell>
-                              <TableCell className="text-right text-xs">{formatCurrency(slab.tax)}</TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
+                     {result.slabWiseTax.length > 0 && (
+                        <Table>
+                            <TableHeader>
+                              <TableRow>
+                                <TableHead>Slab</TableHead>
+                                <TableHead className="text-right">Tax</TableHead>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                              {result.slabWiseTax.map((slab, i) => (
+                                <TableRow key={i}>
+                                  <TableCell className="text-xs">{slab.slab}</TableCell>
+                                  <TableCell className="text-right text-xs">{formatCurrency(slab.tax)}</TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                        </Table>
+                     )}
                     <div className="space-y-2 text-sm text-muted-foreground border-t pt-4">
                       <div className="flex justify-between">
                           <span>Surcharge:</span>
@@ -349,12 +481,12 @@ export default function IncomeTaxCalculatorPage() {
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-               This calculator provides an estimate of your income tax liability. You can use the standard tax regimes for FY 2024-25 (AY 2025-26) or define your own custom tax slabs for hypothetical scenarios.
+               This calculator provides an estimate of your income tax liability for FY 2024-25 (AY 2025-26). It supports various income types, age groups, and tax regimes to give you a comprehensive overview.
               </p>
               <div className="space-y-4">
                 <div>
                   <h3 className="font-bold font-headline">How is Tax Calculated?</h3>
-                  <p>Your taxable income is first calculated by subtracting eligible deductions (like Standard Deduction, 80C, etc.) from your gross income. This taxable income is then applied to a slab system. The total tax is the sum of the tax calculated for each slab, plus any applicable cess and surcharge.</p>
+                  <p>Your taxable income is first calculated by subtracting eligible deductions (like Standard Deduction, 80C, etc.) from your gross income. This taxable income is then applied to a slab system based on your age and chosen tax regime. The total tax is the sum of the tax calculated for each slab, plus any applicable cess and surcharge.</p>
                 </div>
                 <div>
                   <h3 className="font-bold font-headline">FAQs</h3>
@@ -362,21 +494,20 @@ export default function IncomeTaxCalculatorPage() {
                     <AccordionItem value="item-1">
                       <AccordionTrigger>Old vs. New Tax Regime: What's the difference?</AccordionTrigger>
                       <AccordionContent>
-                       The **Old Regime** allows you to claim a wide range of deductions and exemptions, such as those under Section 80C (for investments), 80D (for medical insurance), HRA (House Rent Allowance), and LTA (Leave Travel Allowance). The tax slabs are generally higher.<br/><br/>
-                       The **New Regime** is the default option and offers different tax slabs. It requires you to forgo most of the common deductions and exemptions, however, a Standard Deduction of ₹50,000 is available. It's often beneficial for those with fewer investments or exemptions to claim.
+                       The **Old Regime** allows you to claim a wide range of deductions and exemptions (like 80C, HRA). The tax slabs also differ based on age. The Standard Deduction is ₹50,000.<br/><br/>
+                       The **New Regime** is the default option and offers different, generally lower, tax slabs but requires you to forgo most common deductions. A Standard Deduction of ₹75,000 is available for salaried individuals and pensioners.
                       </AccordionContent>
                     </AccordionItem>
                      <AccordionItem value="item-2">
                       <AccordionTrigger>What is a Tax Rebate under Section 87A?</AccordionTrigger>
                       <AccordionContent>
-                       A tax rebate is a relief provided to taxpayers with lower incomes. For FY 2024-25, under the **New Regime**, if your taxable income is up to ₹7,00,000, your tax liability becomes zero. Under the **Old Regime**, if your taxable income is up to ₹5,00,000, you can claim a rebate of up to ₹12,500, which also results in zero tax payable.
+                       A tax rebate is a relief for taxpayers with lower incomes. Under the **New Regime**, if your taxable income is up to ₹7,00,000, your tax liability becomes zero. Under the **Old Regime**, if your taxable income is up to ₹5,00,000, a rebate up to ₹12,500 makes your tax payable zero.
                       </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="item-3">
-                      <AccordionTrigger>What is Surcharge and Cess?</AccordionTrigger>
+                      <AccordionTrigger>How is Agricultural Income treated?</AccordionTrigger>
                       <AccordionContent>
-                        **Surcharge** is an additional tax levied on high-income earners (e.g., those with income above ₹50 lakh).<br/><br/>
-                        **Health and Education Cess** is a tax levied on top of your income tax (including surcharge) at a rate of 4%. It is used by the government to fund health and education initiatives.
+                        Agricultural income is exempt from income tax. However, under the Old Regime, if your net agricultural income exceeds ₹5,000, it is added to your total income for the purpose of determining the tax rate applicable to your other income, which can sometimes result in a higher tax liability.
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
