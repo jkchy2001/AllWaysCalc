@@ -102,6 +102,7 @@ const calculatorCategories = [
       { href: '/derivative-calculator', name: 'Derivative Calculator' },
       { href: '/lcm-hcf-calculator', name: 'LCM & HCF Calculator' },
       { href: '/modulo-calculator', name: 'Modulo Calculator' },
+      { href: '/mean-median-mode-calculator', name: 'Mean, Median, Mode Calculator' },
     ],
   },
   {
