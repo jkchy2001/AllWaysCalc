@@ -113,6 +113,7 @@ import { Header } from '@/components/header';
 import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { AnimatedHero } from '@/components/animated-hero';
 
 const calculatorCategories = [
   {
@@ -433,14 +434,7 @@ export default function HomePage({
                 </div>
               </div>
               <div className="flex items-center justify-center">
-                <Image
-                  src="https://placehold.co/600x400.png"
-                  alt="Calculator illustration"
-                  width={600}
-                  height={400}
-                  className="rounded-xl shadow-lg"
-                  data-ai-hint="abstract geometric calculator"
-                />
+                 <AnimatedHero />
               </div>
             </div>
           </div>
