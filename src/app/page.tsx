@@ -117,7 +117,8 @@ const calculatorCategories = [
     description: 'BMI, BMR, Calorie Intake, Ideal Weight.',
     icon: <HeartPulse className="size-8 text-primary" />,
     links: [
-        { href: '/bmi-calculator', name: 'BMI Calculator' }
+        { href: '/bmi-calculator', name: 'BMI Calculator' },
+        { href: '/bmr-calculator', name: 'BMR Calculator' },
     ],
   },
    {
