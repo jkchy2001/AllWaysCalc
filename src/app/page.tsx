@@ -91,6 +91,7 @@ import {
   Gauge,
   FileDigit,
   SquareTerminal,
+  Droplets
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -270,6 +271,7 @@ const calculatorCategories = [
     icon: <Leaf className="size-8 text-primary" />,
     links: [
         { href: '/carbon-footprint-calculator', name: 'Carbon Footprint Calculator', icon: <Leaf className="size-4" /> },
+        { href: '/water-usage-calculator', name: 'Water Usage Calculator', icon: <Droplets className="size-4" /> },
     ],
   },
   {
