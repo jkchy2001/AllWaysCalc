@@ -126,7 +126,7 @@ export default function AdvanceTaxCalculatorPage() {
     
     let applicableDeductions = 0;
     if(taxRegime === 'old') {
-        applicableDeductions = Math.min(deductions80c, 150000) + 50000;
+        applicableDeductions = Math.min(deductions80c, 150000) + standardDeduction;
     } else if (taxRegime === 'new' || taxRegime === 'custom') {
         applicableDeductions = standardDeduction;
     }
@@ -245,12 +245,12 @@ export default function AdvanceTaxCalculatorPage() {
                         {fields.map((field, index) => (
                            <div key={field.id} className="flex items-center gap-2">
                                 <Input 
-                                  type="text" 
+                                  type="number"
                                   placeholder="Up to Amount (₹)" 
                                   {...register(`customSlabs.${index}.limit`)}
                                   disabled={field.limit === Infinity}
                                   className={field.limit === Infinity ? 'font-mono' : ''}
-                                  value={field.limit === Infinity ? 'Infinity' : watch(`customSlabs.${index}.limit`)}
+                                  value={watch(`customSlabs.${index}.limit`)}
                                 />
                                 <Input type="number" placeholder="Rate (%)" {...register(`customSlabs.${index}.rate`)} />
                                 <Button type="button" variant="destructive" size="icon" onClick={() => remove(index)}><Trash2 className="h-4 w-4" /></Button>
@@ -363,3 +363,5 @@ export default function AdvanceTaxCalculatorPage() {
     </div>
   );
 }
+
+    
