@@ -91,7 +91,8 @@ import {
   Gauge,
   FileDigit,
   SquareTerminal,
-  Droplets
+  Droplets,
+  Sun
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -272,6 +273,7 @@ const calculatorCategories = [
     links: [
         { href: '/carbon-footprint-calculator', name: 'Carbon Footprint Calculator', icon: <Leaf className="size-4" /> },
         { href: '/water-usage-calculator', name: 'Water Usage Calculator', icon: <Droplets className="size-4" /> },
+        { href: '/solar-panel-calculator', name: 'Solar Panel Calculator', icon: <Sun className="size-4" /> },
     ],
   },
   {
