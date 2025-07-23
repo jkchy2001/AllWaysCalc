@@ -20,7 +20,8 @@ import {
   Home,
   BrainCircuit,
   Sparkles,
-  Ruler
+  Ruler,
+  Baby
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -139,11 +140,12 @@ const calculatorCategories = [
   },
   {
     title: 'Life & Personal',
-    description: 'Age, Date Duration, Anniversary, Zodiac.',
+    description: 'Age, Date Duration, Due Date, Tip Jar.',
     icon: <Heart className="size-8 text-primary" />,
     links: [
       { href: '/age-calculator', name: 'Age Calculator' },
       { href: '/date-calculator', name: 'Date Calculator' },
+      { href: '/pregnancy-due-date-calculator', name: 'Pregnancy Due Date Calculator'},
       { href: '/tip-calculator', name: 'Tip Calculator' },
     ],
   },
