@@ -181,7 +181,6 @@ export default function DownloadTimeCalculatorPage() {
                   <SharePanel resultText={`My estimated download time is ${formatTime(result.timeInSeconds)}.`} />
                 </CardFooter>
               </Card>
-            </Card>
             )}
           </div>
           <Card className="mt-8">
