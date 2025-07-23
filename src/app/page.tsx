@@ -25,6 +25,7 @@ import {
   Droplet,
   BedDouble,
   PersonStanding,
+  Timer,
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -151,7 +152,8 @@ const calculatorCategories = [
     icon: <Heart className="size-8 text-primary" />,
     links: [
       { href: '/age-calculator', name: 'Age Calculator' },
-      { href: '/date-calculator', name: 'Date Duration Calculator' },
+      { href: '/date-duration-calculator', name: 'Date Duration Calculator' },
+      { href: '/countdown-timer-calculator', name: 'Countdown Timer Calculator'},
       { href: '/pregnancy-due-date-calculator', name: 'Pregnancy Due Date Calculator'},
       { href: '/ovulation-calculator', name: 'Ovulation Calculator' },
       { href: '/sleep-cycle-calculator', name: 'Sleep Cycle Calculator' },
