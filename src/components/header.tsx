@@ -9,7 +9,6 @@ import {
 } from '@/components/ui/sheet';
 import { Menu, Calculator } from 'lucide-react';
 import { Logo } from '@/components/icons';
-import { SuggestionDialog } from '@/components/suggestion-dialog';
 
 export function Header() {
   return (
@@ -74,11 +73,7 @@ export function Header() {
           </SheetContent>
         </Sheet>
         <div className="flex flex-1 items-center justify-end space-x-4">
-          <SuggestionDialog>
-            <Button variant="outline">
-              <Calculator className="mr-2 h-4 w-4" /> Suggest a Calculator
-            </Button>
-          </SuggestionDialog>
+          
         </div>
       </div>
     </header>

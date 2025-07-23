@@ -26,14 +26,6 @@ import { Header } from '@/components/header';
 import Image from 'next/image';
 
 const calculatorCategories = [
-   {
-    title: 'AI Calculators',
-    description: 'Solve complex problems with AI.',
-    icon: <Sparkles className="size-8 text-primary" />,
-    links: [
-      
-    ],
-  },
   {
     title: 'Finance & Investment',
     description: 'EMI, SIP, Loans, Compound Interest, Investments.',
@@ -104,7 +96,6 @@ const calculatorCategories = [
       { href: '/basic-arithmetic-calculator', name: 'Basic Arithmetic Calculator' },
       { href: '/scientific-calculator', name: 'Scientific Calculator' },
       { href: '/percentage-change-calculator', name: 'Percentage Change Calculator' },
-      { href: '/algebra-calculator', name: 'Algebra Calculator' },
     ],
   },
   {
