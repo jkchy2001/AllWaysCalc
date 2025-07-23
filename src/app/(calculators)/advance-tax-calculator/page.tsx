@@ -61,11 +61,12 @@ type CalculationResult = {
 };
 
 const newRegimeSlabs = [
-  { limit: 300000, rate: 0 },
-  { limit: 600000, rate: 5 },
-  { limit: 900000, rate: 10 },
-  { limit: 1200000, rate: 15 },
-  { limit: 1500000, rate: 20 },
+  { limit: 400000, rate: 0 },
+  { limit: 800000, rate: 5 },
+  { limit: 1200000, rate: 10 },
+  { limit: 1600000, rate: 15 },
+  { limit: 2000000, rate: 20 },
+  { limit: 2400000, rate: 25 },
   { limit: Infinity, rate: 30 },
 ];
 
@@ -107,7 +108,7 @@ export default function AdvanceTaxCalculatorPage() {
       taxRegime: 'new',
       customSlabs: [{ limit: 300000, rate: 5 }, { limit: 700000, rate: 10 }, { limit: Infinity, rate: 20 }],
       customStandardDeduction: 75000,
-      customRebateLimit: 750000,
+      customRebateLimit: 700000,
     },
   });
 
@@ -370,7 +371,7 @@ export default function AdvanceTaxCalculatorPage() {
                                      placeholder="Up to Amount (₹)" 
                                      {...register(`customSlabs.${index}.limit`)}
                                      disabled={watch(`customSlabs.${index}.limit`) === Infinity}
-                                     value={watch(`customSlabs.${index}.limit`) === Infinity ? "Infinity" : watch(`customSlabs.${index}.limit`)}
+                                     value={watch(`customSlabs.${index}.limit`) === Infinity ? "Infinity" : form.getValues(`customSlabs.${index}.limit`)}
                                    />
                                    <Input type="number" placeholder="Rate (%)" {...register(`customSlabs.${index}.rate`)} />
                                    {index > 0 && <Button type="button" variant="destructive" size="icon" onClick={() => remove(index)}><Trash2 className="h-4 w-4" /></Button>}

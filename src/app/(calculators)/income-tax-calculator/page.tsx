@@ -65,11 +65,12 @@ type CalculationResult = {
 };
 
 const newRegimeSlabs = [
-  { limit: 300000, rate: 0 },
-  { limit: 600000, rate: 5 },
-  { limit: 900000, rate: 10 },
-  { limit: 1200000, rate: 15 },
-  { limit: 1500000, rate: 20 },
+  { limit: 400000, rate: 0 },
+  { limit: 800000, rate: 5 },
+  { limit: 1200000, rate: 10 },
+  { limit: 1600000, rate: 15 },
+  { limit: 2000000, rate: 20 },
+  { limit: 2400000, rate: 25 },
   { limit: Infinity, rate: 30 },
 ];
 
@@ -111,7 +112,7 @@ export default function IncomeTaxCalculatorPage() {
       taxRegime: 'new',
       customSlabs: [{ limit: 300000, rate: 5 }, { limit: 700000, rate: 10 }, { limit: Infinity, rate: 20 }],
       customStandardDeduction: 75000,
-      customRebateLimit: 750000,
+      customRebateLimit: 700000,
     },
   });
 
@@ -267,7 +268,7 @@ export default function IncomeTaxCalculatorPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">Advanced Income Tax Calculator</CardTitle>
-                <CardDescription>Estimate your tax liability for FY 2024-25 with advanced options.</CardDescription>
+                <CardDescription>Estimate your tax liability for FY 2025-26 with advanced options.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-6">
@@ -390,7 +391,7 @@ export default function IncomeTaxCalculatorPage() {
                                      placeholder="Up to Amount (₹)" 
                                      {...register(`customSlabs.${index}.limit`)}
                                      disabled={watch(`customSlabs.${index}.limit`) === Infinity}
-                                     value={watch(`customSlabs.${index}.limit`) === Infinity ? "Infinity" : watch(`customSlabs.${index}.limit`)}
+                                     value={watch(`customSlabs.${index}.limit`) === Infinity ? "Infinity" : form.getValues(`customSlabs.${index}.limit`)}
                                    />
                                    <Input type="number" placeholder="Rate (%)" {...register(`customSlabs.${index}.rate`)} />
                                    {index > 0 && <Button type="button" variant="destructive" size="icon" onClick={() => remove(index)}><Trash2 className="h-4 w-4" /></Button>}
@@ -481,7 +482,7 @@ export default function IncomeTaxCalculatorPage() {
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-               This calculator provides an estimate of your income tax liability for FY 2024-25 (AY 2025-26). It supports various income types, age groups, and tax regimes to give you a comprehensive overview.
+               This calculator provides an estimate of your income tax liability for FY 2025-26 (AY 2026-27). It supports various income types, age groups, and tax regimes to give you a comprehensive overview.
               </p>
               <div className="space-y-4">
                 <div>
