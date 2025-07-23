@@ -81,6 +81,7 @@ const calculatorCategories = [
       { href: '/semester-grade-calculator', name: 'Semester Grade Calculator' },
       { href: '/exam-marks-needed-calculator', name: 'Exam Marks Needed' },
       { href: '/attendance-calculator', name: 'Attendance Calculator' },
+      { href: '/time-management-calculator', name: 'Time Management Calculator' },
     ],
   },
   {
