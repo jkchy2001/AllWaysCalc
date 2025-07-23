@@ -56,7 +56,8 @@ const calculatorCategories = [
       { href: '/discount-calculator', name: 'Discount Calculator' },
       { href: '/profit-margin-calculator', name: 'Profit Margin Calculator' },
       { href: '/markup-calculator', name: 'Markup Calculator' },
-      { href: '/break-even-point-calculator', name: 'Break-Even Point Calculator' }
+      { href: '/break-even-point-calculator', name: 'Break-Even Point Calculator' },
+      { href: '/net-profit-calculator', name: 'Net Profit Calculator' },
     ],
   },
   {
