@@ -27,6 +27,7 @@ import {
   PersonStanding,
   Timer,
   HeartHandshake,
+  Gift,
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -158,6 +159,7 @@ const calculatorCategories = [
       { href: '/pregnancy-due-date-calculator', name: 'Pregnancy Due Date Calculator'},
       { href: '/ovulation-calculator', name: 'Ovulation Calculator' },
       { href: '/sleep-cycle-calculator', name: 'Sleep Cycle Calculator' },
+      { href: '/anniversary-calculator', name: 'Anniversary Calculator' },
       { href: '/tip-calculator', name: 'Tip Calculator' },
       { href: '/life-expectancy-calculator', name: 'Life Expectancy Calculator' },
     ],
