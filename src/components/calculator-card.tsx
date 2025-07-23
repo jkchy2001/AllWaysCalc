@@ -14,7 +14,7 @@ interface CalculatorCardProps {
 
 export function CalculatorCard({ href, icon, title, description, links }: CalculatorCardProps) {
   return (
-    <Card className="flex flex-col h-full transition-all duration-300 ease-in-out hover:shadow-lg hover:border-primary/50">
+    <Card className="flex flex-col h-full transition-all duration-300 ease-in-out hover:shadow-lg hover:border-primary/50 bg-card/50 hover:bg-card">
         <div className="p-6 pb-2 flex flex-row items-center justify-between">
           <CardTitle className="text-lg font-headline">{title}</CardTitle>
           {icon}
