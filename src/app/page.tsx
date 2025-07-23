@@ -97,6 +97,7 @@ import {
   Zap,
   Box,
   CreditCard,
+  ShieldCheck,
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -161,6 +162,21 @@ const calculatorCategories = [
       { href: '/emi-in-arrears-vs-advance-calculator', name: 'EMI in Arrears vs Advance', icon: <CalendarClock className="size-4" /> },
       { href: '/credit-score-impact-simulator', name: 'Credit Score Impact Simulator', icon: <BarChart className="size-4" /> },
       { href: '/mortgage-refinance-calculator', name: 'Mortgage Refinance Calculator', icon: <Home className="size-4" /> },
+    ],
+  },
+  {
+    title: 'Legal & Compliance Calculators',
+    description: 'Stamp duty, capital gains, gift tax, and more.',
+    icon: <ShieldCheck className="size-8 text-primary" />,
+    links: [
+        { href: '#', name: 'Stamp Duty Calculator', icon: <FileText className="size-4" /> },
+        { href: '#', name: 'Notional Rent Calculator', icon: <Home className="size-4" /> },
+        { href: '#', name: 'Capital Gains Indexation', icon: <TrendingUp className="size-4" /> },
+        { href: '#', name: 'Gift Tax Calculator', icon: <Gift className="size-4" /> },
+        { href: '#', name: 'TDS Late Fee/Penalty Calculator', icon: <FileMinus className="size-4" /> },
+        { href: '#', name: 'Provident Fund Interest', icon: <PiggyBank className="size-4" /> },
+        { href: '#', name: 'Income Splitting Calculator', icon: <Users className="size-4" /> },
+        { href: '#', name: 'Inheritance Tax Estimator', icon: <Building2 className="size-4" /> },
     ],
   },
   {
