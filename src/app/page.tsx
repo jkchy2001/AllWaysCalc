@@ -106,6 +106,7 @@ const calculatorCategories = [
       { href: '/mean-median-mode-calculator', name: 'Mean, Median, Mode Calculator' },
       { href: '/permutations-combinations-calculator', name: 'Permutations & Combinations' },
       { href: '/probability-calculator', name: 'Probability Calculator' },
+      { href: '/distance-formula-calculator', name: 'Distance Formula Calculator' },
     ],
   },
   {
