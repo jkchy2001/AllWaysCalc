@@ -137,7 +137,7 @@ export default function IncomeTaxCalculatorPage() {
     
     let applicableDeductions = 0;
     if(taxRegime === 'old') {
-        applicableDeductions = Math.min(deductions80c, 150000) + 50000; // Assuming 50k standard for old too
+        applicableDeductions = Math.min(deductions80c, 150000) + 50000;
     } else if (taxRegime === 'new' || taxRegime === 'custom') {
         applicableDeductions = standardDeduction;
     }
@@ -145,18 +145,17 @@ export default function IncomeTaxCalculatorPage() {
     let taxableIncome = grossIncome - applicableDeductions;
     if (taxableIncome < 0) taxableIncome = 0;
 
-    const incomeForRebate = grossIncome - applicableDeductions;
     let { tax: taxAmount, slabWiseTax } = calculateTax(taxableIncome, taxRegime, customSlabs);
 
-    if (taxRegime === 'new' && incomeForRebate <= 700000) {
+    if (taxRegime === 'new' && taxableIncome <= 750000) {
         taxAmount = 0;
-    } else if (taxRegime === 'old' && incomeForRebate <= 500000) {
+    } else if (taxRegime === 'old' && taxableIncome <= 500000) {
         if (taxAmount <= 12500) {
             taxAmount = 0;
         }
     }
 
-    if (taxAmount === 0 && ( (taxRegime === 'new' && incomeForRebate <= 700000) || (taxRegime === 'old' && incomeForRebate <= 500000) )) {
+    if (taxAmount === 0 && ( (taxRegime === 'new' && taxableIncome <= 750000) || (taxRegime === 'old' && taxableIncome <= 500000) )) {
         slabWiseTax = [{ slab: 'Tax Rebate Applied u/s 87A', tax: 0 }];
     }
 
@@ -204,7 +203,7 @@ export default function IncomeTaxCalculatorPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">Income Tax Calculator (India)</CardTitle>
-                <CardDescription>Estimate your tax liability for FY 2024-25.</CardDescription>
+                <CardDescription>Estimate your tax liability for FY 2025-26.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
@@ -330,7 +329,7 @@ export default function IncomeTaxCalculatorPage() {
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-               This calculator provides an estimate of your income tax liability. You can use the standard tax regimes for FY 2024-25 (AY 2025-26) or define your own custom tax slabs for hypothetical scenarios.
+               This calculator provides an estimate of your income tax liability. You can use the standard tax regimes for FY 2025-26 (AY 2026-27) or define your own custom tax slabs for hypothetical scenarios.
               </p>
               <div className="space-y-4">
                 <div>
@@ -350,7 +349,7 @@ export default function IncomeTaxCalculatorPage() {
                      <AccordionItem value="item-2">
                       <AccordionTrigger>What is a Tax Rebate under Section 87A?</AccordionTrigger>
                       <AccordionContent>
-                       A tax rebate is a relief provided to taxpayers with lower incomes. For FY 2024-25, under the **New Regime**, if your taxable income is up to ₹7,00,000, your tax liability becomes zero. Under the **Old Regime**, if your taxable income is up to ₹5,00,000, you can claim a rebate of up to ₹12,500, which also results in zero tax payable.
+                       A tax rebate is a relief provided to taxpayers with lower incomes. For FY 2025-26, under the **New Regime**, if your taxable income is up to ₹7,50,000, your tax liability becomes zero. Under the **Old Regime**, if your taxable income is up to ₹5,00,000, you can claim a rebate of up to ₹12,500, which also results in zero tax payable.
                       </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="item-3">
@@ -370,3 +369,5 @@ export default function IncomeTaxCalculatorPage() {
     </div>
   );
 }
+
+    

@@ -132,12 +132,11 @@ export default function AdvanceTaxCalculatorPage() {
     let taxableIncome = grossIncome - applicableDeductions;
     if (taxableIncome < 0) taxableIncome = 0;
 
-    const incomeForRebate = grossIncome - applicableDeductions;
     let taxAmount = calculateTax(taxableIncome, taxRegime, customSlabs);
 
-    if (taxRegime === 'new' && incomeForRebate <= 700000) {
+    if (taxRegime === 'new' && taxableIncome <= 750000) {
         taxAmount = 0;
-    } else if (taxRegime === 'old' && incomeForRebate <= 500000) {
+    } else if (taxRegime === 'old' && taxableIncome <= 500000) {
         if (taxAmount <= 12500) {
             taxAmount = 0;
         }
@@ -190,7 +189,7 @@ export default function AdvanceTaxCalculatorPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">Advance Tax Calculator (India)</CardTitle>
-                <CardDescription>Estimate your advance tax liability for FY 2024-25.</CardDescription>
+                <CardDescription>Estimate your advance tax liability for FY 2025-26.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
@@ -345,3 +344,5 @@ export default function AdvanceTaxCalculatorPage() {
     </div>
   );
 }
+
+    
