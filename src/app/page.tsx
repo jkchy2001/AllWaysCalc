@@ -101,7 +101,6 @@ import {
   Fuel,
   Luggage,
   CircleDollarSign,
-  Stamp,
   ShieldCheck,
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
