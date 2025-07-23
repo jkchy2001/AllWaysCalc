@@ -166,6 +166,7 @@ const calculatorCategories = [
       { href: '/love-compatibility-calculator', name: 'Love Compatibility Calculator' },
       { href: '/numerology-calculator', name: 'Numerology Calculator' },
       { href: '/baby-name-numerology-calculator', name: 'Baby Name Numerology' },
+      { href: '/lucky-number-calculator', name: 'Lucky Number Calculator' },
     ],
   },
   {
