@@ -411,14 +411,13 @@ export default function HomePage({
   }, [searchQuery, selectedCategory]);
 
   const filteredCategories = useMemo(() => {
-    if (!searchQuery) {
-      if (selectedCategory === 'All') return calculatorCategories;
-      return calculatorCategories.filter(cat => cat.title === selectedCategory);
+    if (selectedCategory === 'All' && !searchQuery) {
+        return calculatorCategories;
     }
-    
+
     const categoriesMap = new Map();
     
-    searchResults.forEach(link => {
+    filteredLinks.forEach(link => {
       if (!categoriesMap.has(link.category)) {
         const originalCategory = calculatorCategories.find(c => c.title === link.category);
         if (originalCategory) {
@@ -431,7 +430,7 @@ export default function HomePage({
     });
 
     return Array.from(categoriesMap.values());
-  }, [searchQuery, selectedCategory]);
+  }, [filteredLinks]);
   
 
   const searchResults = useMemo(() => {
