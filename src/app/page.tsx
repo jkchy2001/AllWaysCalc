@@ -19,7 +19,8 @@ import {
   Wallet,
   Home,
   BrainCircuit,
-  Sparkles
+  Sparkles,
+  Ruler
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -117,6 +118,14 @@ const calculatorCategories = [
     icon: <HeartPulse className="size-8 text-primary" />,
     links: [
         { href: '/bmi-calculator', name: 'BMI Calculator' }
+    ],
+  },
+   {
+    title: 'Conversions',
+    description: 'Length, Mass, Volume, Temperature, Speed.',
+    icon: <Ruler className="size-8 text-primary" />,
+    links: [
+      { href: '/unit-converter', name: 'Unit Converter' },
     ],
   },
   {
