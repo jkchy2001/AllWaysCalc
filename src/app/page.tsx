@@ -90,6 +90,7 @@ import {
   Thermometer,
   Gauge,
   FileDigit,
+  SquareTerminal,
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -259,6 +260,7 @@ const calculatorCategories = [
         { href: '/ip-subnet-calculator', name: 'IP Subnet Calculator', icon: <Network className="size-4" /> },
         { href: '/pixel-to-em-converter', name: 'Pixel to EM Converter', icon: <Scaling className="size-4" /> },
         { href: '/aspect-ratio-calculator', name: 'Aspect Ratio Calculator', icon: <Crop className="size-4" /> },
+        { href: '/screen-resolution-calculator', name: 'Screen Resolution (PPI)', icon: <SquareTerminal className="size-4" /> },
     ],
   },
   {
