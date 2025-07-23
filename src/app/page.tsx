@@ -92,6 +92,7 @@ const calculatorCategories = [
     description: 'Percentage Change, Mean, Median, Mode.',
     icon: <Calculator className="size-8 text-primary" />,
     links: [
+      { href: '/basic-arithmetic-calculator', name: 'Basic Arithmetic Calculator' },
       { href: '/percentage-change-calculator', name: 'Percentage Change Calculator' },
     ],
   },
