@@ -23,6 +23,8 @@ const calculatorCategories = [
     icon: <Banknote className="size-8 text-primary" />,
     links: [
       { href: '/loan-calculator', name: 'Loan / EMI Calculator' },
+      { href: '/home-loan-calculator', name: 'Home Loan Calculator' },
+      { href: '/loan-eligibility-calculator', name: 'Loan Eligibility Calculator' },
       { href: '/sip-calculator', name: 'SIP Calculator' },
       { href: '/fd-calculator', name: 'FD Calculator' },
       { href: '/rd-calculator', name: 'RD Calculator' },
