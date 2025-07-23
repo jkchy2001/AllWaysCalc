@@ -268,7 +268,9 @@ const calculatorCategories = [
     title: 'Environment & Agriculture',
     description: 'Carbon Footprint, Solar Panel, Crop Yield.',
     icon: <Leaf className="size-8 text-primary" />,
-    links: [],
+    links: [
+        { href: '/carbon-footprint-calculator', name: 'Carbon Footprint Calculator', icon: <Leaf className="size-4" /> },
+    ],
   },
   {
     title: 'Science',
