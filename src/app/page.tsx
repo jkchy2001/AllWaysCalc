@@ -34,6 +34,7 @@ import {
   PaintBucket,
   WalletCards,
   DownloadCloud,
+  Signal,
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -198,6 +199,7 @@ const calculatorCategories = [
     icon: <Monitor className="size-8 text-primary" />,
     links: [
         { href: '/download-time-calculator', name: 'Download Time Calculator', icon: <DownloadCloud className="size-4" /> },
+        { href: '/bandwidth-calculator', name: 'Bandwidth Calculator', icon: <Signal className="size-4" /> },
     ],
   },
   {
