@@ -31,7 +31,7 @@ const calculatorCategories = [
     description: 'Solve complex problems with AI.',
     icon: <Sparkles className="size-8 text-primary" />,
     links: [
-      { href: '/ai-math-solver', name: 'AI Math Problem Solver' },
+      
     ],
   },
   {
@@ -104,6 +104,7 @@ const calculatorCategories = [
       { href: '/basic-arithmetic-calculator', name: 'Basic Arithmetic Calculator' },
       { href: '/scientific-calculator', name: 'Scientific Calculator' },
       { href: '/percentage-change-calculator', name: 'Percentage Change Calculator' },
+      { href: '/algebra-calculator', name: 'Algebra Calculator' },
     ],
   },
   {

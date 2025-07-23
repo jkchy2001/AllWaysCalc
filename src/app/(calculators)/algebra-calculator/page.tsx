@@ -79,13 +79,13 @@ export default function AiMathSolverPage() {
                 <div className="grid gap-8 lg:grid-cols-2">
                     <Card>
                         <CardHeader>
-                            <CardTitle className="font-headline text-2xl">AI Math Problem Solver</CardTitle>
-                            <CardDescription>Get step-by-step solutions for your math problems.</CardDescription>
+                            <CardTitle className="font-headline text-2xl">Algebra Calculator</CardTitle>
+                            <CardDescription>Get step-by-step solutions for your algebra problems using AI.</CardDescription>
                         </CardHeader>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <CardContent className="space-y-4">
                                 <div className="space-y-2">
-                                    <Label htmlFor="problem">Enter your math problem</Label>
+                                    <Label htmlFor="problem">Enter your algebra problem</Label>
                                     <Textarea
                                         id="problem"
                                         rows={4}
@@ -126,7 +126,7 @@ export default function AiMathSolverPage() {
                                 )}
                             </CardContent>
                              <CardFooter>
-                                {result && <SharePanel resultText={`I solved a math problem using the AI Math Solver! Problem: ${form.getValues('problem')}. Solution: ${result.solution}`} />}
+                                {result && <SharePanel resultText={`I solved an algebra problem using AI! Problem: ${form.getValues('problem')}. Solution: ${result.solution}`} />}
                             </CardFooter>
                         </Card>
                     )}
@@ -137,7 +137,7 @@ export default function AiMathSolverPage() {
                   </CardHeader>
                   <CardContent>
                       <p className="mb-4">
-                        This tool uses a powerful generative AI model to understand and solve a wide range of math problems. Simply type in your question, and the AI will provide a detailed, step-by-step solution.
+                        This tool uses a powerful generative AI model to understand and solve a wide range of algebra problems. Simply type in your question, and the AI will provide a detailed, step-by-step solution.
                       </p>
                       <div className="space-y-4">
                       <div>
@@ -145,7 +145,6 @@ export default function AiMathSolverPage() {
                            <ul className="list-disc list-inside text-sm mt-2 space-y-1">
                                 <li>Solve for x: 3x - 7 = 14</li>
                                 <li>Factor the polynomial: x² - 4x - 5</li>
-                                <li>What is the derivative of 2x³ + 3x² - 5x + 1?</li>
                                 <li>Simplify the expression: 4(a + 2b) - 2(a - b)</li>
                            </ul>
                       </div>
@@ -161,7 +160,7 @@ export default function AiMathSolverPage() {
                           <AccordionItem value="item-2">
                               <AccordionTrigger>What kind of math can it solve?</AccordionTrigger>
                               <AccordionContent>
-                                The AI can handle a wide variety of topics including pre-algebra, algebra, calculus, trigonometry, and more. Feel free to experiment with different types of problems!
+                                The AI can handle a wide variety of topics including pre-algebra, algebra, and more. Feel free to experiment with different types of problems!
                               </AccordionContent>
                           </AccordionItem>
                           </Accordion>
