@@ -18,6 +18,7 @@ import {
   Percent,
   Wallet,
   Home,
+  BrainCircuit
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -83,6 +84,7 @@ const calculatorCategories = [
       { href: '/attendance-calculator', name: 'Attendance Calculator' },
       { href: '/time-management-calculator', name: 'Time Management Calculator' },
       { href: '/assignment-weight-calculator', name: 'Assignment Weight Calculator' },
+      { href: '/memory-retention-calculator', name: 'Memory Retention Calculator' },
     ],
   },
   {
