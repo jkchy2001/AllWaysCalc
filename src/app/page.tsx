@@ -16,6 +16,7 @@ import {
   Landmark,
   Percent,
   Wallet,
+  Home,
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -55,6 +56,7 @@ const calculatorCategories = [
     links: [
       { href: '/gst-calculator', name: 'GST Calculator' },
       { href: '/income-tax-calculator', name: 'Income Tax Calculator' },
+      { href: '/hra-calculator', name: 'HRA Calculator' },
       { href: '/discount-calculator', name: 'Discount Calculator' },
       { href: '/profit-margin-calculator', name: 'Profit Margin Calculator' },
       { href: '/markup-calculator', name: 'Markup Calculator' },
@@ -121,7 +123,7 @@ const calculatorCategories = [
   },
 ];
 
-export default function Home() {
+export default function HomePage() {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
