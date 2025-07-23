@@ -60,6 +60,7 @@ const calculatorCategories = [
       { href: '/hra-calculator', name: 'HRA Calculator' },
       { href: '/gratuity-calculator', name: 'Gratuity Calculator' },
       { href: '/tds-calculator', name: 'TDS Calculator' },
+      { href: '/advance-tax-calculator', name: 'Advance Tax Calculator' },
       { href: '/discount-calculator', name: 'Discount Calculator' },
       { href: '/profit-margin-calculator', name: 'Profit Margin Calculator' },
       { href: '/markup-calculator', name: 'Markup Calculator' },
