@@ -399,12 +399,40 @@ export default function HomePage({
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
 
-  const filteredCategories = useMemo(() => {
-    if (selectedCategory === 'All') {
-      return calculatorCategories;
+  const filteredLinks = useMemo(() => {
+    let links = allLinks;
+    if (selectedCategory !== 'All') {
+      links = links.filter(link => link.category === selectedCategory);
     }
-    return calculatorCategories.filter(category => category.title === selectedCategory);
-  }, [selectedCategory]);
+    if (searchQuery) {
+      links = links.filter(link => link.name.toLowerCase().includes(searchQuery.toLowerCase()));
+    }
+    return links;
+  }, [searchQuery, selectedCategory]);
+
+  const filteredCategories = useMemo(() => {
+    if (!searchQuery) {
+      if (selectedCategory === 'All') return calculatorCategories;
+      return calculatorCategories.filter(cat => cat.title === selectedCategory);
+    }
+    
+    const categoriesMap = new Map();
+    
+    searchResults.forEach(link => {
+      if (!categoriesMap.has(link.category)) {
+        const originalCategory = calculatorCategories.find(c => c.title === link.category);
+        if (originalCategory) {
+          categoriesMap.set(link.category, { ...originalCategory, links: [] });
+        }
+      }
+      if (categoriesMap.has(link.category)) {
+        categoriesMap.get(link.category).links.push(link);
+      }
+    });
+
+    return Array.from(categoriesMap.values());
+  }, [searchQuery, selectedCategory]);
+  
 
   const searchResults = useMemo(() => {
     if (!searchQuery) {
