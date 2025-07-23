@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/card';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home } from 'lucide-react';
+import { Home, Delete } from 'lucide-react';
 
 export default function BasicArithmeticCalculatorPage() {
   const [displayValue, setDisplayValue] = useState('0');
@@ -25,6 +25,10 @@ export default function BasicArithmeticCalculatorPage() {
       setDisplayValue(digit);
       setWaitingForSecondOperand(false);
     } else {
+      // Prevent multiple leading zeros
+      if (displayValue === '0' && digit === '0') return;
+      // Prevent very long numbers
+      if (displayValue.length >= 15) return;
       setDisplayValue(displayValue === '0' ? digit : displayValue + digit);
     }
   };
@@ -52,14 +56,15 @@ export default function BasicArithmeticCalculatorPage() {
       setFirstOperand(inputValue);
     } else if (operator) {
       const result = performCalculation();
-      setDisplayValue(String(result));
+      const resultString = String(result);
+      setDisplayValue(resultString.slice(0, 15));
       setFirstOperand(result);
     }
 
     setWaitingForSecondOperand(true);
     setOperator(nextOperator);
   };
-
+  
   const performCalculation = (): number => {
     if (firstOperand === null || operator === null) return parseFloat(displayValue);
     
@@ -77,15 +82,22 @@ export default function BasicArithmeticCalculatorPage() {
         result = firstOperand * secondOperand;
         break;
       case '/':
+        if (secondOperand === 0) return NaN; // Handle division by zero
         result = firstOperand / secondOperand;
         break;
+      default:
+        return secondOperand;
     }
     return result;
   };
   
   const handleEquals = () => {
+    if (!operator) return;
+
     const result = performCalculation();
-    setDisplayValue(String(result));
+    const resultString = isNaN(result) ? 'Error' : String(result);
+    
+    setDisplayValue(resultString.slice(0, 15));
     setFirstOperand(null);
     setOperator(null);
     setWaitingForSecondOperand(false);
@@ -97,6 +109,31 @@ export default function BasicArithmeticCalculatorPage() {
     setOperator(null);
     setWaitingForSecondOperand(false);
   };
+  
+  const toggleSign = () => {
+    setDisplayValue(String(parseFloat(displayValue) * -1));
+  };
+
+  const inputPercent = () => {
+    const currentValue = parseFloat(displayValue);
+    if (firstOperand !== null && operator) {
+      // Calculate percentage of the first operand
+      const percentValue = (firstOperand * currentValue) / 100;
+      setDisplayValue(String(percentValue));
+    } else {
+       // Just calculate the percentage of the current value
+      setDisplayValue(String(currentValue / 100));
+    }
+  };
+  
+  const backspace = () => {
+    if (waitingForSecondOperand) return;
+    if (displayValue.length > 1) {
+        setDisplayValue(displayValue.slice(0, -1));
+    } else {
+        setDisplayValue('0');
+    }
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-secondary/30">
@@ -114,36 +151,33 @@ export default function BasicArithmeticCalculatorPage() {
               <CardDescription>Your everyday calculator.</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="bg-muted text-right rounded-lg p-4 mb-4 text-4xl font-mono break-all">
+              <div className="bg-muted text-right rounded-lg p-4 mb-4 text-4xl font-mono break-all h-20 flex items-center justify-end">
                 {displayValue}
               </div>
               <div className="grid grid-cols-4 gap-2">
-                <Button variant="outline" className="col-span-2 text-xl py-8" onClick={clearAll}>AC</Button>
-                <Button variant="outline" className="text-xl py-8" onClick={() => handleOperator('/')}>÷</Button>
-                <Button variant="outline" className="text-xl py-8" onClick={() => handleOperator('*')}>×</Button>
+                <Button variant="outline" className="text-xl py-8" onClick={clearAll}>AC</Button>
+                <Button variant="outline" className="text-xl py-8" onClick={toggleSign}>+/-</Button>
+                <Button variant="outline" className="text-xl py-8" onClick={inputPercent}>%</Button>
+                <Button variant="outline" className="text-xl py-8 bg-accent/20" onClick={() => handleOperator('/')}>÷</Button>
 
                 <Button variant="secondary" className="text-xl py-8" onClick={() => inputDigit('7')}>7</Button>
                 <Button variant="secondary" className="text-xl py-8" onClick={() => inputDigit('8')}>8</Button>
                 <Button variant="secondary" className="text-xl py-8" onClick={() => inputDigit('9')}>9</Button>
-                <Button variant="outline" className="text-xl py-8" onClick={() => handleOperator('-')}>-</Button>
+                <Button variant="outline" className="text-xl py-8 bg-accent/20" onClick={() => handleOperator('*')}>×</Button>
 
                 <Button variant="secondary" className="text-xl py-8" onClick={() => inputDigit('4')}>4</Button>
                 <Button variant="secondary" className="text-xl py-8" onClick={() => inputDigit('5')}>5</Button>
                 <Button variant="secondary" className="text-xl py-8" onClick={() => inputDigit('6')}>6</Button>
-                <Button variant="outline" className="text-xl py-8" onClick={() => handleOperator('+')}>+</Button>
+                <Button variant="outline" className="text-xl py-8 bg-accent/20" onClick={() => handleOperator('-')}>-</Button>
 
-                <div className="grid grid-cols-1 gap-2 row-span-2">
-                    <Button variant="secondary" className="text-xl py-8" onClick={() => inputDigit('1')}>1</Button>
-                    <Button variant="secondary" className="text-xl py-8 col-start-1" onClick={() => inputDigit('0')}>0</Button>
-                </div>
-                 <div className="grid grid-cols-1 gap-2 row-span-2">
-                    <Button variant="secondary" className="text-xl py-8" onClick={() => inputDigit('2')}>2</Button>
-                    <Button variant="secondary" className="text-xl py-8" onClick={inputDecimal}>.</Button>
-                </div>
-                 <div className="grid grid-cols-1 gap-2 row-span-2">
-                    <Button variant="secondary" className="text-xl py-8" onClick={() => inputDigit('3')}>3</Button>
-                    <Button className="text-xl py-8 bg-accent hover:bg-accent/90" onClick={handleEquals}>=</Button>
-                </div>
+                <Button variant="secondary" className="text-xl py-8" onClick={() => inputDigit('1')}>1</Button>
+                <Button variant="secondary" className="text-xl py-8" onClick={() => inputDigit('2')}>2</Button>
+                <Button variant="secondary" className="text-xl py-8" onClick={() => inputDigit('3')}>3</Button>
+                <Button variant="outline" className="text-xl py-8 bg-accent/20" onClick={() => handleOperator('+')}>+</Button>
+
+                <Button variant="secondary" className="col-span-2 text-xl py-8" onClick={() => inputDigit('0')}>0</Button>
+                <Button variant="secondary" className="text-xl py-8" onClick={inputDecimal}>.</Button>
+                <Button className="text-xl py-8 bg-accent hover:bg-accent/90" onClick={handleEquals}>=</Button>
               </div>
             </CardContent>
           </Card>
