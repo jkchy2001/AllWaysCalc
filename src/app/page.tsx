@@ -30,6 +30,7 @@ import {
   Gift,
   Layers,
   TrendingUp,
+  Layers3,
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -184,6 +185,7 @@ const calculatorCategories = [
       { href: '/plaster-calculator', name: 'Plaster Calculator' },
       { href: '/roof-area-calculator', name: 'Roof Area Calculator' },
       { href: '/stair-calculator', name: 'Stair Calculator' },
+      { href: '/wallpaper-calculator', name: 'Wallpaper Calculator' },
     ],
   },
   {
