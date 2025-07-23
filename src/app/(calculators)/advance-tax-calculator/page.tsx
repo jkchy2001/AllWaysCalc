@@ -244,7 +244,15 @@ export default function AdvanceTaxCalculatorPage() {
                         <Label className="font-semibold">Custom Tax Slabs</Label>
                         {fields.map((field, index) => (
                            <div key={field.id} className="flex items-center gap-2">
-                                <Input type="number" placeholder="Up to Amount (₹)" {...register(`customSlabs.${index}.limit`)} />
+                                <Input 
+                                  type="number" 
+                                  placeholder="Up to Amount (₹)" 
+                                  {...register(`customSlabs.${index}.limit`)}
+                                  defaultValue={field.limit === Infinity ? '' : field.limit}
+                                  disabled={field.limit === Infinity}
+                                  className={field.limit === Infinity ? 'font-mono' : ''}
+                                  value={field.limit === Infinity ? 'Infinity' : undefined}
+                                />
                                 <Input type="number" placeholder="Rate (%)" {...register(`customSlabs.${index}.rate`)} />
                                 <Button type="button" variant="destructive" size="icon" onClick={() => remove(index)}><Trash2 className="h-4 w-4" /></Button>
                            </div>
