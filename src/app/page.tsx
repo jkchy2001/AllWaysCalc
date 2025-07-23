@@ -292,6 +292,7 @@ const calculatorCategories = [
       { href: '/ph-calculator', name: 'pH Calculator', icon: <Beaker className="size-4" /> },
       { href: '/ideal-gas-law-calculator', name: 'Ideal Gas Law Calculator', icon: <FlaskConical className="size-4" /> },
       { href: '/newtons-law-calculator', name: 'Newton\'s Law Calculator', icon: <Zap className="size-4" /> },
+      { href: '/ohms-law-calculator', name: 'Ohm\'s Law Calculator', icon: <Zap className="size-4" /> },
     ],
   },
 ];
