@@ -24,6 +24,7 @@ const calculatorCategories = [
     links: [
       { href: '/loan-calculator', name: 'Loan / EMI Calculator' },
       { href: '/home-loan-calculator', name: 'Home Loan Calculator' },
+      { href: '/personal-loan-calculator', name: 'Personal Loan Calculator' },
       { href: '/loan-eligibility-calculator', name: 'Loan Eligibility Calculator' },
       { href: '/sip-calculator', name: 'SIP Calculator' },
       { href: '/fd-calculator', name: 'FD Calculator' },
