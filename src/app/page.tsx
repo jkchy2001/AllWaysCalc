@@ -359,6 +359,7 @@ const calculatorCategories = [
       { href: '/newtons-law-calculator', name: "Newton's Second Law Calculator", icon: <Atom className="size-4" /> },
       { href: '/kinetic-energy-calculator', name: 'Kinetic Energy Calculator', icon: <Flame className="size-4" /> },
       { href: '/torque-calculator', name: 'Torque Calculator', icon: <RotateCw className="size-4" /> },
+      { href: '/voltage-drop-calculator', name: 'Voltage Drop Calculator', icon: <TrendingDown className="size-4" /> },
     ],
   },
   {
