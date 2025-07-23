@@ -61,9 +61,11 @@ export default function DiscountCalculatorPage() {
   };
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('en-IN', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'INR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
     }).format(value);
   };
 
@@ -86,8 +88,8 @@ export default function DiscountCalculatorPage() {
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <CardContent className="space-y-4">
                                 <div className="space-y-2">
-                                    <Label htmlFor="originalPrice">Original Price ($)</Label>
-                                    <Input id="originalPrice" type="number" step="0.01" placeholder="e.g., 99.99" {...register('originalPrice')} />
+                                    <Label htmlFor="originalPrice">Original Price (₹)</Label>
+                                    <Input id="originalPrice" type="number" step="0.01" placeholder="e.g., 999" {...register('originalPrice')} />
                                     {errors.originalPrice && <p className="text-destructive text-sm">{errors.originalPrice.message}</p>}
                                 </div>
                                 <div className="space-y-2">

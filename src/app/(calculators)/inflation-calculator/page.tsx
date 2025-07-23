@@ -67,9 +67,11 @@ export default function InflationCalculatorPage() {
   };
   
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('en-IN', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'INR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
     }).format(value);
   };
 
@@ -92,7 +94,7 @@ export default function InflationCalculatorPage() {
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="initialValue">Initial Value ($)</Label>
+                    <Label htmlFor="initialValue">Initial Value (₹)</Label>
                     <Input id="initialValue" type="number" step="0.01" {...register('initialValue')} />
                     {errors.initialValue && <p className="text-destructive text-sm">{errors.initialValue.message}</p>}
                   </div>

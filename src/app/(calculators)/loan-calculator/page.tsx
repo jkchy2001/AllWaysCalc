@@ -48,8 +48,8 @@ export default function LoanCalculatorPage() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       loanAmount: undefined,
-      interestRate: 5,
-      loanTerm: 30,
+      interestRate: 8.5,
+      loanTerm: 20,
     },
   });
 
@@ -76,9 +76,11 @@ export default function LoanCalculatorPage() {
   };
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('en-IN', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'INR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
     }).format(value);
   };
   
@@ -95,24 +97,24 @@ export default function LoanCalculatorPage() {
                 <div className="grid gap-8 lg:grid-cols-2">
                     <Card>
                         <CardHeader>
-                            <CardTitle className="font-headline text-2xl">Loan Calculator</CardTitle>
-                            <CardDescription>Estimate your monthly loan payments.</CardDescription>
+                            <CardTitle className="font-headline text-2xl">Loan / EMI Calculator</CardTitle>
+                            <CardDescription>Estimate your monthly loan payments (EMI).</CardDescription>
                         </CardHeader>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <CardContent className="space-y-4">
                                 <div className="space-y-2">
-                                    <Label htmlFor="loanAmount">Loan Amount ($)</Label>
-                                    <Input id="loanAmount" type="number" placeholder="e.g., 300000" {...register('loanAmount')} />
+                                    <Label htmlFor="loanAmount">Loan Amount (₹)</Label>
+                                    <Input id="loanAmount" type="number" placeholder="e.g., 5000000" {...register('loanAmount')} />
                                     {errors.loanAmount && <p className="text-destructive text-sm">{errors.loanAmount.message}</p>}
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="interestRate">Annual Interest Rate (%)</Label>
-                                    <Input id="interestRate" type="number" step="0.01" placeholder="e.g., 5" {...register('interestRate')} />
+                                    <Input id="interestRate" type="number" step="0.01" placeholder="e.g., 8.5" {...register('interestRate')} />
                                     {errors.interestRate && <p className="text-destructive text-sm">{errors.interestRate.message}</p>}
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="loanTerm">Loan Term (Years)</Label>
-                                    <Input id="loanTerm" type="number" placeholder="e.g., 30" {...register('loanTerm')} />
+                                    <Input id="loanTerm" type="number" placeholder="e.g., 20" {...register('loanTerm')} />
                                     {errors.loanTerm && <p className="text-destructive text-sm">{errors.loanTerm.message}</p>}
                                 </div>
                             </CardContent>
@@ -129,12 +131,12 @@ export default function LoanCalculatorPage() {
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 <div className="flex justify-between items-center border-b pb-4">
-                                    <span className='font-bold'>Monthly Payment:</span>
+                                    <span className='font-bold'>Monthly Payment (EMI):</span>
                                     <span className="text-2xl font-bold text-primary">{formatCurrency(result.monthlyPayment)}</span>
                                 </div>
                                 <div className="space-y-2 text-sm text-muted-foreground">
                                     <div className="flex justify-between">
-                                        <span>Total Principal Paid:</span>
+                                        <span>Principal Amount:</span>
                                         <span className="font-medium text-foreground">{formatCurrency(result.loanAmount)}</span>
                                     </div>
                                     <div className="flex justify-between">
@@ -142,7 +144,7 @@ export default function LoanCalculatorPage() {
                                         <span className="font-medium text-foreground">{formatCurrency(result.totalInterest)}</span>
                                     </div>
                                     <div className="flex justify-between">
-                                        <span>Total Payments:</span>
+                                        <span>Total Payment:</span>
                                         <span className="font-medium text-foreground">{formatCurrency(result.totalPayment)}</span>
                                     </div>
                                 </div>
@@ -159,7 +161,7 @@ export default function LoanCalculatorPage() {
                   </CardHeader>
                   <CardContent>
                       <p className="mb-4">
-                          This loan calculator helps you estimate the monthly payments for a loan. It's suitable for mortgages, auto loans, or personal loans.
+                          This loan calculator helps you estimate the monthly payments (Equated Monthly Installment or EMI) for a loan. It's suitable for mortgages, auto loans, or personal loans.
                       </p>
                       <div className="space-y-4">
                       <div>
@@ -167,11 +169,10 @@ export default function LoanCalculatorPage() {
                           <p>The calculation is based on the standard amortization formula:</p>
                           <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
                           <code>
-                              M = P [ i(1 + i)^n ] / [ (1 + i)^n – 1 ]<br/><br/>
-                              <b>M</b> = Monthly Payment<br/>
+                              EMI = P × r × (1 + r)^n / ((1 + r)^n - 1)<br/><br/>
                               <b>P</b> = Principal Loan Amount<br/>
-                              <b>i</b> = Monthly Interest Rate<br/>
-                              <b>n</b> = Number of Months
+                              <b>r</b> = Monthly Interest Rate<br/>
+                              <b>n</b> = Number of Months (Loan Tenure)
                           </code>
                           </pre>
                       </div>

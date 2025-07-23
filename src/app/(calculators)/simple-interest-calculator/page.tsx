@@ -71,9 +71,11 @@ export default function SimpleInterestCalculatorPage() {
   };
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('en-IN', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'INR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
     }).format(value);
   };
 
@@ -96,7 +98,7 @@ export default function SimpleInterestCalculatorPage() {
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="principal">Principal Amount ($)</Label>
+                    <Label htmlFor="principal">Principal Amount (₹)</Label>
                     <Input id="principal" type="number" step="0.01" {...register('principal')} />
                     {errors.principal && <p className="text-destructive text-sm">{errors.principal.message}</p>}
                   </div>

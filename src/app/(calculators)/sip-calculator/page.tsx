@@ -27,10 +27,9 @@ import {
 } from '@/components/ui/accordion';
 
 const formSchema = z.object({
-  principal: z.coerce.number().min(0, 'Principal must be a positive number.'),
-  rate: z.coerce.number().min(0, 'Interest rate must be a positive number.'),
+  monthlyInvestment: z.coerce.number().min(1, 'Investment amount must be positive.'),
+  rate: z.coerce.number().min(0, 'Expected return rate must be positive.'),
   years: z.coerce.number().int().min(1, 'Term must be at least 1 year.'),
-  compoundsPerYear: z.coerce.number().int().min(1, 'Must compound at least annually.'),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -38,38 +37,37 @@ type FormValues = z.infer<typeof formSchema>;
 type CalculationResult = {
   futureValue: number;
   totalInterest: number;
-  principal: number;
+  totalInvestment: number;
 };
 
-export default function CompoundInterestCalculatorPage() {
+export default function SIPCalculatorPage() {
   const [result, setResult] = useState<CalculationResult | null>(null);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      principal: 10000,
-      rate: 7,
+      monthlyInvestment: 10000,
+      rate: 12,
       years: 10,
-      compoundsPerYear: 12,
     },
   });
 
   const { register, handleSubmit, formState: { errors } } = form;
 
   const onSubmit = (data: FormValues) => {
-    const { principal, rate, years, compoundsPerYear } = data;
-    const P = principal;
-    const r = rate / 100;
-    const n = compoundsPerYear;
-    const t = years;
+    const { monthlyInvestment, rate, years } = data;
+    const P = monthlyInvestment;
+    const n = years * 12;
+    const i = rate / 100 / 12;
 
-    const futureValue = P * Math.pow(1 + r / n, n * t);
-    const totalInterest = futureValue - P;
+    const futureValue = P * ((Math.pow(1 + i, n) - 1) / i) * (1 + i);
+    const totalInvestment = P * n;
+    const totalInterest = futureValue - totalInvestment;
 
     setResult({
       futureValue,
       totalInterest,
-      principal: P,
+      totalInvestment,
     });
   };
 
@@ -95,30 +93,25 @@ export default function CompoundInterestCalculatorPage() {
           <div className="grid gap-8 lg:grid-cols-2">
             <Card>
               <CardHeader>
-                <CardTitle className="font-headline text-2xl">Compound Interest Calculator</CardTitle>
-                <CardDescription>Calculate the future value of your investment.</CardDescription>
+                <CardTitle className="font-headline text-2xl">SIP Calculator</CardTitle>
+                <CardDescription>Estimate the future value of your mutual fund investments.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="principal">Principal Amount (₹)</Label>
-                    <Input id="principal" type="number" step="0.01" {...register('principal')} />
-                    {errors.principal && <p className="text-destructive text-sm">{errors.principal.message}</p>}
+                    <Label htmlFor="monthlyInvestment">Monthly Investment (₹)</Label>
+                    <Input id="monthlyInvestment" type="number" {...register('monthlyInvestment')} />
+                    {errors.monthlyInvestment && <p className="text-destructive text-sm">{errors.monthlyInvestment.message}</p>}
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="rate">Annual Interest Rate (%)</Label>
+                    <Label htmlFor="rate">Expected Annual Return Rate (%)</Label>
                     <Input id="rate" type="number" step="0.01" {...register('rate')} />
                     {errors.rate && <p className="text-destructive text-sm">{errors.rate.message}</p>}
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="years">Term (Years)</Label>
+                    <Label htmlFor="years">Investment Period (Years)</Label>
                     <Input id="years" type="number" {...register('years')} />
                     {errors.years && <p className="text-destructive text-sm">{errors.years.message}</p>}
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="compoundsPerYear">Compounds per Year</Label>
-                    <Input id="compoundsPerYear" type="number" {...register('compoundsPerYear')} />
-                    {errors.compoundsPerYear && <p className="text-destructive text-sm">{errors.compoundsPerYear.message}</p>}
                   </div>
                 </CardContent>
                 <CardFooter>
@@ -130,7 +123,7 @@ export default function CompoundInterestCalculatorPage() {
             {result && (
               <Card className="w-full bg-primary/5">
                 <CardHeader>
-                  <CardTitle className="font-headline">Investment Summary</CardTitle>
+                  <CardTitle className="font-headline">Investment Projection</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex justify-between items-center border-b pb-4">
@@ -139,17 +132,17 @@ export default function CompoundInterestCalculatorPage() {
                   </div>
                   <div className="space-y-2 text-sm text-muted-foreground">
                     <div className="flex justify-between">
-                      <span>Principal Amount:</span>
-                      <span className="font-medium text-foreground">{formatCurrency(result.principal)}</span>
+                      <span>Total Invested:</span>
+                      <span className="font-medium text-foreground">{formatCurrency(result.totalInvestment)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span>Total Interest Earned:</span>
+                      <span>Wealth Gained:</span>
                       <span className="font-medium text-foreground">{formatCurrency(result.totalInterest)}</span>
                     </div>
                   </div>
                 </CardContent>
                 <CardFooter>
-                  <SharePanel resultText={`My investment will be worth ${formatCurrency(result.futureValue)}!`} />
+                  <SharePanel resultText={`My SIP investment could grow to ${formatCurrency(result.futureValue)}!`} />
                 </CardFooter>
               </Card>
             )}
@@ -160,19 +153,18 @@ export default function CompoundInterestCalculatorPage() {
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-                Compound interest is the interest on a loan or deposit calculated based on both the initial principal and the accumulated interest from previous periods.
+                A Systematic Investment Plan (SIP) is a method of investing in mutual funds where you invest a fixed amount of money at regular intervals. This calculator helps project the potential returns on your SIP investments based on an expected rate of return.
               </p>
               <div className="space-y-4">
                 <div>
                   <h3 className="font-bold font-headline">Formula Used</h3>
-                  <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
+                   <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
                     <code>
-                      A = P(1 + r/n)^(nt)<br/><br/>
-                      <b>A</b> = Future Value<br/>
-                      <b>P</b> = Principal Amount<br/>
-                      <b>r</b> = Annual Interest Rate<br/>
-                      <b>n</b> = Compounds per Year<br/>
-                      <b>t</b> = Number of Years
+                      FV = P × [((1 + i)^n - 1) / i] × (1 + i)<br/><br/>
+                      <b>FV</b> = Future Value<br/>
+                      <b>P</b> = Monthly SIP Amount<br/>
+                      <b>i</b> = Monthly Interest Rate (Annual Rate / 12)<br/>
+                      <b>n</b> = Number of Months (Years * 12)
                     </code>
                   </pre>
                 </div>
@@ -180,15 +172,15 @@ export default function CompoundInterestCalculatorPage() {
                   <h3 className="font-bold font-headline">FAQs</h3>
                   <Accordion type="single" collapsible className="w-full">
                     <AccordionItem value="item-1">
-                      <AccordionTrigger>What is the 'magic' of compound interest?</AccordionTrigger>
+                      <AccordionTrigger>What is "Rupee Cost Averaging"?</AccordionTrigger>
                       <AccordionContent>
-                        The magic comes from earning interest on your interest. Over long periods, this can lead to exponential growth, which is why it's a cornerstone of long-term investing.
+                        Rupee Cost Averaging is a key benefit of SIPs. By investing a fixed amount regularly, you buy more units when the market is low and fewer units when the market is high. This can average out your purchase cost over time.
                       </AccordionContent>
                     </AccordionItem>
-                    <AccordionItem value="item-2">
-                      <AccordionTrigger>How does the compounding frequency affect the outcome?</AccordionTrigger>
+                     <AccordionItem value="item-2">
+                      <AccordionTrigger>Are the returns from a SIP guaranteed?</AccordionTrigger>
                       <AccordionContent>
-                        The more frequently interest is compounded, the more you will earn. Compounding daily will yield slightly more than compounding monthly, which yields more than annually.
+                        No, SIP returns are not guaranteed. They are linked to the performance of the underlying mutual fund, which in turn depends on market movements. The 'Expected Return Rate' is just an estimate.
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>

@@ -76,9 +76,11 @@ export default function TipCalculatorPage() {
   };
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('en-IN', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'INR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
     }).format(value);
   };
 
@@ -103,11 +105,11 @@ export default function TipCalculatorPage() {
                     <form onSubmit={handleSubmit(onSubmit)}>
                     <CardContent className="space-y-4">
                         <div className="space-y-2">
-                        <Label htmlFor="bill">Bill Amount ($)</Label>
+                        <Label htmlFor="bill">Bill Amount (₹)</Label>
                         <Input
                             id="bill"
                             type="number"
-                            placeholder="e.g., 50.00"
+                            placeholder="e.g., 500"
                             step="0.01"
                             {...register('bill')}
                         />
@@ -188,7 +190,7 @@ export default function TipCalculatorPage() {
                         <AccordionItem value="item-1">
                             <AccordionTrigger>What's a standard tip percentage?</AccordionTrigger>
                             <AccordionContent>
-                            In the US, a standard tip is typically between 15% and 20% of the pre-tax bill for good service.
+                            In many places, a standard tip is typically between 10% and 20% of the pre-tax bill for good service.
                             </AccordionContent>
                         </AccordionItem>
                         <AccordionItem value="item-2">

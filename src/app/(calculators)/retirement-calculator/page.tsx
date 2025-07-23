@@ -74,9 +74,11 @@ export default function RetirementCalculatorPage() {
   };
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('en-IN', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'INR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
     }).format(value);
   };
 
@@ -111,12 +113,12 @@ export default function RetirementCalculatorPage() {
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="currentSavings">Current Savings ($)</Label>
+                    <Label htmlFor="currentSavings">Current Savings (₹)</Label>
                     <Input id="currentSavings" type="number" step="0.01" {...register('currentSavings')} />
                     {errors.currentSavings && <p className="text-destructive text-sm">{errors.currentSavings.message}</p>}
                   </div>
                    <div className="space-y-2">
-                    <Label htmlFor="monthlyContribution">Monthly Contribution ($)</Label>
+                    <Label htmlFor="monthlyContribution">Monthly Contribution (₹)</Label>
                     <Input id="monthlyContribution" type="number" step="0.01" {...register('monthlyContribution')} />
                     {errors.monthlyContribution && <p className="text-destructive text-sm">{errors.monthlyContribution.message}</p>}
                   </div>

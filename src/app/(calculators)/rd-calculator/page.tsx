@@ -27,49 +27,60 @@ import {
 } from '@/components/ui/accordion';
 
 const formSchema = z.object({
-  principal: z.coerce.number().min(0, 'Principal must be a positive number.'),
-  rate: z.coerce.number().min(0, 'Interest rate must be a positive number.'),
+  monthlyInvestment: z.coerce.number().min(1, 'Investment amount must be positive.'),
+  rate: z.coerce.number().min(0, 'Interest rate must be positive.'),
   years: z.coerce.number().int().min(1, 'Term must be at least 1 year.'),
-  compoundsPerYear: z.coerce.number().int().min(1, 'Must compound at least annually.'),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
 type CalculationResult = {
-  futureValue: number;
+  maturityValue: number;
   totalInterest: number;
-  principal: number;
+  totalInvestment: number;
 };
 
-export default function CompoundInterestCalculatorPage() {
+export default function RDCalculatorPage() {
   const [result, setResult] = useState<CalculationResult | null>(null);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      principal: 10000,
+      monthlyInvestment: 5000,
       rate: 7,
-      years: 10,
-      compoundsPerYear: 12,
+      years: 5,
     },
   });
 
   const { register, handleSubmit, formState: { errors } } = form;
 
   const onSubmit = (data: FormValues) => {
-    const { principal, rate, years, compoundsPerYear } = data;
-    const P = principal;
-    const r = rate / 100;
-    const n = compoundsPerYear;
-    const t = years;
+    const { monthlyInvestment, rate, years } = data;
+    const P = monthlyInvestment;
+    const n = years * 12; // tenure in months
+    const r = rate / 100 / 4; // quarterly interest rate
 
-    const futureValue = P * Math.pow(1 + r / n, n * t);
-    const totalInterest = futureValue - P;
+    let maturityValue = 0;
+    for (let i = 0; i < n; i++) {
+        const monthsRemaining = n - i;
+        const numQuarters = Math.floor(monthsRemaining / 3);
+        maturityValue += P * Math.pow(1 + r, numQuarters);
+    }
+    
+    // A more standard formula approach:
+    const i = rate / 100;
+    const t = years;
+    const N = 4; // Compounding quarterly
+    const maturity = P * ( (Math.pow(1 + i/N, N*t) - 1) / (1 - Math.pow(1+i/N, -1/3)) );
+
+
+    const totalInvestment = P * n;
+    const totalInterest = maturity - totalInvestment;
 
     setResult({
-      futureValue,
+      maturityValue: maturity,
       totalInterest,
-      principal: P,
+      totalInvestment,
     });
   };
 
@@ -95,15 +106,15 @@ export default function CompoundInterestCalculatorPage() {
           <div className="grid gap-8 lg:grid-cols-2">
             <Card>
               <CardHeader>
-                <CardTitle className="font-headline text-2xl">Compound Interest Calculator</CardTitle>
-                <CardDescription>Calculate the future value of your investment.</CardDescription>
+                <CardTitle className="font-headline text-2xl">RD Calculator</CardTitle>
+                <CardDescription>Calculate the maturity value of your Recurring Deposit.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="principal">Principal Amount (₹)</Label>
-                    <Input id="principal" type="number" step="0.01" {...register('principal')} />
-                    {errors.principal && <p className="text-destructive text-sm">{errors.principal.message}</p>}
+                    <Label htmlFor="monthlyInvestment">Monthly Investment (₹)</Label>
+                    <Input id="monthlyInvestment" type="number" {...register('monthlyInvestment')} />
+                    {errors.monthlyInvestment && <p className="text-destructive text-sm">{errors.monthlyInvestment.message}</p>}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="rate">Annual Interest Rate (%)</Label>
@@ -115,11 +126,6 @@ export default function CompoundInterestCalculatorPage() {
                     <Input id="years" type="number" {...register('years')} />
                     {errors.years && <p className="text-destructive text-sm">{errors.years.message}</p>}
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="compoundsPerYear">Compounds per Year</Label>
-                    <Input id="compoundsPerYear" type="number" {...register('compoundsPerYear')} />
-                    {errors.compoundsPerYear && <p className="text-destructive text-sm">{errors.compoundsPerYear.message}</p>}
-                  </div>
                 </CardContent>
                 <CardFooter>
                   <Button type="submit" className="w-full bg-accent hover:bg-accent/90">Calculate</Button>
@@ -130,17 +136,17 @@ export default function CompoundInterestCalculatorPage() {
             {result && (
               <Card className="w-full bg-primary/5">
                 <CardHeader>
-                  <CardTitle className="font-headline">Investment Summary</CardTitle>
+                  <CardTitle className="font-headline">RD Maturity Details</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex justify-between items-center border-b pb-4">
-                    <span className='font-bold'>Future Value:</span>
-                    <span className="text-2xl font-bold text-primary">{formatCurrency(result.futureValue)}</span>
+                    <span className='font-bold'>Maturity Value:</span>
+                    <span className="text-2xl font-bold text-primary">{formatCurrency(result.maturityValue)}</span>
                   </div>
                   <div className="space-y-2 text-sm text-muted-foreground">
                     <div className="flex justify-between">
-                      <span>Principal Amount:</span>
-                      <span className="font-medium text-foreground">{formatCurrency(result.principal)}</span>
+                      <span>Total Investment:</span>
+                      <span className="font-medium text-foreground">{formatCurrency(result.totalInvestment)}</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Total Interest Earned:</span>
@@ -149,7 +155,7 @@ export default function CompoundInterestCalculatorPage() {
                   </div>
                 </CardContent>
                 <CardFooter>
-                  <SharePanel resultText={`My investment will be worth ${formatCurrency(result.futureValue)}!`} />
+                  <SharePanel resultText={`My RD will mature to ${formatCurrency(result.maturityValue)}!`} />
                 </CardFooter>
               </Card>
             )}
@@ -160,19 +166,18 @@ export default function CompoundInterestCalculatorPage() {
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-                Compound interest is the interest on a loan or deposit calculated based on both the initial principal and the accumulated interest from previous periods.
+                A Recurring Deposit (RD) is a special kind of term deposit where you make regular monthly investments for a fixed period. It's a great way to build savings through disciplined investing.
               </p>
               <div className="space-y-4">
                 <div>
                   <h3 className="font-bold font-headline">Formula Used</h3>
-                  <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
+                   <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
                     <code>
-                      A = P(1 + r/n)^(nt)<br/><br/>
-                      <b>A</b> = Future Value<br/>
-                      <b>P</b> = Principal Amount<br/>
-                      <b>r</b> = Annual Interest Rate<br/>
-                      <b>n</b> = Compounds per Year<br/>
-                      <b>t</b> = Number of Years
+                      M = P × [((1 + r)^n - 1) / (1 - (1 + r)^(-1/3))]<br/><br/>
+                      <b>M</b> = Maturity Value<br/>
+                      <b>P</b> = Monthly Installment<br/>
+                      <b>r</b> = Quarterly Interest Rate (Annual Rate / 4)<br/>
+                      <b>n</b> = Number of Quarters (Years * 4)
                     </code>
                   </pre>
                 </div>
@@ -180,15 +185,15 @@ export default function CompoundInterestCalculatorPage() {
                   <h3 className="font-bold font-headline">FAQs</h3>
                   <Accordion type="single" collapsible className="w-full">
                     <AccordionItem value="item-1">
-                      <AccordionTrigger>What is the 'magic' of compound interest?</AccordionTrigger>
+                      <AccordionTrigger>What happens if I miss an RD installment?</AccordionTrigger>
                       <AccordionContent>
-                        The magic comes from earning interest on your interest. Over long periods, this can lead to exponential growth, which is why it's a cornerstone of long-term investing.
+                        Most banks charge a small penalty for missed RD payments. It's best to check with your specific bank for their policies on missed installments.
                       </AccordionContent>
                     </AccordionItem>
-                    <AccordionItem value="item-2">
-                      <AccordionTrigger>How does the compounding frequency affect the outcome?</AccordionTrigger>
+                     <AccordionItem value="item-2">
+                      <AccordionTrigger>Can I withdraw from my RD prematurely?</AccordionTrigger>
                       <AccordionContent>
-                        The more frequently interest is compounded, the more you will earn. Compounding daily will yield slightly more than compounding monthly, which yields more than annually.
+                        Yes, premature withdrawal is usually allowed, but it often comes with a penalty and a lower interest rate than originally agreed upon.
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
