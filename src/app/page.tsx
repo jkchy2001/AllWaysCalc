@@ -164,6 +164,7 @@ const calculatorCategories = [
       { href: '/life-expectancy-calculator', name: 'Life Expectancy Calculator' },
       { href: '/zodiac-sign-calculator', name: 'Zodiac Sign Calculator' },
       { href: '/love-compatibility-calculator', name: 'Love Compatibility Calculator' },
+      { href: '/numerology-calculator', name: 'Numerology Calculator' },
     ],
   },
   {
