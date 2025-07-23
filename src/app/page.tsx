@@ -275,6 +275,7 @@ const calculatorCategories = [
         { href: '/water-usage-calculator', name: 'Water Usage Calculator', icon: <Droplets className="size-4" /> },
         { href: '/solar-panel-calculator', name: 'Solar Panel Calculator', icon: <Sun className="size-4" /> },
         { href: '/rainwater-harvesting-calculator', name: 'Rainwater Harvesting', icon: <Droplets className="size-4" /> },
+        { href: '/fertilizer-requirement-calculator', name: 'Fertilizer Calculator', icon: <TestTube className="size-4" /> },
     ],
   },
   {
