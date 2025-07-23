@@ -146,6 +146,7 @@ const calculatorCategories = [
       { href: '/age-calculator', name: 'Age Calculator' },
       { href: '/date-calculator', name: 'Date Calculator' },
       { href: '/pregnancy-due-date-calculator', name: 'Pregnancy Due Date Calculator'},
+      { href: '/ovulation-calculator', name: 'Ovulation Calculator' },
       { href: '/tip-calculator', name: 'Tip Calculator' },
     ],
   },
