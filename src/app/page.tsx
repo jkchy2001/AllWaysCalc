@@ -99,9 +99,9 @@ import {
   CreditCard,
   Plane,
   Fuel,
-  Stamp,
+  Luggage,
   CircleDollarSign,
-  Luggage
+  Stamp
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -326,13 +326,8 @@ const calculatorCategories = [
     description: 'Useful in apps related to logistics or tourism.',
     icon: <Plane className="size-8 text-primary" />,
     links: [
-      { href: '#', name: 'Distance & Fuel Cost Calculator', icon: <Fuel className="size-4" /> },
-      { href: '#', name: 'Cab Fare Estimator', icon: <Car className="size-4" /> },
-      { href: '#', name: 'Toll Calculator (India-specific)', icon: <Landmark className="size-4" /> },
-      { href: '#', name: 'Travel Time Estimator', icon: <Clock className="size-4" /> },
-      { href: '#', name: 'Visa Fee Calculator', icon: <Stamp className="size-4" /> },
-      { href: '#', name: 'Currency Exchange Loss Calculator', icon: <CircleDollarSign className="size-4" /> },
-      { href: '#', name: 'Luggage Weight Calculator (for flights)', icon: <Luggage className="size-4" /> },
+      { href: '/distance-fuel-cost-calculator', name: 'Distance & Fuel Cost Calculator', icon: <Fuel className="size-4" /> },
+      { href: '/travel-time-estimator', name: 'Travel Time Estimator', icon: <Clock className="size-4" /> },
     ],
   },
 ];
