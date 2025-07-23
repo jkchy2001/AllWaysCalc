@@ -27,8 +27,10 @@ const formSchema = z.object({
   unit: z.enum(['metric', 'imperial']),
   wallLength: z.coerce.number().min(0.1, 'Length must be positive.'),
   wallHeight: z.coerce.number().min(0.1, 'Height must be positive.'),
+  wallWidth: z.coerce.number().min(0.1, 'Width must be positive.'),
   brickLength: z.coerce.number().min(0.1, 'Length must be positive.'),
   brickHeight: z.coerce.number().min(0.1, 'Height must be positive.'),
+  brickWidth: z.coerce.number().min(0.1, 'Width must be positive.'),
   mortarJoint: z.coerce.number().min(0).optional(),
   wastage: z.coerce.number().min(0).max(100).default(10),
 });
@@ -37,7 +39,7 @@ type FormValues = z.infer<typeof formSchema>;
 
 type CalculationResult = {
   totalBricks: number;
-  wallArea: number;
+  wallVolume: number;
 };
 
 export default function BrickCalculatorPage() {
@@ -49,8 +51,10 @@ export default function BrickCalculatorPage() {
       unit: 'metric',
       wallLength: 10,
       wallHeight: 3,
+      wallWidth: 0.1, // 100mm wall width
       brickLength: 190,
       brickHeight: 90,
+      brickWidth: 90,
       mortarJoint: 10,
       wastage: 10,
     },
@@ -60,30 +64,32 @@ export default function BrickCalculatorPage() {
   const unit = watch('unit');
 
   const onSubmit = (data: FormValues) => {
-    let { wallLength, wallHeight, brickLength, brickHeight, mortarJoint = 0, wastage, unit } = data;
+    let { wallLength, wallHeight, wallWidth, brickLength, brickHeight, brickWidth, mortarJoint = 0, wastage, unit } = data;
     
     // Convert all to a base unit (m or ft)
     if (unit === 'metric') {
         brickLength /= 1000; // mm to m
         brickHeight /= 1000;  // mm to m
+        brickWidth /= 1000; // mm to m
         mortarJoint /= 1000;  // mm to m
     } else { // imperial
         brickLength /= 12; // in to ft
         brickHeight /= 12;  // in to ft
+        brickWidth /= 12; // in to ft
         mortarJoint /= 12;   // in to ft
     }
 
-    const wallArea = wallLength * wallHeight;
-    const singleBrickArea = (brickLength + mortarJoint) * (brickHeight + mortarJoint);
+    const wallVolume = wallLength * wallHeight * wallWidth;
+    const singleBrickVolume = (brickLength + mortarJoint) * (brickHeight + mortarJoint) * (brickWidth + mortarJoint);
     
-    if (singleBrickArea <= 0) return;
+    if (singleBrickVolume <= 0) return;
 
-    const bricksNeeded = Math.ceil(wallArea / singleBrickArea);
+    const bricksNeeded = Math.ceil(wallVolume / singleBrickVolume);
     const totalBricks = Math.ceil(bricksNeeded * (1 + wastage / 100));
     
     setResult({
       totalBricks,
-      wallArea,
+      wallVolume,
     });
   };
 
@@ -101,7 +107,7 @@ export default function BrickCalculatorPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">Brick Calculator</CardTitle>
-                <CardDescription>Estimate the number of bricks needed for a wall.</CardDescription>
+                <CardDescription>Estimate the number of bricks needed for a structure.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
@@ -133,6 +139,10 @@ export default function BrickCalculatorPage() {
                                 <Input id="wallHeight" type="number" step="0.1" {...register('wallHeight')} />
                             </div>
                         </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="wallWidth">Width/Depth ({unit === 'metric' ? 'm' : 'ft'})</Label>
+                            <Input id="wallWidth" type="number" step="0.1" {...register('wallWidth')} />
+                        </div>
                     </div>
                     
                     <div className="p-4 border rounded-md space-y-4">
@@ -146,6 +156,10 @@ export default function BrickCalculatorPage() {
                                 <Label htmlFor="brickHeight">Height ({unit === 'metric' ? 'mm' : 'in'})</Label>
                                 <Input id="brickHeight" type="number" step="0.1" {...register('brickHeight')} />
                             </div>
+                        </div>
+                         <div className="space-y-2">
+                            <Label htmlFor="brickWidth">Width/Depth ({unit === 'metric' ? 'mm' : 'in'})</Label>
+                            <Input id="brickWidth" type="number" step="0.1" {...register('brickWidth')} />
                         </div>
                         <div className="space-y-2">
                            <Label htmlFor="mortarJoint">Mortar Joint ({unit === 'metric' ? 'mm' : 'in'})</Label>
@@ -177,7 +191,7 @@ export default function BrickCalculatorPage() {
                         {result.totalBricks.toLocaleString()} bricks
                     </div>
                     <div className="text-muted-foreground">
-                        To cover {result.wallArea.toFixed(2)} {unit === 'metric' ? 'm²' : 'ft²'}, including wastage.
+                        To build a volume of {result.wallVolume.toFixed(2)} {unit === 'metric' ? 'm³' : 'ft³'}, including wastage.
                     </div>
                 </CardContent>
                 <CardFooter>
@@ -192,15 +206,15 @@ export default function BrickCalculatorPage() {
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-                This calculator helps you determine how many bricks you need to construct a wall. Accurate measurements are key to a good estimate, and always remember to account for mortar and wastage.
+                This calculator helps you determine how many bricks you need to construct a wall or structure. Accurate measurements are key to a good estimate, and always remember to account for mortar and wastage.
               </p>
               <div className="space-y-4">
                 <div>
                   <h3 className="font-bold font-headline">Methodology</h3>
                   <ol className="list-decimal list-inside space-y-2 mt-2 p-4 rounded-md bg-muted">
-                    <li>Calculate the total surface area of the wall (Length × Height).</li>
-                    <li>Calculate the area of a single brick, including the mortar joint on two sides to account for spacing.</li>
-                    <li>Divide the total wall area by the single brick area to find the minimum number of bricks needed.</li>
+                    <li>Calculate the total volume of the wall (Length × Height × Width).</li>
+                    <li>Calculate the volume of a single brick, including the mortar joint on all sides to account for spacing.</li>
+                    <li>Divide the total wall volume by the single brick volume to find the minimum number of bricks needed.</li>
                     <li>Add a wastage percentage to account for cuts, breaks, and future repairs. This is typically 5-10%.</li>
                   </ol>
                 </div>
