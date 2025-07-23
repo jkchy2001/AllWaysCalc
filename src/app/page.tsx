@@ -54,6 +54,7 @@ const calculatorCategories = [
     icon: <Briefcase className="size-8 text-primary" />,
     links: [
       { href: '/gst-calculator', name: 'GST Calculator' },
+      { href: '/income-tax-calculator', name: 'Income Tax Calculator' },
       { href: '/discount-calculator', name: 'Discount Calculator' },
       { href: '/profit-margin-calculator', name: 'Profit Margin Calculator' },
       { href: '/markup-calculator', name: 'Markup Calculator' },
