@@ -119,6 +119,7 @@ const calculatorCategories = [
     links: [
         { href: '/bmi-calculator', name: 'BMI Calculator' },
         { href: '/bmr-calculator', name: 'BMR Calculator' },
+        { href: '/calorie-intake-calculator', name: 'Calorie Intake Calculator' },
     ],
   },
    {
