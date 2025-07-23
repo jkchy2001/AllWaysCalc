@@ -29,13 +29,13 @@ import {
 
 const formSchema = z.object({
   cost: z.coerce.number().min(0.01, 'Cost must be greater than zero.'),
-  revenue: z.coerce.number().min(0, 'Revenue must be a positive number.'),
+  markupPercentage: z.coerce.number().min(0, 'Markup must be a positive number.'),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
 type CalculationResult = {
-  markupPercentage: number;
+  sellingPrice: number;
   profit: number;
 };
 
@@ -46,18 +46,18 @@ export default function MarkupCalculatorPage() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       cost: undefined,
-      revenue: undefined,
+      markupPercentage: 50,
     },
   });
 
   const { register, handleSubmit, formState: { errors } } = form;
 
   const onSubmit = (data: FormValues) => {
-    const profit = data.revenue - data.cost;
-    const markupPercentage = (profit / data.cost) * 100;
+    const profit = data.cost * (data.markupPercentage / 100);
+    const sellingPrice = data.cost + profit;
     
     setResult({
-      markupPercentage,
+      sellingPrice,
       profit
     });
   };
@@ -85,7 +85,7 @@ export default function MarkupCalculatorPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">Markup Calculator</CardTitle>
-                <CardDescription>Calculate the markup percentage on a product's cost.</CardDescription>
+                <CardDescription>Calculate the selling price based on cost and markup.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
@@ -95,13 +95,13 @@ export default function MarkupCalculatorPage() {
                     {errors.cost && <p className="text-destructive text-sm">{errors.cost.message}</p>}
                   </div>
                    <div className="space-y-2">
-                    <Label htmlFor="revenue">Selling Price (₹)</Label>
-                    <Input id="revenue" type="number" step="0.01" {...register('revenue')} />
-                    {errors.revenue && <p className="text-destructive text-sm">{errors.revenue.message}</p>}
+                    <Label htmlFor="markupPercentage">Markup Percentage (%)</Label>
+                    <Input id="markupPercentage" type="number" step="0.01" {...register('markupPercentage')} />
+                    {errors.markupPercentage && <p className="text-destructive text-sm">{errors.markupPercentage.message}</p>}
                   </div>
                 </CardContent>
                 <CardFooter>
-                  <Button type="submit" className="w-full bg-accent hover:bg-accent/90">Calculate Markup</Button>
+                  <Button type="submit" className="w-full bg-accent hover:bg-accent/90">Calculate Selling Price</Button>
                 </CardFooter>
               </form>
             </Card>
@@ -109,20 +109,20 @@ export default function MarkupCalculatorPage() {
             {result && (
               <Card className="w-full bg-primary/5">
                 <CardHeader>
-                  <CardTitle className="font-headline">Markup Result</CardTitle>
+                  <CardTitle className="font-headline">Pricing Result</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4 text-center">
-                    <div className="text-4xl font-bold text-primary">{result.markupPercentage.toFixed(2)}%</div>
-                    <p className="text-muted-foreground">Is your markup percentage.</p>
+                    <p className="text-muted-foreground">The required selling price is</p>
+                    <div className="text-4xl font-bold text-primary">{formatCurrency(result.sellingPrice)}</div>
                     <div className="text-sm text-muted-foreground pt-4 border-t">
                       <div className="flex justify-between">
-                          <span>Profit:</span>
+                          <span>Profit per unit:</span>
                           <span className="font-medium text-foreground">{formatCurrency(result.profit)}</span>
                       </div>
                     </div>
                 </CardContent>
                 <CardFooter>
-                  <SharePanel resultText={`My markup is ${result.markupPercentage.toFixed(2)}%`} />
+                  <SharePanel resultText={`To get a ${form.getValues('markupPercentage')}% markup, the selling price should be ${formatCurrency(result.sellingPrice)}.`} />
                 </CardFooter>
               </Card>
             )}
@@ -133,14 +133,14 @@ export default function MarkupCalculatorPage() {
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-               Markup is the amount added to the cost price of goods to cover overheads and profit. It is the retail price of a product minus its cost, but the markup percentage is calculated in relation to the cost.
+               Markup is the amount added to the cost price of goods to cover overheads and profit. It is a key part of pricing strategy to ensure profitability.
               </p>
               <div className="space-y-4">
                 <div>
                   <h3 className="font-bold font-headline">Formula Used</h3>
                    <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
                     <code>
-                      Markup Percentage = ((Selling Price - Cost) / Cost) * 100
+                      Selling Price = Cost + (Cost * (Markup Percentage / 100))
                     </code>
                   </pre>
                 </div>
@@ -148,15 +148,15 @@ export default function MarkupCalculatorPage() {
                   <h3 className="font-bold font-headline">FAQs</h3>
                   <Accordion type="single" collapsible className="w-full">
                     <AccordionItem value="item-1">
-                      <AccordionTrigger>Why is markup important?</AccordionTrigger>
+                      <AccordionTrigger>What's the difference between Markup and Margin?</AccordionTrigger>
                       <AccordionContent>
-                       Markup is a key part of pricing strategy. It ensures that the selling price covers all costs and generates a profit.
+                       Markup is the percentage of profit relative to the cost (Profit / Cost). Profit Margin is the percentage of profit relative to the selling price (Profit / Revenue). They are two different but related ways to look at profitability.
                       </AccordionContent>
                     </AccordionItem>
                      <AccordionItem value="item-2">
-                      <AccordionTrigger>Is a 100% markup the same as a 50% profit margin?</AccordionTrigger>
+                      <AccordionTrigger>Why is markup important for a business?</AccordionTrigger>
                       <AccordionContent>
-                       Yes. If you buy something for ₹50 (cost) and sell it for ₹100 (revenue), your profit is ₹50. The markup is 100% (₹50 profit / ₹50 cost). The profit margin is 50% (₹50 profit / ₹100 revenue).
+                      Setting the right markup is crucial for covering all business expenses (like rent, salaries, and marketing) and ensuring the business generates a sustainable profit.
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
