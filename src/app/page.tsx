@@ -286,7 +286,9 @@ const calculatorCategories = [
     title: 'Science',
     description: 'Molar Mass, pH, Ideal Gas Law, Ohm’s Law.',
     icon: <Atom className="size-8 text-primary" />,
-    links: [],
+    links: [
+      { href: '/molar-mass-calculator', name: 'Molar Mass Calculator', icon: <TestTube className="size-4" /> },
+    ],
   },
 ];
 
