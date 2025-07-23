@@ -1,24 +1,16 @@
 import Link from 'next/link';
 import {
   ArrowRight,
-  Calculator,
-  HeartPulse,
-  FlaskConical,
-  ShoppingBag,
   Banknote,
-  Percent,
-  Cake,
-  CalendarDays,
-  Tag,
   Briefcase,
   GraduationCap,
   Shapes,
   Heart,
-  Home as HomeIcon,
   HardHat,
   Monitor,
   Leaf,
   Atom,
+  HeartPulse,
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -29,45 +21,43 @@ const calculatorCategories = [
     title: 'Finance & Investment',
     description: 'EMI, SIP, Loans, Compound Interest, Investments.',
     icon: <Banknote className="size-8 text-primary" />,
-    href: '/loan-calculator', // Placeholder href, points to first calculator
     links: [
-      { href: '/loan-calculator', name: 'Loan Calculator' },
+      { href: '/loan-calculator', name: 'Loan / EMI Calculator' },
       { href: '/tip-calculator', name: 'Tip Calculator' },
+      { href: '/compound-interest-calculator', name: 'Compound Interest' },
+      { href: '/simple-interest-calculator', name: 'Simple Interest' },
+      { href: '/retirement-calculator', name: 'Retirement Calculator' },
+      { href: '/inflation-calculator', name: 'Inflation Calculator' },
     ],
   },
   {
     title: 'Business & Tax',
     description: 'GST, Income Tax, Profit Margin, Salary.',
     icon: <Briefcase className="size-8 text-primary" />,
-    href: '/discount-calculator',
     links: [{ href: '/discount-calculator', name: 'Discount Calculator' }],
   },
   {
     title: 'Education / Student',
     description: 'GPA, CGPA, Percentage, Study Planners.',
     icon: <GraduationCap className="size-8 text-primary" />,
-    href: '/percentage-calculator',
     links: [{ href: '/percentage-calculator', name: 'Percentage Calculator' }],
   },
   {
     title: 'Math & Geometry',
     description: 'Scientific, Algebra, Trigonometry, Unit Converters.',
     icon: <Shapes className="size-8 text-primary" />,
-    href: '#',
-    links: [], // No existing calculators here yet
+    links: [],
   },
   {
     title: 'Health & Fitness',
     description: 'BMI, BMR, Calorie Intake, Ideal Weight.',
     icon: <HeartPulse className="size-8 text-primary" />,
-    href: '/bmi-calculator',
     links: [{ href: '/bmi-calculator', name: 'BMI Calculator' }],
   },
   {
     title: 'Life & Personal',
     description: 'Age, Date Duration, Anniversary, Zodiac.',
     icon: <Heart className="size-8 text-primary" />,
-    href: '/age-calculator',
     links: [
       { href: '/age-calculator', name: 'Age Calculator' },
       { href: '/date-calculator', name: 'Date Calculator' },
@@ -77,28 +67,24 @@ const calculatorCategories = [
     title: 'Construction & Home',
     description: 'Paint, Tile, Concrete, Flooring Costs.',
     icon: <HardHat className="size-8 text-primary" />,
-    href: '#',
     links: [],
   },
   {
     title: 'Tech & Digital',
     description: 'Download Time, Bandwidth, Subnet, Aspect Ratio.',
     icon: <Monitor className="size-8 text-primary" />,
-    href: '#',
     links: [],
   },
   {
     title: 'Environment & Agriculture',
     description: 'Carbon Footprint, Solar Panel, Crop Yield.',
     icon: <Leaf className="size-8 text-primary" />,
-    href: '#',
     links: [],
   },
   {
     title: 'Science',
     description: 'Molar Mass, pH, Ideal Gas Law, Ohm’s Law.',
     icon: <Atom className="size-8 text-primary" />,
-    href: '#',
     links: [],
   },
 ];
@@ -149,15 +135,17 @@ export default function Home() {
               </div>
             </div>
             <div className="mx-auto grid grid-cols-1 gap-6 py-12 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-              {calculatorCategories.map((card) => (
-                <CalculatorCard
-                  key={card.title}
-                  href={card.links.length > 0 ? card.links[0].href : '#'}
-                  icon={card.icon}
-                  title={card.title}
-                  description={card.description}
-                  links={card.links}
-                />
+              {calculatorCategories
+                .filter(cat => cat.links.length > 0)
+                .map((card) => (
+                  <CalculatorCard
+                    key={card.title}
+                    href={card.links.length > 0 ? card.links[0].href : '#'}
+                    icon={card.icon}
+                    title={card.title}
+                    description={card.description}
+                    links={card.links}
+                  />
               ))}
             </div>
           </div>
