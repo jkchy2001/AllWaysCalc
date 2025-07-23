@@ -95,6 +95,7 @@ import {
   Sun,
   Recycle,
   Zap,
+  Box,
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -295,6 +296,7 @@ const calculatorCategories = [
       { href: '/newtons-law-calculator', name: 'Newton\'s Law Calculator', icon: <Atom className="size-4" /> },
       { href: '/ohms-law-calculator', name: 'Ohm\'s Law Calculator', icon: <Zap className="size-4" /> },
       { href: '/kinetic-energy-calculator', name: 'Kinetic Energy Calculator', icon: <Flame className="size-4" /> },
+      { href: '/density-calculator', name: 'Density Calculator', icon: <Box className="size-4" /> },
     ],
   },
 ];
