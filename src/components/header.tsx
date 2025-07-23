@@ -13,8 +13,8 @@ import { Logo } from '@/components/icons';
 export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 items-center justify-between">
-        <div className="flex items-center">
+      <div className="container flex h-14 items-center">
+        <div className="mr-auto flex items-center">
           <Link href="/" className="flex items-center space-x-2">
             <Logo className="h-6 w-6 text-primary" />
             <span className="font-bold sm:inline-block font-headline">
@@ -23,7 +23,7 @@ export function Header() {
           </Link>
         </div>
 
-        <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
+        <nav className="hidden md:flex items-center space-x-6 text-sm font-medium mx-auto">
           <Link
             href="/"
             className="transition-colors hover:text-foreground/80 text-foreground"
@@ -38,7 +38,7 @@ export function Header() {
           </Link>
         </nav>
         
-        <div className="md:hidden">
+        <div className="md:hidden ml-auto">
           <Sheet>
             <SheetTrigger asChild>
               <Button
@@ -49,7 +49,7 @@ export function Header() {
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="left">
+            <SheetContent side="right">
               <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
               <SheetDescription className="sr-only">
                 Main navigation for mobile devices
