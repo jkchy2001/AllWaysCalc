@@ -212,6 +212,7 @@ const calculatorCategories = [
       { href: '/volume-converter', name: 'Volume Converter', icon: <Beaker className="size-4" /> },
       { href: '/speed-converter', name: 'Speed Converter', icon: <Gauge className="size-4" /> },
       { href: '/html-color-code-converter', name: 'HTML Color Code Converter', icon: <Palette className="size-4" /> },
+      { href: '/pixel-to-em-converter', name: 'Pixel to EM Converter', icon: <Scaling className="size-4" /> },
     ],
   },
   {
@@ -276,6 +277,7 @@ const calculatorCategories = [
         { href: '/solar-panel-calculator', name: 'Solar Panel Calculator', icon: <Sun className="size-4" /> },
         { href: '/rainwater-harvesting-calculator', name: 'Rainwater Harvesting', icon: <Droplets className="size-4" /> },
         { href: '/fertilizer-requirement-calculator', name: 'Fertilizer Calculator', icon: <TestTube className="size-4" /> },
+        { href: '/crop-yield-calculator', name: 'Crop Yield Calculator', icon: <LineChart className="size-4" /> },
     ],
   },
   {
