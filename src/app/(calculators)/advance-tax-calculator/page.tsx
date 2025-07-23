@@ -78,7 +78,7 @@ export default function AdvanceTaxCalculatorPage() {
       deductions80c: 0,
       standardDeduction: 50000,
       taxRegime: 'new',
-      customSlabs: [{ limit: 500000, rate: 10 }, { limit: 1000000, rate: 20 }, { limit: Infinity, rate: 30 }],
+      customSlabs: [{ limit: 300000, rate: 5 }, { limit: 700000, rate: 10 }, { limit: Infinity, rate: 20 }],
       customRebateLimit: 750000,
     },
   });
@@ -127,16 +127,17 @@ export default function AdvanceTaxCalculatorPage() {
     let applicableDeductions = 0;
     if(taxRegime === 'old') {
         applicableDeductions = Math.min(deductions80c, 150000) + standardDeduction;
-    } else if (taxRegime === 'new' || taxRegime === 'custom') {
+    } else { // New and Custom regimes
         applicableDeductions = standardDeduction;
     }
 
     let taxableIncome = grossIncome - applicableDeductions;
     if (taxableIncome < 0) taxableIncome = 0;
 
-    let taxAmount = calculateTax(taxableIncome, taxRegime, customSlabs);
+    let taxAmount = calculateTax(taxableIncome, taxRegime, customSlabs || []);
 
-    if (taxRegime === 'new' && taxableIncome <= 750000) {
+    // Rebate logic
+    if (taxRegime === 'new' && taxableIncome <= 700000) {
         taxAmount = 0;
     } else if (taxRegime === 'old' && taxableIncome <= 500000) {
         if (taxAmount <= 12500) {
@@ -193,7 +194,7 @@ export default function AdvanceTaxCalculatorPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">Advance Tax Calculator (India)</CardTitle>
-                <CardDescription>Estimate your advance tax liability for FY 2025-26.</CardDescription>
+                <CardDescription>Estimate your advance tax liability for FY 2024-25.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
@@ -224,6 +225,11 @@ export default function AdvanceTaxCalculatorPage() {
                     </div>
                   </RadioGroup>
                   
+                  <div className="space-y-2">
+                    <Label htmlFor="standardDeduction">Standard Deduction (₹)</Label>
+                    <Input id="standardDeduction" type="number" step="0.01" {...register('standardDeduction')} />
+                  </div>
+                  
                   {taxRegime === 'old' && (
                     <div className="space-y-2">
                       <Label htmlFor="deductions80c">Total Deductions (80C, 80D etc.) (₹)</Label>
@@ -232,31 +238,26 @@ export default function AdvanceTaxCalculatorPage() {
                     </div>
                   )}
 
-                  {(taxRegime === 'new' || taxRegime === 'old') && (
-                     <div className="space-y-2">
-                        <Label htmlFor="standardDeduction">Standard Deduction (₹)</Label>
-                        <Input id="standardDeduction" type="number" step="0.01" {...register('standardDeduction')} />
-                    </div>
-                  )}
-                  
                   {taxRegime === 'custom' && (
                     <div className="space-y-4 rounded-md border p-4">
                         <Label className="font-semibold">Custom Tax Slabs</Label>
                         {fields.map((field, index) => (
                            <div key={field.id} className="flex items-center gap-2">
                                 <Input 
-                                  type="number"
+                                  type={watch(`customSlabs.${index}.limit`) === Infinity ? "text" : "number"}
                                   placeholder="Up to Amount (₹)" 
                                   {...register(`customSlabs.${index}.limit`)}
-                                  disabled={field.limit === Infinity}
-                                  className={field.limit === Infinity ? 'font-mono' : ''}
-                                  value={watch(`customSlabs.${index}.limit`)}
+                                  disabled={watch(`customSlabs.${index}.limit`) === Infinity}
+                                  value={watch(`customSlabs.${index}.limit`) === Infinity ? "Infinity" : watch(`customSlabs.${index}.limit`)}
                                 />
                                 <Input type="number" placeholder="Rate (%)" {...register(`customSlabs.${index}.rate`)} />
-                                <Button type="button" variant="destructive" size="icon" onClick={() => remove(index)}><Trash2 className="h-4 w-4" /></Button>
+                                {index > 0 && <Button type="button" variant="destructive" size="icon" onClick={() => remove(index)}><Trash2 className="h-4 w-4" /></Button>}
                            </div>
                         ))}
-                        <Button type="button" variant="outline" size="sm" onClick={() => append({ limit: 0, rate: 0 })}>Add Slab</Button>
+                        <div className="flex gap-2">
+                           <Button type="button" variant="outline" size="sm" onClick={() => append({ limit: 0, rate: 0 })}>Add Slab</Button>
+                           <Button type="button" variant="outline" size="sm" onClick={() => append({ limit: Infinity, rate: 0 })}>Add Final Slab</Button>
+                        </div>
                         <div className="space-y-2 pt-2">
                             <Label htmlFor="customRebateLimit">Tax Rebate Limit (₹)</Label>
                             <Input id="customRebateLimit" type="number" placeholder="Taxable income limit for rebate" {...register('customRebateLimit')} />
@@ -363,5 +364,3 @@ export default function AdvanceTaxCalculatorPage() {
     </div>
   );
 }
-
-    

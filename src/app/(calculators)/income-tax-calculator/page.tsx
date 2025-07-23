@@ -81,7 +81,7 @@ export default function IncomeTaxCalculatorPage() {
       deductions80c: 0,
       standardDeduction: 50000,
       taxRegime: 'new',
-      customSlabs: [{ limit: 500000, rate: 10 }, { limit: 1000000, rate: 20 }, { limit: Infinity, rate: 30 }],
+      customSlabs: [{ limit: 300000, rate: 5 }, { limit: 700000, rate: 10 }, { limit: Infinity, rate: 20 }],
       customRebateLimit: 750000,
     },
   });
@@ -94,6 +94,15 @@ export default function IncomeTaxCalculatorPage() {
   });
 
   const taxRegime = watch('taxRegime');
+  
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+    }).format(value);
+  };
 
   const calculateTax = (taxableIncome: number, regime: 'old' | 'new' | 'custom', customSlabs: {limit: number, rate: number}[]): { tax: number, slabWiseTax: { slab: string, tax: number }[]} => {
     let tax = 0;
@@ -138,19 +147,20 @@ export default function IncomeTaxCalculatorPage() {
     const { grossIncome, deductions80c, standardDeduction, taxRegime, customSlabs = [], customRebateLimit } = data;
     
     let applicableDeductions = 0;
-    if(taxRegime === 'old') {
-        applicableDeductions = Math.min(deductions80c, 150000) + standardDeduction;
-    } else if (taxRegime === 'new' || taxRegime === 'custom') {
-        applicableDeductions = standardDeduction;
+    if (taxRegime === 'old') {
+      applicableDeductions = Math.min(deductions80c, 150000) + standardDeduction;
+    } else { // New and Custom regimes
+      applicableDeductions = standardDeduction;
     }
 
     let taxableIncome = grossIncome - applicableDeductions;
     if (taxableIncome < 0) taxableIncome = 0;
 
-    let { tax: taxAmount, slabWiseTax } = calculateTax(taxableIncome, taxRegime, customSlabs);
+    let { tax: taxAmount, slabWiseTax } = calculateTax(taxableIncome, taxRegime, customSlabs || []);
     let rebateApplied = false;
 
-    if (taxRegime === 'new' && taxableIncome <= 750000) {
+    // Rebate logic
+    if (taxRegime === 'new' && taxableIncome <= 700000) {
         taxAmount = 0;
         rebateApplied = true;
     } else if (taxRegime === 'old' && taxableIncome <= 500000) {
@@ -180,21 +190,12 @@ export default function IncomeTaxCalculatorPage() {
     
     setResult({
       taxableIncome,
-      taxAmount,
+      taxAmount: rebateApplied ? 0 : taxAmount,
       surcharge,
-      healthAndEducationCess,
+      healthAndEducationCess: rebateApplied ? 0 : healthAndEducationCess,
       totalTax,
       slabWiseTax
     });
-  };
-  
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 2,
-    }).format(value);
   };
 
   return (
@@ -211,7 +212,7 @@ export default function IncomeTaxCalculatorPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">Income Tax Calculator (India)</CardTitle>
-                <CardDescription>Estimate your tax liability for FY 2025-26.</CardDescription>
+                <CardDescription>Estimate your tax liability for FY 2024-25.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
@@ -242,18 +243,16 @@ export default function IncomeTaxCalculatorPage() {
                     </div>
                   </RadioGroup>
                   
+                  <div className="space-y-2">
+                      <Label htmlFor="standardDeduction">Standard Deduction (₹)</Label>
+                      <Input id="standardDeduction" type="number" step="0.01" {...register('standardDeduction')} />
+                  </div>
+                  
                   {taxRegime === 'old' && (
                     <div className="space-y-2">
                       <Label htmlFor="deductions80c">Deductions under 80C, 80D etc. (₹)</Label>
                       <Input id="deductions80c" type="number" step="0.01" {...register('deductions80c')} />
                       {errors.deductions80c && <p className="text-destructive text-sm">{errors.deductions80c.message}</p>}
-                    </div>
-                  )}
-
-                  {(taxRegime === 'new' || taxRegime === 'old' ) && (
-                     <div className="space-y-2">
-                        <Label htmlFor="standardDeduction">Standard Deduction (₹)</Label>
-                        <Input id="standardDeduction" type="number" step="0.01" {...register('standardDeduction')} />
                     </div>
                   )}
                   
@@ -263,18 +262,20 @@ export default function IncomeTaxCalculatorPage() {
                         {fields.map((field, index) => (
                            <div key={field.id} className="flex items-center gap-2">
                                 <Input 
-                                  type="number"
+                                  type={watch(`customSlabs.${index}.limit`) === Infinity ? "text" : "number"}
                                   placeholder="Up to Amount (₹)" 
                                   {...register(`customSlabs.${index}.limit`)}
-                                  disabled={field.limit === Infinity}
-                                  className={field.limit === Infinity ? 'font-mono' : ''}
-                                  value={watch(`customSlabs.${index}.limit`)}
+                                  disabled={watch(`customSlabs.${index}.limit`) === Infinity}
+                                  value={watch(`customSlabs.${index}.limit`) === Infinity ? "Infinity" : watch(`customSlabs.${index}.limit`)}
                                 />
                                 <Input type="number" placeholder="Rate (%)" {...register(`customSlabs.${index}.rate`)} />
-                                <Button type="button" variant="destructive" size="icon" onClick={() => remove(index)}><Trash2 className="h-4 w-4" /></Button>
+                                {index > 0 && <Button type="button" variant="destructive" size="icon" onClick={() => remove(index)}><Trash2 className="h-4 w-4" /></Button>}
                            </div>
                         ))}
-                        <Button type="button" variant="outline" size="sm" onClick={() => append({ limit: 0, rate: 0 })}>Add Slab</Button>
+                        <div className="flex gap-2">
+                           <Button type="button" variant="outline" size="sm" onClick={() => append({ limit: 0, rate: 0 })}>Add Slab</Button>
+                           <Button type="button" variant="outline" size="sm" onClick={() => append({ limit: Infinity, rate: 0 })}>Add Final Slab</Button>
+                        </div>
                         <div className="space-y-2 pt-2">
                             <Label htmlFor="customRebateLimit">Tax Rebate Limit (₹)</Label>
                             <Input id="customRebateLimit" type="number" placeholder="Taxable income limit for rebate" {...register('customRebateLimit')} />
@@ -348,7 +349,7 @@ export default function IncomeTaxCalculatorPage() {
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-               This calculator provides an estimate of your income tax liability. You can use the standard tax regimes for FY 2025-26 (AY 2026-27) or define your own custom tax slabs for hypothetical scenarios.
+               This calculator provides an estimate of your income tax liability. You can use the standard tax regimes for FY 2024-25 (AY 2025-26) or define your own custom tax slabs for hypothetical scenarios.
               </p>
               <div className="space-y-4">
                 <div>
@@ -368,7 +369,7 @@ export default function IncomeTaxCalculatorPage() {
                      <AccordionItem value="item-2">
                       <AccordionTrigger>What is a Tax Rebate under Section 87A?</AccordionTrigger>
                       <AccordionContent>
-                       A tax rebate is a relief provided to taxpayers with lower incomes. For FY 2025-26, under the **New Regime**, if your taxable income is up to ₹7,50,000, your tax liability becomes zero. Under the **Old Regime**, if your taxable income is up to ₹5,00,000, you can claim a rebate of up to ₹12,500, which also results in zero tax payable.
+                       A tax rebate is a relief provided to taxpayers with lower incomes. For FY 2024-25, under the **New Regime**, if your taxable income is up to ₹7,00,000, your tax liability becomes zero. Under the **Old Regime**, if your taxable income is up to ₹5,00,000, you can claim a rebate of up to ₹12,500, which also results in zero tax payable.
                       </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="item-3">
@@ -388,5 +389,3 @@ export default function IncomeTaxCalculatorPage() {
     </div>
   );
 }
-
-    
