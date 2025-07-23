@@ -28,7 +28,7 @@ export function CalculatorCard({ href, icon, title, description, links }: Calcul
             <div className="p-4 pt-0 mt-auto">
                 <Separator className="my-2"/>
                 <ul className="text-sm space-y-1">
-                    {links.map(link => (
+                    {links.slice(0, 5).map(link => (
                         <li key={link.href}>
                             <Link href={link.href} className="text-muted-foreground hover:text-primary flex items-center justify-between group">
                                 <span className='flex items-center gap-2'>
@@ -39,6 +39,14 @@ export function CalculatorCard({ href, icon, title, description, links }: Calcul
                             </Link>
                         </li>
                     ))}
+                    {links.length > 5 && (
+                         <li>
+                            <Link href={href} className="text-primary font-semibold text-xs flex items-center justify-between group">
+                                <span>View all...</span>
+                                <ArrowRight className="w-4 h-4" />
+                            </Link>
+                        </li>
+                    )}
                 </ul>
             </div>
         )}
