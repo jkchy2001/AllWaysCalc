@@ -53,7 +53,10 @@ const calculatorCategories = [
     description: 'GST, Income Tax, Profit Margin, Salary.',
     icon: <Briefcase className="size-8 text-primary" />,
     links: [
-      { href: '/discount-calculator', name: 'Discount Calculator' }
+      { href: '/discount-calculator', name: 'Discount Calculator' },
+      { href: '/profit-margin-calculator', name: 'Profit Margin Calculator' },
+      { href: '/markup-calculator', name: 'Markup Calculator' },
+      { href: '/break-even-point-calculator', name: 'Break-Even Point Calculator' }
     ],
   },
   {
