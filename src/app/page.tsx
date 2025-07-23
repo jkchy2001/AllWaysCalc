@@ -100,6 +100,7 @@ const calculatorCategories = [
       { href: '/equation-solver', name: 'Equation Solver' },
       { href: '/matrix-calculator', name: 'Matrix Calculator' },
       { href: '/derivative-calculator', name: 'Derivative Calculator' },
+      { href: '/modulo-calculator', name: 'Modulo Calculator' },
     ],
   },
   {
