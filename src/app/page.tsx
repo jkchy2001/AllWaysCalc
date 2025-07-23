@@ -102,6 +102,7 @@ import {
   Fuel,
   Cog,
   Bolt,
+  RotateCw,
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -357,6 +358,7 @@ const calculatorCategories = [
       { href: '/ohms-law-calculator', name: "Ohm's Law Calculator", icon: <Zap className="size-4" /> },
       { href: '/newtons-law-calculator', name: "Newton's Second Law Calculator", icon: <Atom className="size-4" /> },
       { href: '/kinetic-energy-calculator', name: 'Kinetic Energy Calculator', icon: <Flame className="size-4" /> },
+      { href: '/torque-calculator', name: 'Torque Calculator', icon: <RotateCw className="size-4" /> },
     ],
   },
   {
