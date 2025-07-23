@@ -78,6 +78,7 @@ const calculatorCategories = [
       { href: '/percentage-calculator', name: 'Percentage Calculator' },
       { href: '/gpa-calculator', name: 'GPA Calculator' },
       { href: '/cgpa-to-percentage-calculator', name: 'CGPA to Percentage' },
+      { href: '/semester-grade-calculator', name: 'Semester Grade Calculator' },
     ],
   },
   {
