@@ -30,7 +30,7 @@ export function CalculatorCard({ href, icon, title, description, links }: Calcul
                 <Separator className="my-2"/>
                 <ul className="text-sm space-y-1">
                     {links.map(link => (
-                        <li key={link.href}>
+                        <li key={link.name}>
                             <Link href={link.href} className="text-muted-foreground hover:text-primary flex items-center justify-between group">
                                 <span className='flex items-center gap-2'>
                                   {link.icon}
