@@ -11,6 +11,11 @@ import {
   Leaf,
   Atom,
   HeartPulse,
+  Calculator,
+  Car,
+  Landmark,
+  Percent,
+  Wallet,
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -25,6 +30,8 @@ const calculatorCategories = [
       { href: '/loan-calculator', name: 'Loan / EMI Calculator' },
       { href: '/home-loan-calculator', name: 'Home Loan Calculator' },
       { href: '/personal-loan-calculator', name: 'Personal Loan Calculator' },
+      { href: '/car-loan-calculator', name: 'Car Loan Calculator' },
+      { href: '/business-loan-calculator', name: 'Business Loan Calculator' },
       { href: '/loan-eligibility-calculator', name: 'Loan Eligibility Calculator' },
       { href: '/sip-calculator', name: 'SIP Calculator' },
       { href: '/fd-calculator', name: 'FD Calculator' },
@@ -37,31 +44,39 @@ const calculatorCategories = [
       { href: '/simple-interest-calculator', name: 'Simple Interest' },
       { href: '/retirement-calculator', name: 'Retirement Calculator' },
       { href: '/inflation-calculator', name: 'Inflation Calculator' },
+      { href: '/cagr-calculator', name: 'CAGR Calculator' },
+      { href: '/debt-to-income-ratio-calculator', name: 'Debt-to-Income Ratio' },
     ],
   },
   {
     title: 'Business & Tax',
     description: 'GST, Income Tax, Profit Margin, Salary.',
     icon: <Briefcase className="size-8 text-primary" />,
-    links: [{ href: '/discount-calculator', name: 'Discount Calculator' }],
+    links: [
+      { href: '/discount-calculator', name: 'Discount Calculator' }
+    ],
   },
   {
     title: 'Education / Student',
     description: 'GPA, CGPA, Percentage, Study Planners.',
     icon: <GraduationCap className="size-8 text-primary" />,
-    links: [{ href: '/percentage-calculator', name: 'Percentage Calculator' }],
+    links: [
+      { href: '/percentage-calculator', name: 'Percentage Calculator' }
+    ],
   },
   {
     title: 'Math & Geometry',
     description: 'Scientific, Algebra, Trigonometry, Unit Converters.',
-    icon: <Shapes className="size-8 text-primary" />,
+    icon: <Calculator className="size-8 text-primary" />,
     links: [],
   },
   {
     title: 'Health & Fitness',
     description: 'BMI, BMR, Calorie Intake, Ideal Weight.',
     icon: <HeartPulse className="size-8 text-primary" />,
-    links: [{ href: '/bmi-calculator', name: 'BMI Calculator' }],
+    links: [
+        { href: '/bmi-calculator', name: 'BMI Calculator' }
+    ],
   },
   {
     title: 'Life & Personal',
