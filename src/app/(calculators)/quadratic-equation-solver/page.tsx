@@ -28,10 +28,16 @@ import {
 } from '@/components/ui/accordion';
 
 const formSchema = z.object({
-  a: z.coerce.number().refine(val => val !== 0, { message: "'a' cannot be zero." }),
-  b: z.coerce.number(),
-  c: z.coerce.number(),
+  a: z.coerce.number().optional(),
+  b: z.coerce.number().optional(),
+  c: z.coerce.number().optional(),
+  d: z.coerce.number().optional(),
+  e: z.coerce.number().optional(),
+}).refine(data => (data.a || 0) - (data.d || 0) !== 0, {
+    message: "'a' coefficient cannot be zero after rearrangement.",
+    path: ["a"],
 });
+
 
 type FormValues = z.infer<typeof formSchema>;
 
@@ -40,9 +46,9 @@ type CalculationResult = {
     root1?: number;
     root2?: number;
     discriminant: number;
-    a: number;
-    b: number;
-    c: number;
+    finalA: number;
+    finalB: number;
+    finalC: number;
 };
 
 export default function QuadraticEquationSolverPage() {
@@ -51,31 +57,36 @@ export default function QuadraticEquationSolverPage() {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      a: undefined,
-      b: undefined,
-      c: undefined,
+      a: 1,
+      b: 5,
+      c: 6,
+      d: 0,
+      e: 0,
     },
   });
 
   const { register, handleSubmit, formState: { errors } } = form;
 
   const onSubmit = (data: FormValues) => {
-    const { a, b, c } = data;
-    const discriminant = b * b - 4 * a * c;
+    const finalA = (data.a || 0) - (data.d || 0);
+    const finalB = (data.b || 0) - (data.e || 0);
+    const finalC = data.c || 0;
+    
+    const discriminant = finalB * finalB - 4 * finalA * finalC;
 
     if (discriminant > 0) {
-      const root1 = (-b + Math.sqrt(discriminant)) / (2 * a);
-      const root2 = (-b - Math.sqrt(discriminant)) / (2 * a);
-      setResult({ roots: 'Two distinct real roots', root1, root2, discriminant, a, b, c });
+      const root1 = (-finalB + Math.sqrt(discriminant)) / (2 * finalA);
+      const root2 = (-finalB - Math.sqrt(discriminant)) / (2 * finalA);
+      setResult({ roots: 'Two distinct real roots', root1, root2, discriminant, finalA, finalB, finalC });
     } else if (discriminant === 0) {
-      const root1 = -b / (2 * a);
-      setResult({ roots: 'One real root', root1, discriminant, a, b, c });
+      const root1 = -finalB / (2 * finalA);
+      setResult({ roots: 'One real root', root1, discriminant, finalA, finalB, finalC });
     } else {
-      const realPart = (-b / (2 * a)).toFixed(4);
-      const imagPart = (Math.sqrt(-discriminant) / (2 * a)).toFixed(4);
+      const realPart = (-finalB / (2 * finalA)).toFixed(4);
+      const imagPart = (Math.sqrt(-discriminant) / (2 * finalA)).toFixed(4);
       setResult({
-        roots: `Two complex roots: ${realPart} ± ${imagPart}i`,
-        discriminant, a, b, c
+        roots: `Two complex roots: ${realPart.replace(/\.?0+$/, '')} ± ${imagPart.replace(/\.?0+$/, '')}i`,
+        discriminant, finalA, finalB, finalC
       });
     }
   };
@@ -94,22 +105,26 @@ export default function QuadraticEquationSolverPage() {
                     <Card>
                         <CardHeader>
                             <CardTitle className="font-headline text-2xl">Quadratic Equation Solver</CardTitle>
-                            <CardDescription>Solve equations of the form ax² + bx + c = 0.</CardDescription>
+                            <CardDescription>Solve equations of the form ax² + bx + c = dx² + ex.</CardDescription>
                         </CardHeader>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <CardContent className="space-y-4">
-                                <p className="text-center text-lg font-medium">Enter coefficients for:</p>
+                                <p className="text-center text-lg font-medium">Enter coefficients for your equation. Leave fields blank for 0.</p>
                                 <div className="flex items-center justify-center gap-2 text-lg">
-                                    <Input id="a" type="number" step="any" placeholder="a" {...register('a')} className="w-20 text-center" />
+                                    <Input id="a" type="number" step="any" placeholder="a" {...register('a')} className="w-16 text-center" />
                                     <span>x² +</span>
-                                    <Input id="b" type="number" step="any" placeholder="b" {...register('b')} className="w-20 text-center" />
+                                    <Input id="b" type="number" step="any" placeholder="b" {...register('b')} className="w-16 text-center" />
                                      <span>x +</span>
-                                    <Input id="c" type="number" step="any" placeholder="c" {...register('c')} className="w-20 text-center" />
-                                    <span>= 0</span>
+                                    <Input id="c" type="number" step="any" placeholder="c" {...register('c')} className="w-16 text-center" />
+                                </div>
+                                <div className="flex items-center justify-center text-2xl font-bold">=</div>
+                                <div className="flex items-center justify-center gap-2 text-lg">
+                                    <Input id="d" type="number" step="any" placeholder="d" {...register('d')} className="w-16 text-center" />
+                                    <span>x² +</span>
+                                    <Input id="e" type="number" step="any" placeholder="e" {...register('e')} className="w-16 text-center" />
+                                     <span>x</span>
                                 </div>
                                  {errors.a && <p className="text-destructive text-sm text-center">{errors.a.message}</p>}
-                                 {errors.b && <p className="text-destructive text-sm text-center">{errors.b.message}</p>}
-                                 {errors.c && <p className="text-destructive text-sm text-center">{errors.c.message}</p>}
                             </CardContent>
                             <CardFooter>
                                 <Button type="submit" className="w-full bg-accent hover:bg-accent/90">Solve for x</Button>
@@ -124,28 +139,29 @@ export default function QuadraticEquationSolverPage() {
                             </CardHeader>
                             <CardContent className="space-y-4">
                                <div className="text-center">
-                                    <p className="text-muted-foreground">The discriminant (b² - 4ac) is {result.discriminant}, so there are</p>
+                                    <p className="text-muted-foreground">The discriminant (b² - 4ac) is {result.discriminant.toFixed(4).replace(/\.?0+$/, '')}, so there are</p>
                                     <div className="text-lg font-semibold my-1 text-primary">{result.roots}</div>
                                </div>
 
                                <div className="space-y-2 text-center">
                                 {result.root1 !== undefined && (
                                     <div className="text-3xl font-bold text-primary">
-                                        x₁ = {result.root1.toFixed(4)}
+                                        x₁ = {result.root1.toFixed(4).replace(/\.?0+$/, '')}
                                     </div>
                                 )}
                                 {result.root2 !== undefined && (
                                      <div className="text-3xl font-bold text-primary">
-                                        x₂ = {result.root2.toFixed(4)}
+                                        x₂ = {result.root2.toFixed(4).replace(/\.?0+$/, '')}
                                     </div>
                                 )}
                                </div>
                                <div className="text-sm text-muted-foreground pt-4 border-t">
                                     <h4 className="font-semibold text-foreground mb-2">Formula Steps:</h4>
                                     <ol className="list-decimal list-inside space-y-1 font-mono text-xs">
-                                        <li>x = [-b ± √(b² - 4ac)] / 2a</li>
-                                        <li>x = [-({result.b}) ± √(({result.b})² - 4 * {result.a} * {result.c})] / (2 * {result.a})</li>
-                                        <li>x = [-{result.b} ± √({result.discriminant})] / {2 * result.a}</li>
+                                        <li>Rearrange to: ({result.finalA})x² + ({result.finalB})x + ({result.finalC}) = 0</li>
+                                        <li>Use formula: x = [-b ± √(b² - 4ac)] / 2a</li>
+                                        <li>Plug in values: x = [-({result.finalB}) ± √(({result.finalB})² - 4 * {result.finalA} * {result.finalC})] / (2 * {result.finalA})</li>
+                                        <li>Simplify: x = [-{result.finalB} ± √({result.discriminant})] / {2 * result.finalA}</li>
                                     </ol>
                                 </div>
                             </CardContent>
@@ -161,7 +177,7 @@ export default function QuadraticEquationSolverPage() {
                   </CardHeader>
                   <CardContent>
                       <p className="mb-4">
-                        This calculator finds the roots of a quadratic equation (a polynomial equation of the second degree). The roots are the values of 'x' for which the equation holds true.
+                        This calculator finds the roots of a quadratic equation. It first rearranges the terms you provide into the standard form `ax² + bx + c = 0` and then solves for 'x'.
                       </p>
                       <div className="space-y-4">
                       <div>

@@ -28,10 +28,15 @@ import {
 } from '@/components/ui/accordion';
 
 const formSchema = z.object({
-  a: z.coerce.number().refine(val => val !== 0, { message: "Coefficient 'a' cannot be zero." }),
-  b: z.coerce.number(),
-  c: z.coerce.number(),
+  a: z.coerce.number().optional(),
+  b: z.coerce.number().optional(),
+  c: z.coerce.number().optional(),
+  d: z.coerce.number().optional(),
+}).refine(data => (data.a || 0) - (data.c || 0) !== 0, {
+    message: "The coefficients of 'x' cancel each other out, resulting in an invalid equation.",
+    path: ["a"],
 });
+
 
 type FormValues = z.infer<typeof formSchema>;
 
@@ -40,6 +45,7 @@ type CalculationResult = {
     a: number;
     b: number;
     c: number;
+    d: number;
 };
 
 export default function EquationSolverPage() {
@@ -50,16 +56,24 @@ export default function EquationSolverPage() {
     defaultValues: {
       a: 2,
       b: 5,
-      c: 15,
+      c: 0,
+      d: 15,
     },
   });
 
   const { register, handleSubmit, formState: { errors } } = form;
 
   const onSubmit = (data: FormValues) => {
-    const { a, b, c } = data;
-    const solution = (c - b) / a;
-    setResult({ solution, a, b, c });
+    const a = data.a || 0;
+    const b = data.b || 0;
+    const c = data.c || 0;
+    const d = data.d || 0;
+
+    const xCoefficient = a - c;
+    const constant = d - b;
+    
+    const solution = constant / xCoefficient;
+    setResult({ solution, a, b, c, d });
   };
 
   return (
@@ -76,17 +90,19 @@ export default function EquationSolverPage() {
                     <Card>
                         <CardHeader>
                             <CardTitle className="font-headline text-2xl">Linear Equation Solver</CardTitle>
-                            <CardDescription>Solve linear equations of the form ax + b = c.</CardDescription>
+                            <CardDescription>Solve linear equations of the form ax + b = cx + d.</CardDescription>
                         </CardHeader>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <CardContent className="space-y-4">
-                                <p className="text-center text-lg font-medium">Enter coefficients for:</p>
+                                <p className="text-center text-lg font-medium">Enter coefficients for your equation. Leave fields blank for 0.</p>
                                 <div className="flex items-center justify-center gap-2 text-lg">
                                     <Input id="a" type="number" step="any" placeholder="a" {...register('a')} className="w-20 text-center" />
                                     <span>x +</span>
                                     <Input id="b" type="number" step="any" placeholder="b" {...register('b')} className="w-20 text-center" />
                                      <span>=</span>
                                     <Input id="c" type="number" step="any" placeholder="c" {...register('c')} className="w-20 text-center" />
+                                    <span>x +</span>
+                                    <Input id="d" type="number" step="any" placeholder="d" {...register('d')} className="w-20 text-center" />
                                 </div>
                                 {errors.a && <p className="text-destructive text-sm text-center">{errors.a.message}</p>}
                             </CardContent>
@@ -105,22 +121,22 @@ export default function EquationSolverPage() {
                                 <div className="text-center">
                                     <p className="text-muted-foreground">The solution is</p>
                                     <div className="text-4xl font-bold text-primary my-2">
-                                        x = {result.solution.toFixed(4)}
+                                        x = {result.solution.toFixed(4).replace(/\.?0+$/, '')}
                                     </div>
                                 </div>
                                 <div className="text-sm text-muted-foreground pt-4 border-t">
                                     <h4 className="font-semibold text-foreground mb-2">Steps:</h4>
                                     <ol className="list-decimal list-inside space-y-1 font-mono">
-                                        <li>{result.a}x + {result.b} = {result.c}</li>
-                                        <li>{result.a}x = {result.c} - {result.b}</li>
-                                        <li>{result.a}x = {result.c - result.b}</li>
-                                        <li>x = {result.c - result.b} / {result.a}</li>
-                                        <li>x = {result.solution.toFixed(4)}</li>
+                                        <li>Original: {result.a || 0}x + {result.b || 0} = {result.c || 0}x + {result.d || 0}</li>
+                                        <li>Combine x terms: ({result.a || 0} - {result.c || 0})x = {result.d || 0} - {result.b || 0}</li>
+                                        <li>Simplify: {result.a - result.c}x = {result.d - result.b}</li>
+                                        <li>Isolate x: x = {result.d - result.b} / {result.a - result.c}</li>
+                                        <li>Result: x = {result.solution.toFixed(4).replace(/\.?0+$/, '')}</li>
                                     </ol>
                                 </div>
                             </CardContent>
                              <CardFooter>
-                                <SharePanel resultText={`The solution to ${result.a}x + ${result.b} = ${result.c} is x = ${result.solution.toFixed(4)}`} />
+                                <SharePanel resultText={`The solution is x = ${result.solution.toFixed(4)}`} />
                             </CardFooter>
                         </Card>
                     )}
@@ -131,16 +147,17 @@ export default function EquationSolverPage() {
                   </CardHeader>
                   <CardContent>
                       <p className="mb-4">
-                        This calculator finds the solution for a simple linear equation. A linear equation is an equation for a straight line.
+                        This calculator finds the solution for a simple linear equation by isolating the variable 'x'. It can handle equations in the standard `ax + b = cx + d` format.
                       </p>
                       <div className="space-y-4">
                       <div>
                           <h3 className="font-bold font-headline">Formula Used</h3>
-                          <p>To solve for x in the equation ax + b = c, we use basic algebraic manipulation:</p>
+                          <p>To solve for x, we use basic algebraic manipulation:</p>
                           <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
                           <code>
-                              1. Subtract b from both sides: ax = c - b<br/>
-                              2. Divide by a: x = (c - b) / a
+                              1. ax - cx = d - b<br/>
+                              2. (a - c)x = d - b <br/>
+                              3. x = (d - b) / (a - c)
                           </code>
                           </pre>
                       </div>
