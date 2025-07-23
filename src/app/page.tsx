@@ -78,7 +78,7 @@ const calculatorCategories = [
     ],
   },
   {
-    title: 'Education / Student',
+    title: 'Education & Student',
     description: 'GPA, CGPA, Percentage, Study Planners.',
     icon: <GraduationCap className="size-8 text-primary" />,
     links: [
@@ -151,7 +151,7 @@ const calculatorCategories = [
     icon: <Heart className="size-8 text-primary" />,
     links: [
       { href: '/age-calculator', name: 'Age Calculator' },
-      { href: '/date-calculator', name: 'Date Calculator' },
+      { href: '/date-calculator', name: 'Date Duration Calculator' },
       { href: '/pregnancy-due-date-calculator', name: 'Pregnancy Due Date Calculator'},
       { href: '/ovulation-calculator', name: 'Ovulation Calculator' },
       { href: '/sleep-cycle-calculator', name: 'Sleep Cycle Calculator' },

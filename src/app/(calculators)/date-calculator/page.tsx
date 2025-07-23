@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -99,7 +100,7 @@ export default function DateCalculatorPage() {
                 <div className="grid gap-8 lg:grid-cols-2">
                     <Card>
                         <CardHeader>
-                            <CardTitle className="font-headline text-2xl">Date Calculator</CardTitle>
+                            <CardTitle className="font-headline text-2xl">Date Duration Calculator</CardTitle>
                             <CardDescription>Calculate duration between dates or find a new date.</CardDescription>
                         </CardHeader>
                         <form onSubmit={handleSubmit(onSubmit)}>
