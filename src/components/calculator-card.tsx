@@ -8,7 +8,7 @@ interface CalculatorCardProps {
   icon: React.ReactNode;
   title: string;
   description: string;
-  links: { href: string; name: string }[];
+  links: { href: string; name: string; icon?: React.ReactNode }[];
 }
 
 export function CalculatorCard({ href, icon, title, description, links }: CalculatorCardProps) {
@@ -31,7 +31,10 @@ export function CalculatorCard({ href, icon, title, description, links }: Calcul
                     {links.map(link => (
                         <li key={link.href}>
                             <Link href={link.href} className="text-muted-foreground hover:text-primary flex items-center justify-between group">
-                                <span>{link.name}</span>
+                                <span className='flex items-center gap-2'>
+                                  {link.icon}
+                                  {link.name}
+                                </span>
                                 <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                             </Link>
                         </li>

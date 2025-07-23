@@ -31,6 +31,8 @@ import {
   Layers,
   TrendingUp,
   Layers3,
+  PaintBucket,
+  WalletCards,
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -178,14 +180,15 @@ const calculatorCategories = [
     description: 'Paint, Tile, Concrete, Flooring Costs.',
     icon: <Construction className="size-8 text-primary" />,
     links: [
-      { href: '/paint-calculator', name: 'Paint Calculator' },
-      { href: '/tile-calculator', name: 'Tile Calculator' },
-      { href: '/brick-calculator', name: 'Brick Calculator' },
-      { href: '/concrete-calculator', name: 'Concrete Calculator' },
-      { href: '/plaster-calculator', name: 'Plaster Calculator' },
-      { href: '/roof-area-calculator', name: 'Roof Area Calculator' },
-      { href: '/stair-calculator', name: 'Stair Calculator' },
-      { href: '/wallpaper-calculator', name: 'Wallpaper Calculator' },
+      { href: '/paint-calculator', name: 'Paint Calculator', icon: <PaintBucket className="size-4" /> },
+      { href: '/tile-calculator', name: 'Tile Calculator', icon: <Layers className="size-4" /> },
+      { href: '/brick-calculator', name: 'Brick Calculator', icon: <Landmark className="size-4" /> },
+      { href: '/concrete-calculator', name: 'Concrete Calculator', icon: <Layers3 className="size-4" /> },
+      { href: '/plaster-calculator', name: 'Plaster Calculator', icon: <Construction className="size-4" /> },
+      { href: '/roof-area-calculator', name: 'Roof Area Calculator', icon: <Home className="size-4" /> },
+      { href: '/stair-calculator', name: 'Stair Calculator', icon: <TrendingUp className="size-4" /> },
+      { href: '/wallpaper-calculator', name: 'Wallpaper Calculator', icon: <WalletCards className="size-4" /> },
+      { href: '/flooring-cost-calculator', name: 'Flooring Cost Calculator', icon: <Wallet className="size-4" /> },
     ],
   },
   {
