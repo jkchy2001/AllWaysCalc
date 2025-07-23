@@ -1,5 +1,8 @@
 
+'use client';
+
 import Link from 'next/link';
+import { useState } from 'react';
 import {
   ArrowRight,
   Banknote,
@@ -108,6 +111,8 @@ import {
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
 import Image from 'next/image';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 const calculatorCategories = [
   {
@@ -380,6 +385,27 @@ const calculatorCategories = [
 ];
 
 export default function HomePage() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All');
+
+  const filteredCategories = calculatorCategories
+    .map(category => {
+      const filteredLinks = category.links.filter(link =>
+        link.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      if (filteredLinks.length > 0) {
+        return { ...category, links: filteredLinks };
+      }
+      return null;
+    })
+    .filter(Boolean)
+    .filter(category => {
+      if (selectedCategory === 'All') {
+        return true;
+      }
+      return category?.title === selectedCategory;
+    });
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -423,21 +449,52 @@ export default function HomePage() {
                   accuracy and ease of use.
                 </p>
               </div>
+              <div className="w-full max-w-xl mx-auto py-4">
+                <Input
+                  type="text"
+                  placeholder="Search for a calculator..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full"
+                />
+              </div>
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                <Button
+                  variant={selectedCategory === 'All' ? 'default' : 'outline'}
+                  onClick={() => setSelectedCategory('All')}
+                >
+                  All
+                </Button>
+                {calculatorCategories.map((category) => (
+                  <Button
+                    key={category.title}
+                    variant={selectedCategory === category.title ? 'default' : 'outline'}
+                    onClick={() => setSelectedCategory(category.title)}
+                  >
+                    {category.title}
+                  </Button>
+                ))}
+              </div>
             </div>
             <div className="mx-auto grid grid-cols-1 gap-6 py-12 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-              {calculatorCategories
-                .filter(cat => cat.links.length > 0)
+              {filteredCategories
+                .filter(cat => cat && cat.links.length > 0)
                 .map((card) => (
                   <CalculatorCard
-                    key={card.title}
+                    key={card!.title}
                     href={'#'}
-                    icon={card.icon}
-                    title={card.title}
-                    description={card.description}
-                    links={card.links}
+                    icon={card!.icon}
+                    title={card!.title}
+                    description={card!.description}
+                    links={card!.links}
                   />
               ))}
             </div>
+             {filteredCategories.length === 0 && (
+              <p className="text-center text-muted-foreground py-12">
+                No calculators found. Try a different search or filter.
+              </p>
+            )}
           </div>
         </section>
       </main>
