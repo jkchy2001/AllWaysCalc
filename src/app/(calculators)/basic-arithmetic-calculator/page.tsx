@@ -141,7 +141,7 @@ export default function BasicArithmeticCalculatorPage() {
   const functionButtonClass = "bg-muted/70 text-muted-foreground hover:bg-muted";
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-background to-secondary/30">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-background to-[#111115]">
       <Header />
       <main className="flex-1 p-4 md:p-8 flex items-center justify-center">
         <div className="w-full max-w-sm space-y-4">

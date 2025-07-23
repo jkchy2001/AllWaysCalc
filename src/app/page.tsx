@@ -499,40 +499,33 @@ export default function HomePage() {
                   </div>
                 )}
               </div>
-              <div className="flex flex-wrap items-center justify-center gap-2">
-                <Button
-                  variant={selectedCategory === 'All' ? 'default' : 'outline'}
-                  onClick={() => setSelectedCategory('All')}
-                >
-                  All
-                </Button>
-                {calculatorCategories.map((category) => (
-                  <Button
-                    key={category.title}
-                    variant={selectedCategory === category.title ? 'default' : 'outline'}
-                    onClick={() => setSelectedCategory(category.title)}
-                  >
-                    {category.title}
-                  </Button>
-                ))}
-              </div>
             </div>
-            <div className="mx-auto grid grid-cols-1 gap-6 py-12 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-              {filteredCategories
-                .map((card) => (
-                  <CalculatorCard
-                    key={card!.title}
-                    href={'#'}
-                    icon={card!.icon}
-                    title={card!.title}
-                    description={card!.description}
-                    links={card!.links}
-                  />
-              ))}
+             <div className="mx-auto grid grid-cols-1 gap-4 py-12 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                 {filteredCategories.map((category) => (
+                    <div key={category.title} className="space-y-3">
+                        <h3 className="text-xl font-bold font-headline flex items-center gap-2">
+                           {category.icon}
+                           {category.title}
+                        </h3>
+                        <ul className="space-y-2">
+                        {category.links.map((link) => (
+                             <li key={link.href}>
+                                <Link href={link.href} className="text-muted-foreground hover:text-primary flex items-center justify-between group">
+                                    <span className='flex items-center gap-2'>
+                                      {link.icon}
+                                      {link.name}
+                                    </span>
+                                     <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                </Link>
+                            </li>
+                        ))}
+                        </ul>
+                    </div>
+                ))}
             </div>
              {filteredCategories.length === 0 && (
               <p className="text-center text-muted-foreground py-12">
-                No calculators found for this category.
+                No calculators found.
               </p>
             )}
           </div>

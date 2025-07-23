@@ -24,7 +24,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="font-body antialiased flex flex-col min-h-screen">
+      <body className="font-body antialiased flex flex-col min-h-screen bg-gradient-to-br from-background to-[#111115]">
         <ThemeProvider
             attribute="class"
             defaultTheme="dark"
