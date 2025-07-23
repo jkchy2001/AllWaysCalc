@@ -126,6 +126,7 @@ const calculatorCategories = [
         { href: '/body-fat-percentage-calculator', name: 'Body Fat Percentage' },
         { href: '/macronutrient-calculator', name: 'Macronutrient Calculator' },
         { href: '/water-intake-calculator', name: 'Water Intake Calculator' },
+        { href: '/heart-rate-calculator', name: 'Heart Rate Calculator' },
     ],
   },
    {
