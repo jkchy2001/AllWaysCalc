@@ -162,6 +162,7 @@ const calculatorCategories = [
       { href: '/anniversary-calculator', name: 'Anniversary Calculator' },
       { href: '/tip-calculator', name: 'Tip Calculator' },
       { href: '/life-expectancy-calculator', name: 'Life Expectancy Calculator' },
+      { href: '/zodiac-sign-calculator', name: 'Zodiac Sign Calculator' },
     ],
   },
   {
