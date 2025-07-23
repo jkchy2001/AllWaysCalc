@@ -209,6 +209,7 @@ const calculatorCategories = [
       { href: '/temperature-converter', name: 'Temperature Converter', icon: <Thermometer className="size-4" /> },
       { href: '/volume-converter', name: 'Volume Converter', icon: <Beaker className="size-4" /> },
       { href: '/speed-converter', name: 'Speed Converter', icon: <Gauge className="size-4" /> },
+      { href: '/html-color-code-converter', name: 'HTML Color Code Converter', icon: <Palette className="size-4" /> },
     ],
   },
   {
