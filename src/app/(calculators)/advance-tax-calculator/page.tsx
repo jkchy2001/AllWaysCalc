@@ -190,7 +190,7 @@ export default function AdvanceTaxCalculatorPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">Advance Tax Calculator (India)</CardTitle>
-                <CardDescription>Estimate your advance tax liability for FY 2023-24.</CardDescription>
+                <CardDescription>Estimate your advance tax liability for FY 2024-25.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
@@ -344,5 +344,3 @@ export default function AdvanceTaxCalculatorPage() {
     </div>
   );
 }
-
-    

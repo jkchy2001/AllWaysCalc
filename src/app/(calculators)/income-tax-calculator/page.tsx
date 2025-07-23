@@ -204,7 +204,7 @@ export default function IncomeTaxCalculatorPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">Income Tax Calculator (India)</CardTitle>
-                <CardDescription>Estimate your tax liability for FY 2023-24.</CardDescription>
+                <CardDescription>Estimate your tax liability for FY 2024-25.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
@@ -329,7 +329,7 @@ export default function IncomeTaxCalculatorPage() {
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-               This calculator provides an estimate of your income tax liability. You can use the standard tax regimes for FY 2023-24 (AY 2024-25) or define your own custom tax slabs for hypothetical scenarios.
+               This calculator provides an estimate of your income tax liability. You can use the standard tax regimes for FY 2024-25 (AY 2025-26) or define your own custom tax slabs for hypothetical scenarios.
               </p>
               <div className="space-y-4">
                 <div>
@@ -343,13 +343,13 @@ export default function IncomeTaxCalculatorPage() {
                       <AccordionTrigger>Old vs. New Tax Regime: What's the difference?</AccordionTrigger>
                       <AccordionContent>
                        The **Old Regime** allows you to claim a wide range of deductions and exemptions, such as those under Section 80C (for investments), 80D (for medical insurance), HRA (House Rent Allowance), and LTA (Leave Travel Allowance). The tax slabs are generally higher.<br/><br/>
-                       The **New Regime** offers lower, more simplified tax slabs but requires you to forgo most of the common deductions and exemptions. From FY 2023-24, the New Regime is the default option, and it includes a Standard Deduction of ₹50,000 for salaried individuals. It's often beneficial for those with fewer investments or exemptions to claim.
+                       The **New Regime** offers lower, more simplified tax slabs but requires you to forgo most of the common deductions and exemptions. From FY 2023-24 onwards, the New Regime is the default option, and it includes a Standard Deduction of ₹50,000 for salaried individuals. It's often beneficial for those with fewer investments or exemptions to claim.
                       </AccordionContent>
                     </AccordionItem>
                      <AccordionItem value="item-2">
                       <AccordionTrigger>What is a Tax Rebate?</AccordionTrigger>
                       <AccordionContent>
-                       A tax rebate under Section 87A is a relief provided to taxpayers with lower incomes. For the FY 2023-24, under the New Regime, if your taxable income is up to ₹7,00,000, you effectively pay zero tax. Under the Old Regime, if your taxable income is up to ₹5,00,000, you can claim a rebate of up to ₹12,500, which also results in zero tax payable.
+                       A tax rebate under Section 87A is a relief provided to taxpayers with lower incomes. For the FY 2024-25, under the New Regime, if your taxable income is up to ₹7,00,000, you effectively pay zero tax. Under the Old Regime, if your taxable income is up to ₹5,00,000, you can claim a rebate of up to ₹12,500, which also results in zero tax payable.
                       </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="item-3">
@@ -369,5 +369,3 @@ export default function IncomeTaxCalculatorPage() {
     </div>
   );
 }
-
-    
