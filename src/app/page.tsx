@@ -169,7 +169,6 @@ const calculatorCategories = [
     description: 'Stamp duty, capital gains, gift tax, and more.',
     icon: <ShieldCheck className="size-8 text-primary" />,
     links: [
-        { href: '#', name: 'Stamp Duty Calculator', icon: <FileText className="size-4" /> },
         { href: '#', name: 'Notional Rent Calculator', icon: <Home className="size-4" /> },
         { href: '#', name: 'Capital Gains Indexation', icon: <TrendingUp className="size-4" /> },
         { href: '#', name: 'Gift Tax Calculator', icon: <Gift className="size-4" /> },
