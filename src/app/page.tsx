@@ -179,6 +179,7 @@ const calculatorCategories = [
       { href: '/paint-calculator', name: 'Paint Calculator' },
       { href: '/tile-calculator', name: 'Tile Calculator' },
       { href: '/brick-calculator', name: 'Brick Calculator' },
+      { href: '/concrete-calculator', name: 'Concrete Calculator' },
     ],
   },
   {
