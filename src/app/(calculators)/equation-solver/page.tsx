@@ -28,18 +28,18 @@ import {
 } from '@/components/ui/accordion';
 
 const formSchema = z.object({
-  a: z.coerce.number(),
+  a: z.coerce.number().refine(val => val !== 0, { message: "Coefficient 'a' cannot be zero." }),
   b: z.coerce.number(),
   c: z.coerce.number(),
-}).refine(data => data.a !== 0, {
-    message: "Coefficient 'a' cannot be zero.",
-    path: ["a"],
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
 type CalculationResult = {
     solution: number;
+    a: number;
+    b: number;
+    c: number;
 };
 
 export default function EquationSolverPage() {
@@ -59,7 +59,7 @@ export default function EquationSolverPage() {
   const onSubmit = (data: FormValues) => {
     const { a, b, c } = data;
     const solution = (c - b) / a;
-    setResult({ solution });
+    setResult({ solution, a, b, c });
   };
 
   return (
@@ -89,8 +89,6 @@ export default function EquationSolverPage() {
                                     <Input id="c" type="number" step="any" placeholder="c" {...register('c')} className="w-20 text-center" />
                                 </div>
                                 {errors.a && <p className="text-destructive text-sm text-center">{errors.a.message}</p>}
-                                {errors.b && <p className="text-destructive text-sm text-center">{errors.b.message}</p>}
-                                {errors.c && <p className="text-destructive text-sm text-center">{errors.c.message}</p>}
                             </CardContent>
                             <CardFooter>
                                 <Button type="submit" className="w-full bg-accent hover:bg-accent/90">Solve for x</Button>
@@ -103,13 +101,26 @@ export default function EquationSolverPage() {
                             <CardHeader>
                                 <CardTitle className="font-headline">Solution</CardTitle>
                             </CardHeader>
-                            <CardContent className="space-y-4 text-center">
-                                <div className="text-4xl font-bold text-primary">
-                                    x = {result.solution.toFixed(4)}
+                            <CardContent className="space-y-4">
+                                <div className="text-center">
+                                    <p className="text-muted-foreground">The solution is</p>
+                                    <div className="text-4xl font-bold text-primary my-2">
+                                        x = {result.solution.toFixed(4)}
+                                    </div>
+                                </div>
+                                <div className="text-sm text-muted-foreground pt-4 border-t">
+                                    <h4 className="font-semibold text-foreground mb-2">Steps:</h4>
+                                    <ol className="list-decimal list-inside space-y-1 font-mono">
+                                        <li>{result.a}x + {result.b} = {result.c}</li>
+                                        <li>{result.a}x = {result.c} - {result.b}</li>
+                                        <li>{result.a}x = {result.c - result.b}</li>
+                                        <li>x = {result.c - result.b} / {result.a}</li>
+                                        <li>x = {result.solution.toFixed(4)}</li>
+                                    </ol>
                                 </div>
                             </CardContent>
                              <CardFooter>
-                                <SharePanel resultText={`The solution is x = ${result.solution.toFixed(4)}`} />
+                                <SharePanel resultText={`The solution to ${result.a}x + ${result.b} = ${result.c} is x = ${result.solution.toFixed(4)}`} />
                             </CardFooter>
                         </Card>
                     )}

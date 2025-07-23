@@ -28,7 +28,7 @@ import {
 } from '@/components/ui/accordion';
 
 const formSchema = z.object({
-  a: z.coerce.number(),
+  a: z.coerce.number().refine(val => val !== 0, { message: "'a' cannot be zero." }),
   b: z.coerce.number(),
   c: z.coerce.number(),
 });
@@ -39,6 +39,10 @@ type CalculationResult = {
     roots: string;
     root1?: number;
     root2?: number;
+    discriminant: number;
+    a: number;
+    b: number;
+    c: number;
 };
 
 export default function QuadraticEquationSolverPage() {
@@ -62,12 +66,17 @@ export default function QuadraticEquationSolverPage() {
     if (discriminant > 0) {
       const root1 = (-b + Math.sqrt(discriminant)) / (2 * a);
       const root2 = (-b - Math.sqrt(discriminant)) / (2 * a);
-      setResult({ roots: 'Two distinct real roots', root1, root2 });
+      setResult({ roots: 'Two distinct real roots', root1, root2, discriminant, a, b, c });
     } else if (discriminant === 0) {
       const root1 = -b / (2 * a);
-      setResult({ roots: 'One real root', root1 });
+      setResult({ roots: 'One real root', root1, discriminant, a, b, c });
     } else {
-      setResult({ roots: 'No real roots (complex roots)' });
+      const realPart = (-b / (2 * a)).toFixed(4);
+      const imagPart = (Math.sqrt(-discriminant) / (2 * a)).toFixed(4);
+      setResult({
+        roots: `Two complex roots: ${realPart} ± ${imagPart}i`,
+        discriminant, a, b, c
+      });
     }
   };
 
@@ -113,18 +122,32 @@ export default function QuadraticEquationSolverPage() {
                             <CardHeader>
                                 <CardTitle className="font-headline">Result</CardTitle>
                             </CardHeader>
-                            <CardContent className="space-y-4 text-center">
-                                <div className="text-lg font-semibold">{result.roots}</div>
+                            <CardContent className="space-y-4">
+                               <div className="text-center">
+                                    <p className="text-muted-foreground">The discriminant (b² - 4ac) is {result.discriminant}, so there are</p>
+                                    <div className="text-lg font-semibold my-1 text-primary">{result.roots}</div>
+                               </div>
+
+                               <div className="space-y-2 text-center">
                                 {result.root1 !== undefined && (
-                                    <div className="text-4xl font-bold text-primary">
+                                    <div className="text-3xl font-bold text-primary">
                                         x₁ = {result.root1.toFixed(4)}
                                     </div>
                                 )}
                                 {result.root2 !== undefined && (
-                                     <div className="text-4xl font-bold text-primary">
+                                     <div className="text-3xl font-bold text-primary">
                                         x₂ = {result.root2.toFixed(4)}
                                     </div>
                                 )}
+                               </div>
+                               <div className="text-sm text-muted-foreground pt-4 border-t">
+                                    <h4 className="font-semibold text-foreground mb-2">Formula Steps:</h4>
+                                    <ol className="list-decimal list-inside space-y-1 font-mono text-xs">
+                                        <li>x = [-b ± √(b² - 4ac)] / 2a</li>
+                                        <li>x = [-({result.b}) ± √(({result.b})² - 4 * {result.a} * {result.c})] / (2 * {result.a})</li>
+                                        <li>x = [-{result.b} ± √({result.discriminant})] / {2 * result.a}</li>
+                                    </ol>
+                                </div>
                             </CardContent>
                              <CardFooter>
                                 <SharePanel resultText={`The roots are: ${result.root1 !== undefined ? 'x1=' + result.root1.toFixed(4) : ''} ${result.root2 !== undefined ? 'x2=' + result.root2.toFixed(4) : ''}`.trim()} />
