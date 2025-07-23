@@ -92,7 +92,8 @@ import {
   FileDigit,
   SquareTerminal,
   Droplets,
-  Sun
+  Sun,
+  Recycle,
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -278,6 +279,7 @@ const calculatorCategories = [
         { href: '/rainwater-harvesting-calculator', name: 'Rainwater Harvesting', icon: <Droplets className="size-4" /> },
         { href: '/fertilizer-requirement-calculator', name: 'Fertilizer Calculator', icon: <TestTube className="size-4" /> },
         { href: '/crop-yield-calculator', name: 'Crop Yield Calculator', icon: <LineChart className="size-4" /> },
+        { href: '/greenhouse-gas-savings-calculator', name: 'Greenhouse Gas Savings', icon: <Recycle className="size-4" /> },
     ],
   },
   {
