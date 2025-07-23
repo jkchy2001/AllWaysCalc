@@ -13,67 +13,67 @@ import { Logo } from '@/components/icons';
 export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 items-center">
-        <div className="mr-4 flex items-center">
-          <Link href="/" className="mr-6 flex items-center space-x-2">
+      <div className="container flex h-14 items-center justify-between">
+        <div className="flex items-center">
+          <Link href="/" className="flex items-center space-x-2">
             <Logo className="h-6 w-6 text-primary" />
             <span className="font-bold sm:inline-block font-headline">
               AllWaysCalc
             </span>
           </Link>
-          <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-            <Link
-              href="/"
-              className="transition-colors hover:text-foreground/80 text-foreground/60"
-            >
-              Calculators
-            </Link>
-            <Link
-              href="#"
-              className="transition-colors hover:text-foreground/80 text-foreground/60"
-            >
-              FAQ
-            </Link>
-          </nav>
         </div>
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden"
-              aria-label="Open menu"
-            >
-              <Menu className="h-5 w-5" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left">
-            <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
-            <SheetDescription className="sr-only">
-              Main navigation for mobile devices
-            </SheetDescription>
-            <Link href="/" className="mr-6 flex items-center space-x-2">
-              <Logo className="h-6 w-6 text-primary" />
-              <span className="font-bold font-headline">AllWaysCalc</span>
-            </Link>
-            <div className="grid gap-4 py-6">
-              <Link
-                href="/"
-                className="flex w-full items-center py-2 text-lg font-semibold"
+
+        <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
+          <Link
+            href="/"
+            className="transition-colors hover:text-foreground/80 text-foreground"
+          >
+            Calculators
+          </Link>
+          <Link
+            href="#"
+            className="transition-colors hover:text-foreground/80 text-muted-foreground"
+          >
+            FAQ
+          </Link>
+        </nav>
+        
+        <div className="md:hidden">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label="Open menu"
               >
-                Calculators
+                <Menu className="h-5 w-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left">
+              <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
+              <SheetDescription className="sr-only">
+                Main navigation for mobile devices
+              </SheetDescription>
+              <Link href="/" className="flex items-center space-x-2">
+                <Logo className="h-6 w-6 text-primary" />
+                <span className="font-bold font-headline">AllWaysCalc</span>
               </Link>
-              <Link
-                href="#"
-                className="flex w-full items-center py-2 text-lg font-semibold"
-              >
-                FAQ
-              </Link>
-            </div>
-          </SheetContent>
-        </Sheet>
-        <div className="flex flex-1 items-center justify-end space-x-4">
-          
+              <div className="grid gap-4 py-6">
+                <Link
+                  href="/"
+                  className="flex w-full items-center py-2 text-lg font-semibold"
+                >
+                  Calculators
+                </Link>
+                <Link
+                  href="#"
+                  className="flex w-full items-center py-2 text-lg font-semibold"
+                >
+                  FAQ
+                </Link>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </header>

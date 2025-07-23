@@ -2,7 +2,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import {
   ArrowRight,
   Banknote,
@@ -386,6 +386,9 @@ const calculatorCategories = [
   },
 ];
 
+
+const allLinks = calculatorCategories.flatMap(category => category.links.map(link => ({ ...link, category: category.title })));
+
 export default function HomePage({
   searchParams,
 }: {
@@ -393,25 +396,23 @@ export default function HomePage({
 }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
 
-  const filteredCategories = calculatorCategories
-    .map(category => {
-      if (!category) return null;
+  const filteredCategories = useMemo(() => {
+    if (selectedCategory === 'All') {
+      return calculatorCategories;
+    }
+    return calculatorCategories.filter(category => category.title === selectedCategory);
+  }, [selectedCategory]);
 
-      // Filter links based on search query
-      const filteredLinks = category.links.filter(link =>
-        link.name.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-
-      // If the category has matching links and matches the selected category filter, return it
-      if (filteredLinks.length > 0) {
-        if (selectedCategory === 'All' || category.title === selectedCategory) {
-          return { ...category, links: filteredLinks };
-        }
-      }
-      return null;
-    })
-    .filter((category): category is NonNullable<typeof category> => category !== null);
+  const searchResults = useMemo(() => {
+    if (!searchQuery) {
+      return [];
+    }
+    return allLinks.filter(link =>
+      link.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [searchQuery]);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -456,14 +457,30 @@ export default function HomePage({
                   accuracy and ease of use.
                 </p>
               </div>
-              <div className="w-full max-w-xl mx-auto py-4">
+              <div className="w-full max-w-xl mx-auto py-4 relative">
                 <Input
                   type="text"
                   placeholder="Search for a calculator..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
+                  onFocus={() => setIsSearchFocused(true)}
+                  onBlur={() => setTimeout(() => setIsSearchFocused(false), 100)} // Delay to allow click on results
                   className="w-full"
                 />
+                {isSearchFocused && searchResults.length > 0 && (
+                  <div className="absolute top-full left-0 right-0 mt-2 bg-card border rounded-md shadow-lg z-10 max-h-60 overflow-y-auto">
+                    <ul>
+                      {searchResults.map(link => (
+                        <li key={link.href}>
+                           <Link href={link.href} className="block p-3 hover:bg-secondary">
+                              <p className="font-semibold">{link.name}</p>
+                              <p className="text-sm text-muted-foreground">{link.category}</p>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
               <div className="flex flex-wrap items-center justify-center gap-2">
                 <Button
@@ -498,7 +515,7 @@ export default function HomePage({
             </div>
              {filteredCategories.length === 0 && (
               <p className="text-center text-muted-foreground py-12">
-                No calculators found. Try a different search or filter.
+                No calculators found for this category.
               </p>
             )}
           </div>
