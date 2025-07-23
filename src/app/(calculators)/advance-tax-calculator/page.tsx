@@ -41,6 +41,7 @@ const formSchema = z.object({
   standardDeduction: z.coerce.number().min(0, 'Standard deduction must be a positive number.'),
   taxRegime: z.enum(['old', 'new', 'custom']),
   customSlabs: z.array(taxSlabSchema).optional(),
+  customRebateLimit: z.coerce.number().min(0).optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -78,6 +79,7 @@ export default function AdvanceTaxCalculatorPage() {
       standardDeduction: 50000,
       taxRegime: 'new',
       customSlabs: [{ limit: 500000, rate: 10 }, { limit: 1000000, rate: 20 }, { limit: Infinity, rate: 30 }],
+      customRebateLimit: 750000,
     },
   });
 
@@ -120,7 +122,7 @@ export default function AdvanceTaxCalculatorPage() {
   };
 
   const onSubmit = (data: FormValues) => {
-    const { grossIncome, deductions80c, standardDeduction, taxRegime, customSlabs = [] } = data;
+    const { grossIncome, deductions80c, standardDeduction, taxRegime, customSlabs = [], customRebateLimit } = data;
     
     let applicableDeductions = 0;
     if(taxRegime === 'old') {
@@ -140,6 +142,8 @@ export default function AdvanceTaxCalculatorPage() {
         if (taxAmount <= 12500) {
             taxAmount = 0;
         }
+    } else if (taxRegime === 'custom' && customRebateLimit && taxableIncome <= customRebateLimit) {
+        taxAmount = 0;
     }
 
     let surcharge = 0;
@@ -246,6 +250,10 @@ export default function AdvanceTaxCalculatorPage() {
                            </div>
                         ))}
                         <Button type="button" variant="outline" size="sm" onClick={() => append({ limit: 0, rate: 0 })}>Add Slab</Button>
+                        <div className="space-y-2 pt-2">
+                            <Label htmlFor="customRebateLimit">Tax Rebate Limit (₹)</Label>
+                            <Input id="customRebateLimit" type="number" placeholder="Taxable income limit for rebate" {...register('customRebateLimit')} />
+                        </div>
                     </div>
                   )}
 
@@ -266,7 +274,13 @@ export default function AdvanceTaxCalculatorPage() {
                         <p className="text-sm text-muted-foreground">Total Estimated Tax for the Year</p>
                         <p className="text-3xl font-bold text-primary">{formatCurrency(result.totalTax)}</p>
                     </div>
-                    {result.installments.length > 0 ? (
+                    {result.totalTax > 0 && result.installments.length === 0 && (
+                        <p className="text-center text-muted-foreground pt-4">Your advance tax liability is less than ₹10,000. No advance tax is due.</p>
+                    )}
+                    {result.totalTax === 0 && (
+                         <p className="text-center text-muted-foreground pt-4">Tax rebate applied. No advance tax is due.</p>
+                    )}
+                    {result.installments.length > 0 && (
                         <Table>
                             <TableHeader>
                                 <TableRow>
@@ -286,8 +300,6 @@ export default function AdvanceTaxCalculatorPage() {
                                 ))}
                             </TableBody>
                         </Table>
-                    ) : (
-                        <p className="text-center text-muted-foreground pt-4">Your advance tax liability is less than ₹10,000. No advance tax is due.</p>
                     )}
                 </CardContent>
                 <CardFooter>
@@ -344,5 +356,3 @@ export default function AdvanceTaxCalculatorPage() {
     </div>
   );
 }
-
-    

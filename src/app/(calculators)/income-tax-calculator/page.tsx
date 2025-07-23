@@ -40,6 +40,7 @@ const formSchema = z.object({
   standardDeduction: z.coerce.number().min(0, 'Standard deduction must be a positive number.'),
   taxRegime: z.enum(['old', 'new', 'custom']),
   customSlabs: z.array(taxSlabSchema).optional(),
+  customRebateLimit: z.coerce.number().min(0).optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -81,6 +82,7 @@ export default function IncomeTaxCalculatorPage() {
       standardDeduction: 50000,
       taxRegime: 'new',
       customSlabs: [{ limit: 500000, rate: 10 }, { limit: 1000000, rate: 20 }, { limit: Infinity, rate: 30 }],
+      customRebateLimit: 750000,
     },
   });
 
@@ -133,7 +135,7 @@ export default function IncomeTaxCalculatorPage() {
   };
 
   const onSubmit = (data: FormValues) => {
-    const { grossIncome, deductions80c, standardDeduction, taxRegime, customSlabs = [] } = data;
+    const { grossIncome, deductions80c, standardDeduction, taxRegime, customSlabs = [], customRebateLimit } = data;
     
     let applicableDeductions = 0;
     if(taxRegime === 'old') {
@@ -146,16 +148,22 @@ export default function IncomeTaxCalculatorPage() {
     if (taxableIncome < 0) taxableIncome = 0;
 
     let { tax: taxAmount, slabWiseTax } = calculateTax(taxableIncome, taxRegime, customSlabs);
+    let rebateApplied = false;
 
     if (taxRegime === 'new' && taxableIncome <= 750000) {
         taxAmount = 0;
+        rebateApplied = true;
     } else if (taxRegime === 'old' && taxableIncome <= 500000) {
         if (taxAmount <= 12500) {
             taxAmount = 0;
+            rebateApplied = true;
         }
+    } else if (taxRegime === 'custom' && customRebateLimit && taxableIncome <= customRebateLimit) {
+        taxAmount = 0;
+        rebateApplied = true;
     }
 
-    if (taxAmount === 0 && ( (taxRegime === 'new' && taxableIncome <= 750000) || (taxRegime === 'old' && taxableIncome <= 500000) )) {
+    if (rebateApplied) {
         slabWiseTax = [{ slab: 'Tax Rebate Applied u/s 87A', tax: 0 }];
     }
 
@@ -260,6 +268,10 @@ export default function IncomeTaxCalculatorPage() {
                            </div>
                         ))}
                         <Button type="button" variant="outline" size="sm" onClick={() => append({ limit: 0, rate: 0 })}>Add Slab</Button>
+                        <div className="space-y-2 pt-2">
+                            <Label htmlFor="customRebateLimit">Tax Rebate Limit (₹)</Label>
+                            <Input id="customRebateLimit" type="number" placeholder="Taxable income limit for rebate" {...register('customRebateLimit')} />
+                        </div>
                     </div>
                   )}
 
@@ -369,5 +381,3 @@ export default function IncomeTaxCalculatorPage() {
     </div>
   );
 }
-
-    
