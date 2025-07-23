@@ -184,6 +184,7 @@ const calculatorCategories = [
       { href: '/probability-calculator', name: 'Probability Calculator', icon: <TestTubes className="size-4" /> },
       { href: '/distance-formula-calculator', name: 'Distance Formula Calculator', icon: <Scaling className="size-4" /> },
       { href: '/slope-calculator', name: 'Slope Calculator', icon: <TrendingUp className="size-4" /> },
+      { href: '/speed-distance-time-calculator', name: 'Speed, Distance, Time', icon: <Gauge className="size-4" /> },
     ],
   },
   {
