@@ -197,7 +197,7 @@ export default function AdvanceTaxCalculatorPage() {
                   <div className="space-y-2">
                     <Label htmlFor="grossIncome">Estimated Gross Annual Income (₹)</Label>
                     <Input id="grossIncome" type="number" step="0.01" {...register('grossIncome')} />
-                    <p className="text-xs text-muted-foreground">This is your total income before any deductions.</p>
+                    <p className="text-xs text-muted-foreground">Your total income before any deductions are applied.</p>
                     {errors.grossIncome && <p className="text-destructive text-sm">{errors.grossIncome.message}</p>}
                   </div>
 
@@ -229,7 +229,7 @@ export default function AdvanceTaxCalculatorPage() {
                     </div>
                   )}
 
-                  {(taxRegime === 'new' || taxRegime === 'custom') && (
+                  {(taxRegime === 'new' || taxRegime === 'old') && (
                      <div className="space-y-2">
                         <Label htmlFor="standardDeduction">Standard Deduction (₹)</Label>
                         <Input id="standardDeduction" type="number" step="0.01" {...register('standardDeduction')} />
@@ -312,7 +312,7 @@ export default function AdvanceTaxCalculatorPage() {
                 </div>
                 <div>
                   <h3 className="font-bold font-headline">Old vs. New Tax Regime</h3>
-                  <p>The choice of tax regime significantly impacts your tax calculation. The Old Regime allows for various deductions (like 80C, 80D, HRA), while the New Regime offers lower slab rates but forgoes most deductions. Choose the one that is more beneficial for you.</p>
+                  <p>The choice of tax regime significantly impacts your tax calculation. The Old Regime allows for various deductions (like 80C, 80D, HRA), while the New Regime offers different slab rates but forgoes most deductions. A tax rebate u/s 87A makes the final tax zero if your taxable income is below a certain threshold in both regimes. Choose the one that is more beneficial for you.</p>
                 </div>
                 <div>
                   <h3 className="font-bold font-headline">FAQs</h3>

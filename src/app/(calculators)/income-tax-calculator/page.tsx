@@ -156,8 +156,8 @@ export default function IncomeTaxCalculatorPage() {
         }
     }
 
-    if (taxAmount === 0) {
-        slabWiseTax = [{ slab: 'Tax Rebate Applied', tax: 0 }];
+    if (taxAmount === 0 && ( (taxRegime === 'new' && incomeForRebate <= 700000) || (taxRegime === 'old' && incomeForRebate <= 500000) )) {
+        slabWiseTax = [{ slab: 'Tax Rebate Applied u/s 87A', tax: 0 }];
     }
 
     let surcharge = 0;
@@ -211,7 +211,7 @@ export default function IncomeTaxCalculatorPage() {
                   <div className="space-y-2">
                     <Label htmlFor="grossIncome">Gross Annual Income (₹)</Label>
                     <Input id="grossIncome" type="number" step="0.01" {...register('grossIncome')} />
-                    <p className="text-xs text-muted-foreground">This is your total income before any deductions.</p>
+                    <p className="text-xs text-muted-foreground">Your total income before any deductions are applied.</p>
                     {errors.grossIncome && <p className="text-destructive text-sm">{errors.grossIncome.message}</p>}
                   </div>
 
@@ -243,7 +243,7 @@ export default function IncomeTaxCalculatorPage() {
                     </div>
                   )}
 
-                  {(taxRegime === 'new' || taxRegime === 'custom') && (
+                  {(taxRegime === 'new' || taxRegime === 'old' ) && (
                      <div className="space-y-2">
                         <Label htmlFor="standardDeduction">Standard Deduction (₹)</Label>
                         <Input id="standardDeduction" type="number" step="0.01" {...register('standardDeduction')} />
@@ -335,7 +335,7 @@ export default function IncomeTaxCalculatorPage() {
               <div className="space-y-4">
                 <div>
                   <h3 className="font-bold font-headline">How is Tax Calculated?</h3>
-                  <p>Income tax is calculated based on a slab system. Your taxable income (Gross Income - Deductions) is divided into different slabs, and each slab has a specific tax rate. The total tax is the sum of the tax calculated for each slab.</p>
+                  <p>Your taxable income is first calculated by subtracting eligible deductions (like Standard Deduction, 80C, etc.) from your gross income. This taxable income is then applied to a slab system. The total tax is the sum of the tax calculated for each slab, plus any applicable cess and surcharge.</p>
                 </div>
                 <div>
                   <h3 className="font-bold font-headline">FAQs</h3>
@@ -344,13 +344,13 @@ export default function IncomeTaxCalculatorPage() {
                       <AccordionTrigger>Old vs. New Tax Regime: What's the difference?</AccordionTrigger>
                       <AccordionContent>
                        The **Old Regime** allows you to claim a wide range of deductions and exemptions, such as those under Section 80C (for investments), 80D (for medical insurance), HRA (House Rent Allowance), and LTA (Leave Travel Allowance). The tax slabs are generally higher.<br/><br/>
-                       The **New Regime** offers lower, more simplified tax slabs but requires you to forgo most of the common deductions and exemptions. From FY 2023-24 onwards, the New Regime is the default option, and it includes a Standard Deduction of ₹50,000 for salaried individuals. It's often beneficial for those with fewer investments or exemptions to claim.
+                       The **New Regime** is the default option and offers different tax slabs. It requires you to forgo most of the common deductions and exemptions, however, a Standard Deduction of ₹50,000 is available. It's often beneficial for those with fewer investments or exemptions to claim.
                       </AccordionContent>
                     </AccordionItem>
                      <AccordionItem value="item-2">
-                      <AccordionTrigger>What is a Tax Rebate?</AccordionTrigger>
+                      <AccordionTrigger>What is a Tax Rebate under Section 87A?</AccordionTrigger>
                       <AccordionContent>
-                       A tax rebate under Section 87A is a relief provided to taxpayers with lower incomes. For the FY 2024-25, under the New Regime, if your taxable income is up to ₹7,00,000, you effectively pay zero tax. Under the Old Regime, if your taxable income is up to ₹5,00,000, you can claim a rebate of up to ₹12,500, which also results in zero tax payable.
+                       A tax rebate is a relief provided to taxpayers with lower incomes. For FY 2024-25, under the **New Regime**, if your taxable income is up to ₹7,00,000, your tax liability becomes zero. Under the **Old Regime**, if your taxable income is up to ₹5,00,000, you can claim a rebate of up to ₹12,500, which also results in zero tax payable.
                       </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="item-3">
