@@ -289,6 +289,7 @@ const calculatorCategories = [
     links: [
       { href: '/molar-mass-calculator', name: 'Molar Mass Calculator', icon: <TestTube className="size-4" /> },
       { href: '/ph-calculator', name: 'pH Calculator', icon: <Beaker className="size-4" /> },
+      { href: '/ideal-gas-law-calculator', name: 'Ideal Gas Law Calculator', icon: <FlaskConical className="size-4" /> },
     ],
   },
 ];
