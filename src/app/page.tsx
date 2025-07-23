@@ -362,6 +362,7 @@ const calculatorCategories = [
       { href: '/torque-calculator', name: 'Torque Calculator', icon: <RotateCw className="size-4" /> },
       { href: '/voltage-drop-calculator', name: 'Voltage Drop Calculator', icon: <TrendingDown className="size-4" /> },
       { href: '/battery-backup-calculator', name: 'Battery Backup Calculator', icon: <BatteryCharging className="size-4" /> },
+      { href: '/transformer-efficiency-calculator', name: 'Transformer Efficiency', icon: <Activity className="size-4" /> },
     ],
   },
   {
