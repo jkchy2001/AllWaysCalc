@@ -28,6 +28,7 @@ import {
   Timer,
   HeartHandshake,
   Gift,
+  Layers,
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -176,6 +177,7 @@ const calculatorCategories = [
     icon: <Construction className="size-8 text-primary" />,
     links: [
       { href: '/paint-calculator', name: 'Paint Calculator' },
+      { href: '/tile-calculator', name: 'Tile Calculator' },
     ],
   },
   {
