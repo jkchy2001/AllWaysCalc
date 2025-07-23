@@ -181,6 +181,7 @@ const calculatorCategories = [
       { href: '/brick-calculator', name: 'Brick Calculator' },
       { href: '/concrete-calculator', name: 'Concrete Calculator' },
       { href: '/plaster-calculator', name: 'Plaster Calculator' },
+      { href: '/roof-area-calculator', name: 'Roof Area Calculator' },
     ],
   },
   {
