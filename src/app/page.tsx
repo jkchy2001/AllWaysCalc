@@ -29,6 +29,7 @@ import {
   HeartHandshake,
   Gift,
   Layers,
+  TrendingUp,
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -182,6 +183,7 @@ const calculatorCategories = [
       { href: '/concrete-calculator', name: 'Concrete Calculator' },
       { href: '/plaster-calculator', name: 'Plaster Calculator' },
       { href: '/roof-area-calculator', name: 'Roof Area Calculator' },
+      { href: '/stair-calculator', name: 'Stair Calculator' },
     ],
   },
   {
