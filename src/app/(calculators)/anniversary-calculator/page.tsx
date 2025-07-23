@@ -170,7 +170,39 @@ export default function AnniversaryCalculatorPage() {
                        </div>
                     )}
                 </div>
-                
+                <Card className="mt-8">
+                    <CardHeader>
+                        <CardTitle className="font-headline">How It Works</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <p className="mb-4">
+                            This calculator celebrates your special dates by calculating the elapsed time since your anniversary and showing you when your next big milestones are.
+                        </p>
+                        <div className="space-y-4">
+                            <div>
+                                <h3 className="font-bold font-headline">Methodology</h3>
+                                <p>Using the date of your anniversary, the calculator determines the total years, months, and days that have passed until today. It also projects forward to find upcoming milestone anniversaries (like your 1st, 5th, 10th, etc.) and displays their future dates.</p>
+                            </div>
+                            <div>
+                                <h3 className="font-bold font-headline">FAQs</h3>
+                                <Accordion type="single" collapsible className="w-full">
+                                    <AccordionItem value="item-1">
+                                        <AccordionTrigger>What can I use this for?</AccordionTrigger>
+                                        <AccordionContent>
+                                            It's perfect for wedding anniversaries, relationship milestones, work anniversaries, or any other significant date you want to track.
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                    <AccordionItem value="item-2">
+                                        <AccordionTrigger>How accurate is the duration calculation?</AccordionTrigger>
+                                        <AccordionContent>
+                                            The duration is calculated accurately using well-tested date libraries, correctly accounting for leap years and the varying number of days in each month.
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                </Accordion>
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
             </div>
         </main>
     </div>

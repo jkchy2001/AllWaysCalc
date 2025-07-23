@@ -13,6 +13,7 @@ import {
 import { Header } from '@/components/header';
 import Link from 'next/link';
 import { Home, Delete } from 'lucide-react';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 export default function BasicArithmeticCalculatorPage() {
   const [displayValue, setDisplayValue] = useState('0');
@@ -139,7 +140,7 @@ export default function BasicArithmeticCalculatorPage() {
     <div className="flex flex-col min-h-screen bg-secondary/30">
       <Header />
       <main className="flex-1 p-4 md:p-8 flex items-center justify-center">
-        <div className="w-full max-w-sm">
+        <div className="w-full max-w-sm space-y-8">
           <div className="mb-4">
             <Link href="/" className="text-sm text-muted-foreground hover:text-primary flex items-center gap-2">
               <Home className="size-4" /> Home
@@ -178,6 +179,26 @@ export default function BasicArithmeticCalculatorPage() {
                 <Button variant="secondary" className="col-span-2 text-xl py-8" onClick={() => inputDigit('0')}>0</Button>
                 <Button variant="secondary" className="text-xl py-8" onClick={inputDecimal}>.</Button>
                 <Button className="text-xl py-8 bg-accent hover:bg-accent/90" onClick={handleEquals}>=</Button>
+              </div>
+            </CardContent>
+          </Card>
+           <Card>
+            <CardHeader>
+              <CardTitle className="font-headline">How It Works</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="mb-4">
+               This calculator mimics the functionality of a standard handheld electronic calculator, performing basic arithmetic operations like addition, subtraction, multiplication, and division.
+              </p>
+              <div className="space-y-4">
+                <div>
+                  <h3 className="font-bold font-headline">Features</h3>
+                   <ul className="list-disc list-inside space-y-1">
+                      <li><b>AC (All Clear):</b> Resets the entire calculation.</li>
+                      <li><b>+/- (Toggle Sign):</b> Changes the current number from positive to negative and vice versa.</li>
+                      <li><b>% (Percent):</b> Converts the current number to its decimal equivalent (divides by 100) or calculates a percentage of the first operand in a two-number operation.</li>
+                   </ul>
+                </div>
               </div>
             </CardContent>
           </Card>

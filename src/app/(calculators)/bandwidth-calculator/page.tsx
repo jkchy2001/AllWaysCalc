@@ -198,6 +198,17 @@ export default function BandwidthCalculatorPage() {
                   </ol>
                   <p className="text-sm font-semibold mt-4 text-destructive">Disclaimer: This is a theoretical calculation. Real-world speeds can be affected by factors like network overhead, latency, and protocol efficiency.</p>
                 </div>
+                 <div>
+                    <h3 className="font-bold font-headline">FAQs</h3>
+                    <Accordion type="single" collapsible className="w-full">
+                        <AccordionItem value="item-1">
+                            <AccordionTrigger>What's the difference between Megabits (Mb) and Megabytes (MB)?</AccordionTrigger>
+                            <AccordionContent>
+                            A Megabyte (MB) is a unit of data size, while a Megabit (Mb) is a unit of data transfer rate. There are 8 bits in a byte, so 1 MB/s is equal to 8 Mbps. Internet service providers almost always advertise speeds in Mbps.
+                            </AccordionContent>
+                        </AccordionItem>
+                    </Accordion>
+                </div>
               </div>
             </CardContent>
           </Card>

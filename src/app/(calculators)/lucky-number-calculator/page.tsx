@@ -126,13 +126,15 @@ export default function LuckyNumberCalculatorPage() {
                 </div>
                 <Card className="mt-8">
                   <CardHeader>
-                      <CardTitle className="font-headline">Disclaimer</CardTitle>
+                      <CardTitle className="font-headline">How It Works & Disclaimer</CardTitle>
                   </CardHeader>
                   <CardContent>
-                      <p className="font-semibold">
-                        This calculator is for entertainment purposes only.
+                      <p className="mb-4">
+                        This calculator uses a numerological method to find your "lucky number" from your date of birth. It repeatedly sums the digits of your birth date until a single-digit number is reached.
                       </p>
-                      <p>The lucky number is calculated using a numerological method called the digital root. It is not based on scientific fact and should be enjoyed as a fun novelty.</p>
+                      <p className="font-semibold text-destructive">
+                        This calculator is for entertainment purposes only. The concept of a "lucky number" is not based on scientific fact and should be enjoyed as a fun novelty.
+                      </p>
                   </CardContent>
                 </Card>
             </div>

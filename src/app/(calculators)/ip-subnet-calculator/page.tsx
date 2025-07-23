@@ -203,6 +203,30 @@ export default function IpSubnetCalculatorPage() {
               </Card>
             )}
           </div>
+            <Card className="mt-8">
+                <CardHeader>
+                    <CardTitle className="font-headline">Understanding IP Subnetting</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="mb-4">
+                        Subnetting is the process of dividing a single, large IP network into smaller, more manageable sub-networks, or "subnets". This calculator helps you understand the properties of a given IPv4 subnet.
+                    </p>
+                    <Accordion type="single" collapsible className="w-full">
+                        <AccordionItem value="item-1">
+                            <AccordionTrigger>What is CIDR?</AccordionTrigger>
+                            <AccordionContent>
+                            CIDR (Classless Inter-Domain Routing) is a method for allocating IP addresses and routing Internet Protocol packets. The number after the slash (e.g., /24) represents the number of bits in the network portion of the address, which determines the size of the subnet.
+                            </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="item-2">
+                            <AccordionTrigger>Why are there fewer usable hosts than total hosts?</AccordionTrigger>
+                            <AccordionContent>
+                            In any subnet, two addresses are reserved and cannot be assigned to devices. The first address is the Network Address (which identifies the network itself), and the last address is the Broadcast Address (used to send data to all devices on the network).
+                            </AccordionContent>
+                        </AccordionItem>
+                    </Accordion>
+                </CardContent>
+            </Card>
         </div>
       </main>
     </div>
