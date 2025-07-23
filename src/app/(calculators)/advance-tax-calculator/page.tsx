@@ -48,9 +48,12 @@ const formSchema = z.object({
   deductions80c: z.coerce.number().min(0, 'Deductions must be a positive number.'),
   taxRegime: z.enum(['old', 'new', 'custom']),
   
+  maxRebateAmountOld: z.coerce.number().min(0).optional(),
+  maxRebateAmountNew: z.coerce.number().min(0).optional(),
+
   customSlabs: z.array(taxSlabSchema).optional(),
   customStandardDeduction: z.coerce.number().min(0).optional(),
-  customRebateLimit: z.coerce.number().min(0).optional(),
+  customMaxRebateAmount: z.coerce.number().min(0).optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -58,15 +61,15 @@ type FormValues = z.infer<typeof formSchema>;
 type CalculationResult = {
   totalTax: number;
   installments: { dueDate: string; amount: number; percentage: number }[];
+  rebateApplied: boolean;
 };
 
 const newRegimeSlabs = [
-  { limit: 400000, rate: 0 },
-  { limit: 800000, rate: 5 },
-  { limit: 1200000, rate: 10 },
-  { limit: 1600000, rate: 15 },
-  { limit: 2000000, rate: 20 },
-  { limit: 2400000, rate: 25 },
+  { limit: 300000, rate: 0 },
+  { limit: 600000, rate: 5 },
+  { limit: 900000, rate: 10 },
+  { limit: 1200000, rate: 15 },
+  { limit: 1500000, rate: 20 },
   { limit: Infinity, rate: 30 },
 ];
 
@@ -106,9 +109,11 @@ export default function AdvanceTaxCalculatorPage() {
       otherIncome: 0,
       deductions80c: 0,
       taxRegime: 'new',
+      maxRebateAmountOld: 12500,
+      maxRebateAmountNew: 25000,
       customSlabs: [{ limit: 300000, rate: 5 }, { limit: 700000, rate: 10 }, { limit: Infinity, rate: 20 }],
       customStandardDeduction: 75000,
-      customRebateLimit: 700000,
+      customMaxRebateAmount: 25000,
     },
   });
 
@@ -154,10 +159,11 @@ export default function AdvanceTaxCalculatorPage() {
   const onSubmit = (data: FormValues) => {
     const { 
         ageGroup, salaryIncome=0, businessIncome=0, pensionIncome=0, agriculturalIncome=0, otherIncome=0,
-        deductions80c, taxRegime, customSlabs = [], customStandardDeduction, customRebateLimit 
+        deductions80c, taxRegime, customSlabs = [], customStandardDeduction, customMaxRebateAmount,
+        maxRebateAmountNew, maxRebateAmountOld
     } = data;
     
-    const grossIncome = salaryIncome + businessIncome + pensionIncome + otherIncome; // agricultural income handled separately
+    const grossIncome = salaryIncome + businessIncome + pensionIncome + otherIncome;
     
     let applicableDeductions = 0;
     let standardDeduction = 0;
@@ -170,21 +176,20 @@ export default function AdvanceTaxCalculatorPage() {
         applicableDeductions = deductions80c + standardDeduction;
     } else { // custom
         standardDeduction = customStandardDeduction || 0;
-        applicableDeductions = standardDeduction;
+        applicableDeductions = deductions80c + standardDeduction;
     }
 
     let taxableIncome = grossIncome - applicableDeductions;
     if (taxableIncome < 0) taxableIncome = 0;
 
-    // Agricultural income logic: added to total income for rate purposes if net agri income > 5000 and total income > basic exemption
     let finalTaxableIncome = taxableIncome;
     if (taxRegime === 'old' && agriculturalIncome > 5000 && taxableIncome > oldRegimeSlabs[ageGroup][0].limit) {
         finalTaxableIncome += agriculturalIncome;
     }
 
     let taxAmount = calculateTax(finalTaxableIncome, taxRegime, ageGroup, customSlabs || []);
+    let rebateApplied = false;
 
-    // Adjust tax for agricultural income if applicable
     if (taxRegime === 'old' && agriculturalIncome > 5000 && taxableIncome > oldRegimeSlabs[ageGroup][0].limit) {
       const taxOnAgri = calculateTax(agriculturalIncome + oldRegimeSlabs[ageGroup][0].limit, taxRegime, ageGroup, customSlabs);
       taxAmount -= taxOnAgri;
@@ -200,13 +205,16 @@ export default function AdvanceTaxCalculatorPage() {
     
     let healthAndEducationCess = (taxAmount + surcharge) * 0.04;
 
-    // Rebate logic
-    if (taxRegime === 'new' && taxableIncome <= 700000) {
+    // Rebate logic based on calculated tax amount
+    if (taxRegime === 'new' && maxRebateAmountNew && taxAmount > 0 && taxAmount <= maxRebateAmountNew) {
         taxAmount = 0; surcharge = 0; healthAndEducationCess = 0;
-    } else if (taxRegime === 'old' && taxableIncome <= 500000) {
+        rebateApplied = true;
+    } else if (taxRegime === 'old' && maxRebateAmountOld && taxAmount > 0 && taxAmount <= maxRebateAmountOld) {
         taxAmount = 0; surcharge = 0; healthAndEducationCess = 0;
-    } else if (taxRegime === 'custom' && customRebateLimit && taxableIncome <= customRebateLimit) {
+        rebateApplied = true;
+    } else if (taxRegime === 'custom' && customMaxRebateAmount && taxAmount > 0 && taxAmount <= customMaxRebateAmount) {
         taxAmount = 0; surcharge = 0; healthAndEducationCess = 0;
+        rebateApplied = true;
     }
     
     const totalTax = taxAmount + surcharge + healthAndEducationCess;
@@ -221,6 +229,7 @@ export default function AdvanceTaxCalculatorPage() {
     setResult({
       totalTax,
       installments,
+      rebateApplied,
     });
   };
   
@@ -336,7 +345,7 @@ export default function AdvanceTaxCalculatorPage() {
                   
                    {taxRegime === 'old' && (
                     <div className="space-y-4 rounded-md border p-4">
-                        <h3 className="font-semibold">Old Regime Deductions</h3>
+                        <h3 className="font-semibold">Old Regime Options</h3>
                         <div className="space-y-2">
                           <Label htmlFor="deductions80c">Deductions (80C, 80D, HRA etc.) (₹)</Label>
                           <Input id="deductions80c" type="number" step="0.01" {...register('deductions80c')} />
@@ -346,14 +355,24 @@ export default function AdvanceTaxCalculatorPage() {
                           <Label>Standard Deduction</Label>
                           <Input type="text" value="₹50,000" disabled />
                         </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="maxRebateAmountOld">Max Rebate Amount (u/s 87A) (₹)</Label>
+                            <Input id="maxRebateAmountOld" type="number" {...register('maxRebateAmountOld')} />
+                        </div>
                     </div>
                   )}
 
                   {taxRegime === 'new' && (
-                     <div className="space-y-2 rounded-md border p-4">
-                        <h3 className="font-semibold">New Regime Deductions</h3>
-                        <Label>Standard Deduction</Label>
-                        <Input type="text" value="₹75,000" disabled />
+                     <div className="space-y-4 rounded-md border p-4">
+                        <h3 className="font-semibold">New Regime Options</h3>
+                        <div>
+                          <Label>Standard Deduction</Label>
+                          <Input type="text" value="₹75,000" disabled />
+                        </div>
+                        <div>
+                            <Label htmlFor="maxRebateAmountNew">Max Rebate Amount (u/s 87A) (₹)</Label>
+                            <Input id="maxRebateAmountNew" type="number" {...register('maxRebateAmountNew')} />
+                        </div>
                      </div>
                   )}
                   
@@ -387,8 +406,8 @@ export default function AdvanceTaxCalculatorPage() {
                             <Input id="customStandardDeduction" type="number" {...register('customStandardDeduction')} />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="customRebateLimit">Custom Tax Rebate Limit (₹)</Label>
-                            <Input id="customRebateLimit" type="number" placeholder="Taxable income limit for rebate" {...register('customRebateLimit')} />
+                           <Label htmlFor="customMaxRebateAmount">Custom Max Rebate Amount (₹)</Label>
+                           <Input id="customMaxRebateAmount" type="number" {...register('customMaxRebateAmount')} />
                         </div>
                     </div>
                   )}
@@ -412,7 +431,7 @@ export default function AdvanceTaxCalculatorPage() {
                     {result.totalTax > 0 && result.installments.length === 0 && (
                         <p className="text-center text-muted-foreground pt-4">Your advance tax liability is less than ₹10,000. No advance tax is due.</p>
                     )}
-                    {result.totalTax === 0 && (
+                    {result.rebateApplied && (
                          <p className="text-center text-muted-foreground pt-4">Tax rebate applied. No advance tax is due.</p>
                     )}
                     {result.installments.length > 0 && (
@@ -458,7 +477,7 @@ export default function AdvanceTaxCalculatorPage() {
                 </div>
                 <div>
                   <h3 className="font-bold font-headline">Old vs. New Tax Regime</h3>
-                  <p>The choice of tax regime significantly impacts your tax calculation. The Old Regime allows for various deductions (like 80C, 80D, HRA), while the New Regime offers different slab rates but forgoes most deductions. A tax rebate u/s 87A makes the final tax zero if your taxable income is below a certain threshold in both regimes. Choose the one that is more beneficial for you.</p>
+                  <p>The choice of tax regime significantly impacts your tax calculation. The Old Regime allows for various deductions (like 80C, 80D, HRA), while the New Regime offers different slab rates but forgoes most deductions. A tax rebate u/s 87A makes the final tax zero if your tax liability is below a certain threshold.</p>
                 </div>
                 <div>
                   <h3 className="font-bold font-headline">FAQs</h3>

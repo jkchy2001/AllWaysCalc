@@ -48,9 +48,12 @@ const formSchema = z.object({
   deductions80c: z.coerce.number().min(0, 'Deductions must be a positive number.'),
   taxRegime: z.enum(['old', 'new', 'custom']),
   
+  maxRebateAmountOld: z.coerce.number().min(0).optional(),
+  maxRebateAmountNew: z.coerce.number().min(0).optional(),
+
   customSlabs: z.array(taxSlabSchema).optional(),
   customStandardDeduction: z.coerce.number().min(0).optional(),
-  customRebateLimit: z.coerce.number().min(0).optional(),
+  customMaxRebateAmount: z.coerce.number().min(0).optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -62,15 +65,15 @@ type CalculationResult = {
   healthAndEducationCess: number;
   totalTax: number;
   slabWiseTax: { slab: string; tax: number }[];
+  rebateApplied: boolean;
 };
 
 const newRegimeSlabs = [
-  { limit: 400000, rate: 0 },
-  { limit: 800000, rate: 5 },
-  { limit: 1200000, rate: 10 },
-  { limit: 1600000, rate: 15 },
-  { limit: 2000000, rate: 20 },
-  { limit: 2400000, rate: 25 },
+  { limit: 300000, rate: 0 },
+  { limit: 600000, rate: 5 },
+  { limit: 900000, rate: 10 },
+  { limit: 1200000, rate: 15 },
+  { limit: 1500000, rate: 20 },
   { limit: Infinity, rate: 30 },
 ];
 
@@ -110,9 +113,11 @@ export default function IncomeTaxCalculatorPage() {
       otherIncome: 0,
       deductions80c: 0,
       taxRegime: 'new',
+      maxRebateAmountOld: 12500,
+      maxRebateAmountNew: 25000,
       customSlabs: [{ limit: 300000, rate: 5 }, { limit: 700000, rate: 10 }, { limit: Infinity, rate: 20 }],
       customStandardDeduction: 75000,
-      customRebateLimit: 700000,
+      customMaxRebateAmount: 25000,
     },
   });
 
@@ -178,10 +183,11 @@ export default function IncomeTaxCalculatorPage() {
   const onSubmit = (data: FormValues) => {
     const { 
         ageGroup, salaryIncome=0, businessIncome=0, pensionIncome=0, agriculturalIncome=0, otherIncome=0,
-        deductions80c, taxRegime, customSlabs = [], customStandardDeduction, customRebateLimit 
+        deductions80c, taxRegime, customSlabs = [], customStandardDeduction, customMaxRebateAmount,
+        maxRebateAmountNew, maxRebateAmountOld
     } = data;
     
-    const grossIncome = salaryIncome + businessIncome + pensionIncome + otherIncome; // agricultural income handled separately
+    const grossIncome = salaryIncome + businessIncome + pensionIncome + otherIncome; 
     
     let applicableDeductions = 0;
     let standardDeduction = 0;
@@ -194,13 +200,12 @@ export default function IncomeTaxCalculatorPage() {
         applicableDeductions = deductions80c + standardDeduction;
     } else { // custom
         standardDeduction = customStandardDeduction || 0;
-        applicableDeductions = standardDeduction;
+        applicableDeductions = deductions80c + standardDeduction;
     }
 
     let taxableIncome = grossIncome - applicableDeductions;
     if (taxableIncome < 0) taxableIncome = 0;
 
-    // Agricultural income logic: added to total income for rate purposes if net agri income > 5000 and total income > basic exemption
     let finalTaxableIncome = taxableIncome;
     if (taxRegime === 'old' && agriculturalIncome > 5000 && taxableIncome > oldRegimeSlabs[ageGroup][0].limit) {
         finalTaxableIncome += agriculturalIncome;
@@ -209,7 +214,6 @@ export default function IncomeTaxCalculatorPage() {
     let { tax: taxAmount, slabWiseTax } = calculateTax(finalTaxableIncome, taxRegime, ageGroup, customSlabs || []);
     let rebateApplied = false;
 
-    // Adjust tax for agricultural income if applicable
     if (taxRegime === 'old' && agriculturalIncome > 5000 && taxableIncome > oldRegimeSlabs[ageGroup][0].limit) {
       const taxOnAgri = calculateTax(agriculturalIncome + oldRegimeSlabs[ageGroup][0].limit, taxRegime, ageGroup, customSlabs).tax;
       taxAmount -= taxOnAgri;
@@ -224,15 +228,15 @@ export default function IncomeTaxCalculatorPage() {
     }
 
     let healthAndEducationCess = (taxAmount + surcharge) * 0.04;
-    
-    // Rebate logic
-    if (taxRegime === 'new' && taxableIncome <= 700000) {
+
+    // Rebate logic based on calculated tax amount
+    if (taxRegime === 'new' && maxRebateAmountNew && taxAmount > 0 && taxAmount <= maxRebateAmountNew) {
         taxAmount = 0; surcharge = 0; healthAndEducationCess = 0;
         rebateApplied = true;
-    } else if (taxRegime === 'old' && taxableIncome <= 500000) {
+    } else if (taxRegime === 'old' && maxRebateAmountOld && taxAmount > 0 && taxAmount <= maxRebateAmountOld) {
         taxAmount = 0; surcharge = 0; healthAndEducationCess = 0;
         rebateApplied = true;
-    } else if (taxRegime === 'custom' && customRebateLimit && taxableIncome <= customRebateLimit) {
+    } else if (taxRegime === 'custom' && customMaxRebateAmount && taxAmount > 0 && taxAmount <= customMaxRebateAmount) {
         taxAmount = 0; surcharge = 0; healthAndEducationCess = 0;
         rebateApplied = true;
     }
@@ -249,7 +253,8 @@ export default function IncomeTaxCalculatorPage() {
       surcharge,
       healthAndEducationCess: healthAndEducationCess,
       totalTax,
-      slabWiseTax
+      slabWiseTax,
+      rebateApplied
     });
   };
 
@@ -271,7 +276,6 @@ export default function IncomeTaxCalculatorPage() {
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-6">
-                  {/* Personal Details */}
                   <div className="space-y-4 rounded-md border p-4">
                     <h3 className="font-semibold">Personal Details</h3>
                     <div className="grid grid-cols-2 gap-4">
@@ -305,7 +309,6 @@ export default function IncomeTaxCalculatorPage() {
                     </div>
                   </div>
 
-                  {/* Income Details */}
                   <div className="space-y-4 rounded-md border p-4">
                     <h3 className="font-semibold">Income Details (Annual)</h3>
                      <div className="grid grid-cols-2 gap-4">
@@ -333,7 +336,6 @@ export default function IncomeTaxCalculatorPage() {
                     </div>
                   </div>
 
-                  {/* Regime Selection */}
                    <RadioGroup
                     defaultValue="new"
                     className="grid grid-cols-3 gap-4"
@@ -356,7 +358,7 @@ export default function IncomeTaxCalculatorPage() {
                   
                    {taxRegime === 'old' && (
                     <div className="space-y-4 rounded-md border p-4">
-                        <h3 className="font-semibold">Old Regime Deductions</h3>
+                        <h3 className="font-semibold">Old Regime Options</h3>
                         <div className="space-y-2">
                           <Label htmlFor="deductions80c">Deductions (80C, 80D, HRA etc.) (₹)</Label>
                           <Input id="deductions80c" type="number" step="0.01" {...register('deductions80c')} />
@@ -366,14 +368,24 @@ export default function IncomeTaxCalculatorPage() {
                           <Label>Standard Deduction</Label>
                           <Input type="text" value="₹50,000" disabled />
                         </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="maxRebateAmountOld">Max Rebate Amount (u/s 87A) (₹)</Label>
+                            <Input id="maxRebateAmountOld" type="number" {...register('maxRebateAmountOld')} />
+                        </div>
                     </div>
                   )}
 
                   {taxRegime === 'new' && (
-                     <div className="space-y-2 rounded-md border p-4">
-                        <h3 className="font-semibold">New Regime Deductions</h3>
-                        <Label>Standard Deduction</Label>
-                        <Input type="text" value="₹75,000" disabled />
+                     <div className="space-y-4 rounded-md border p-4">
+                        <h3 className="font-semibold">New Regime Options</h3>
+                        <div>
+                          <Label>Standard Deduction</Label>
+                          <Input type="text" value="₹75,000" disabled />
+                        </div>
+                        <div>
+                            <Label htmlFor="maxRebateAmountNew">Max Rebate Amount (u/s 87A) (₹)</Label>
+                            <Input id="maxRebateAmountNew" type="number" {...register('maxRebateAmountNew')} />
+                        </div>
                      </div>
                   )}
                   
@@ -407,8 +419,8 @@ export default function IncomeTaxCalculatorPage() {
                             <Input id="customStandardDeduction" type="number" {...register('customStandardDeduction')} />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="customRebateLimit">Custom Tax Rebate Limit (₹)</Label>
-                            <Input id="customRebateLimit" type="number" placeholder="Taxable income limit for rebate" {...register('customRebateLimit')} />
+                            <Label htmlFor="customMaxRebateAmount">Custom Max Rebate Amount (₹)</Label>
+                            <Input id="customMaxRebateAmount" type="number" {...register('customMaxRebateAmount')} />
                         </div>
                     </div>
                   )}
@@ -501,7 +513,7 @@ export default function IncomeTaxCalculatorPage() {
                      <AccordionItem value="item-2">
                       <AccordionTrigger>What is a Tax Rebate under Section 87A?</AccordionTrigger>
                       <AccordionContent>
-                       A tax rebate is a relief for taxpayers with lower incomes. Under the **New Regime**, if your taxable income is up to ₹7,00,000, your tax liability becomes zero. Under the **Old Regime**, if your taxable income is up to ₹5,00,000, a rebate up to ₹12,500 makes your tax payable zero.
+                        A tax rebate is a relief for taxpayers. If your calculated tax liability is below a certain threshold (e.g., ₹25,000 in the New Regime), your tax payable becomes zero. This calculator allows you to set this rebate amount.
                       </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="item-3">
