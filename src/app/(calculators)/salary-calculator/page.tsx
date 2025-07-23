@@ -214,7 +214,6 @@ export default function SalaryCalculatorPage() {
                   <SharePanel resultText={`With a CTC of ${formatCurrency(result.ctc)}, my estimated take-home salary is ${formatCurrency(result.takeHomeSalary)} per month.`} />
                 </CardFooter>
               </Card>
-            </Card>
             )}
           </div>
           <Card className="mt-8">
