@@ -96,6 +96,7 @@ import {
   Recycle,
   Zap,
   Box,
+  CreditCard,
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
@@ -146,6 +147,20 @@ const calculatorCategories = [
       { href: '/break-even-point-calculator', name: 'Break-Even Point Calculator', icon: <Target className="size-4" /> },
       { href: '/net-profit-calculator', name: 'Net Profit Calculator', icon: <LineChart className="size-4" /> },
       { href: '/npv-calculator', name: 'NPV Calculator', icon: <CandlestickChart className="size-4" /> },
+    ],
+  },
+  {
+    title: 'Banking & Credit Calculators',
+    description: 'Credit card interest, overdrafts, and more.',
+    icon: <CreditCard className="size-8 text-primary" />,
+    links: [
+      { href: '#', name: 'Credit Card Interest Calculator', icon: <CreditCard className="size-4" /> },
+      { href: '#', name: 'Overdraft Interest Calculator', icon: <TrendingDown className="size-4" /> },
+      { href: '#', name: 'Prepayment vs Tenure Reduction', icon: <FileMinus className="size-4" /> },
+      { href: '#', name: 'Balance Transfer Benefit', icon: <Shuffle className="size-4" /> },
+      { href: '#', name: 'EMI in Arrears vs Advance', icon: <CalendarClock className="size-4" /> },
+      { href: '#', name: 'Credit Score Impact Simulator', icon: <BarChart className="size-4" /> },
+      { href: '#', name: 'Mortgage Refinance Calculator', icon: <Home className="size-4" /> },
     ],
   },
   {
