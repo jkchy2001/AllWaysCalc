@@ -125,7 +125,11 @@ const calculatorCategories = [
     description: 'Length, Mass, Volume, Temperature, Speed.',
     icon: <Ruler className="size-8 text-primary" />,
     links: [
-      { href: '/unit-converter', name: 'Unit Converter' },
+      { href: '/length-converter', name: 'Length Converter' },
+      { href: '/mass-converter', name: 'Mass (Weight) Converter' },
+      { href: '/temperature-converter', name: 'Temperature Converter' },
+      { href: '/volume-converter', name: 'Volume Converter' },
+      { href: '/speed-converter', name: 'Speed Converter' },
     ],
   },
   {
