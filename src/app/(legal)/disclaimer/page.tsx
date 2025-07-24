@@ -1,3 +1,4 @@
+
 import { Header } from '@/components/header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -11,7 +12,7 @@ export default function DisclaimerPage() {
             <CardTitle className="font-headline text-3xl">Disclaimer</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            <p><strong>Last updated:</strong> {new Date().toLocaleDateString()}</p>
+            <p><strong>Last updated:</strong> {new Date().toLocaleDateString('en-CA')}</p>
             
             <p>The information and calculators provided by AllWaysCalc on this website are for general informational and educational purposes only. All information on the site is provided in good faith, however, we make no representation or warranty of any kind, express or implied, regarding the accuracy, adequacy, validity, reliability, availability, or completeness of any information or calculation on the site.</p>
 

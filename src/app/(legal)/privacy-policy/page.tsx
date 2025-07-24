@@ -1,3 +1,4 @@
+
 import { Header } from '@/components/header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
@@ -12,7 +13,7 @@ export default function PrivacyPolicyPage() {
             <CardTitle className="font-headline text-3xl">Privacy Policy for AllWaysCalc</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            <p><strong>Last updated:</strong> {new Date().toLocaleDateString()}</p>
+            <p><strong>Last updated:</strong> {new Date().toLocaleDateString('en-CA')}</p>
 
             <p>
               Welcome to AllWaysCalc. We respect your privacy and are committed to protecting it through our compliance with this policy. This policy describes the types of information we may collect from you or that you may provide when you visit our website and our practices for collecting, using, maintaining, protecting, and disclosing that information.

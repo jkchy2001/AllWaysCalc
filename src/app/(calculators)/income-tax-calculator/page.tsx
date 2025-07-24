@@ -29,6 +29,7 @@ import {
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { oldRegimeSlabs, newRegimeSlabs } from '@/lib/tax-data';
 
 const taxSlabSchema = z.object({
   limit: z.coerce.number().min(0),
@@ -66,35 +67,6 @@ type CalculationResult = {
   totalTax: number;
   slabWiseTax: { slab: string; tax: number }[];
   rebateApplied: boolean;
-};
-
-const newRegimeSlabs = [
-  { limit: 300000, rate: 0 },
-  { limit: 600000, rate: 5 },
-  { limit: 900000, rate: 10 },
-  { limit: 1200000, rate: 15 },
-  { limit: 1500000, rate: 20 },
-  { limit: Infinity, rate: 30 },
-];
-
-const oldRegimeSlabs = {
-    below60: [
-        { limit: 250000, rate: 0 },
-        { limit: 500000, rate: 5 },
-        { limit: 1000000, rate: 20 },
-        { limit: Infinity, rate: 30 },
-    ],
-    '60to80': [
-        { limit: 300000, rate: 0 },
-        { limit: 500000, rate: 5 },
-        { limit: 1000000, rate: 20 },
-        { limit: Infinity, rate: 30 },
-    ],
-    above80: [
-        { limit: 500000, rate: 0 },
-        { limit: 1000000, rate: 20 },
-        { limit: Infinity, rate: 30 },
-    ],
 };
 
 

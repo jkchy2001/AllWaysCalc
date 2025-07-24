@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -28,6 +29,7 @@ import {
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { oldRegimeSlabs, newRegimeSlabs } from '@/lib/tax-data';
 
 const taxSlabSchema = z.object({
   limit: z.coerce.number().min(0),
@@ -62,37 +64,6 @@ type CalculationResult = {
   installments: { dueDate: string; amount: number; percentage: number }[];
   rebateApplied: boolean;
 };
-
-const newRegimeSlabs = [
-  { limit: 400000, rate: 0 },
-  { limit: 800000, rate: 5 },
-  { limit: 1200000, rate: 10 },
-  { limit: 1600000, rate: 15 },
-  { limit: 2000000, rate: 20 },
-  { limit: 2400000, rate: 25 },
-  { limit: Infinity, rate: 30 },
-];
-
-const oldRegimeSlabs = {
-    below60: [
-        { limit: 250000, rate: 0 },
-        { limit: 500000, rate: 5 },
-        { limit: 1000000, rate: 20 },
-        { limit: Infinity, rate: 30 },
-    ],
-    '60to80': [
-        { limit: 300000, rate: 0 },
-        { limit: 500000, rate: 5 },
-        { limit: 1000000, rate: 20 },
-        { limit: Infinity, rate: 30 },
-    ],
-    above80: [
-        { limit: 500000, rate: 0 },
-        { limit: 1000000, rate: 20 },
-        { limit: Infinity, rate: 30 },
-    ],
-};
-
 
 export default function AdvanceTaxCalculatorPage() {
   const [result, setResult] = useState<CalculationResult | null>(null);
@@ -169,7 +140,7 @@ export default function AdvanceTaxCalculatorPage() {
     let standardDeduction = 0;
 
     if (taxRegime === 'new') {
-        standardDeduction = 75000;
+        standardDeduction = 50000;
         applicableDeductions = standardDeduction;
     } else if (taxRegime === 'old') {
         standardDeduction = 50000;
@@ -206,15 +177,24 @@ export default function AdvanceTaxCalculatorPage() {
     let healthAndEducationCess = (taxAmount + surcharge) * 0.04;
     
     let maxRebateAmount = 0;
-    if (taxRegime === 'new') maxRebateAmount = newMaxRebateAmount || 0;
-    else if (taxRegime === 'old') maxRebateAmount = oldMaxRebateAmount || 0;
-    else if (taxRegime === 'custom') maxRebateAmount = customMaxRebateAmount || 0;
+    let rebateThreshold = 0;
 
-    if (taxAmount > 0 && taxAmount <= maxRebateAmount) {
+    if (taxRegime === 'new') {
+        rebateThreshold = 700000;
+        if(taxableIncome <= rebateThreshold) rebateApplied = true;
+    } else if (taxRegime === 'old') {
+       rebateThreshold = 500000;
+       maxRebateAmount = oldMaxRebateAmount || 12500;
+       if(taxableIncome <= rebateThreshold && taxAmount <= maxRebateAmount) rebateApplied = true;
+    } else if (taxRegime === 'custom') {
+      maxRebateAmount = customMaxRebateAmount || 0;
+      if (taxAmount > 0 && taxAmount <= maxRebateAmount) rebateApplied = true;
+    }
+    
+    if (rebateApplied) {
         taxAmount = 0;
         surcharge = 0;
         healthAndEducationCess = 0;
-        rebateApplied = true;
     }
     
     const totalTax = taxAmount + surcharge + healthAndEducationCess;
@@ -371,11 +351,7 @@ export default function AdvanceTaxCalculatorPage() {
                          <p className="text-xs text-muted-foreground">Rebate u/s 87A applied if tax amount is up to the specified rebate amount.</p>
                         <div>
                           <Label>Standard Deduction</Label>
-                          <Input type="text" value="₹75,000" disabled />
-                        </div>
-                        <div className="space-y-2">
-                           <Label htmlFor="newMaxRebateAmount">Max Rebate Amount (on Tax)</Label>
-                           <Input id="newMaxRebateAmount" type="number" {...register('newMaxRebateAmount')} />
+                          <Input type="text" value="₹50,000" disabled />
                         </div>
                      </div>
                   )}

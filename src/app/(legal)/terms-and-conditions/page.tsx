@@ -1,3 +1,4 @@
+
 import { Header } from '@/components/header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -11,7 +12,7 @@ export default function TermsAndConditionsPage() {
             <CardTitle className="font-headline text-3xl">Terms and Conditions</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-             <p><strong>Last updated:</strong> {new Date().toLocaleDateString()}</p>
+             <p><strong>Last updated:</strong> {new Date().toLocaleDateString('en-CA')}</p>
             <p>Please read these terms and conditions carefully before using Our Service.</p>
 
             <div className="space-y-2">
