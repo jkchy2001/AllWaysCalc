@@ -63,7 +63,7 @@ export default function GpaCalculatorPage() {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      courses: [{ name: '', credits: 3, grade: 4.0 }],
+      courses: [{ name: 'Example Course', credits: 3, grade: 4.0 }],
     },
   });
 

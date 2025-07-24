@@ -74,8 +74,8 @@ export default function ExamMarksNeededCalculatorPage() {
                 <div className="grid gap-8 lg:grid-cols-2">
                     <Card>
                         <CardHeader>
-                            <CardTitle className="font-headline text-2xl">Exam Marks Needed Calculator</CardTitle>
-                            <CardDescription>Find out what you need to score on your final exam.</CardDescription>
+                            <CardTitle className="font-headline text-2xl">Final Exam Grade Calculator</CardTitle>
+                            <CardDescription>Find out what score you need on your final exam to achieve your desired overall grade for the course.</CardDescription>
                         </CardHeader>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <CardContent className="space-y-4">

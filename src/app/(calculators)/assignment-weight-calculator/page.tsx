@@ -106,7 +106,7 @@ export default function AssignmentWeightCalculatorPage() {
           <div className="grid gap-8 lg:grid-cols-2">
             <Card>
               <CardHeader>
-                <CardTitle className="font-headline text-2xl">Course Grade & Assignment Weight Calculator</CardTitle>
+                <CardTitle className="font-headline text-2xl">Course Grade &amp; Assignment Weight Calculator</CardTitle>
                 <CardDescription>Calculate your current weighted grade in a course by entering your assignment scores and their respective weights.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
