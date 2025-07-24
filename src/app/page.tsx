@@ -77,7 +77,6 @@ import {
   Notebook,
   GraduationCap as GraduationCapIcon,
   TestTube,
-  FlaskConical,
   Beaker,
   TestTubes,
   Footprints,
@@ -104,16 +103,17 @@ import {
   Luggage,
   Fuel,
   Cog,
-  Bolt,
   RotateCw,
   BatteryCharging,
+  Bolt,
+  FlaskConical,
 } from 'lucide-react';
 import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
 import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { AnimatedHero } from '@/components/animated-hero';
+import { HeroGrid } from '@/components/hero-grid';
 
 const calculatorCategories = [
   {
@@ -457,7 +457,7 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="flex items-center justify-center">
-                 <AnimatedHero />
+                 <HeroGrid />
               </div>
             </div>
           </div>
