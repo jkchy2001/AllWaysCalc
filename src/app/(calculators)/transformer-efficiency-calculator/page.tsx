@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home, Activity } from 'lucide-react';
+import { Home, Activity, Zap, TrendingDown, Bolt } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
@@ -89,25 +89,25 @@ export default function TransformerEfficiencyCalculatorPage({
             <Card className="w-full bg-card/50 border-border/50 backdrop-blur-sm">
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">Online Transformer Efficiency Calculator</CardTitle>
-                <CardDescription>Calculate the efficiency of an electrical transformer based on its output power and losses.</CardDescription>
+                <CardDescription>Calculate the efficiency of an electrical transformer based on its output power and operational losses.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="outputPower">Output Power (Watts)</Label>
-                    <p className="text-xs text-muted-foreground">The power delivered to the load.</p>
+                    <p className="text-xs text-muted-foreground">The useful power delivered to the load from the secondary winding.</p>
                     <Input id="outputPower" type="number" {...register('outputPower')} />
                     {errors.outputPower && <p className="text-destructive text-sm">{errors.outputPower.message}</p>}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="copperLosses">Copper Losses (I²R Losses) (Watts)</Label>
-                     <p className="text-xs text-muted-foreground">Losses in the windings, which vary with the load.</p>
+                     <p className="text-xs text-muted-foreground">Also called winding losses. These are resistive heating losses in the windings, which vary with the load current.</p>
                     <Input id="copperLosses" type="number" {...register('copperLosses')} />
                     {errors.copperLosses && <p className="text-destructive text-sm">{errors.copperLosses.message}</p>}
                   </div>
                    <div className="space-y-2">
                     <Label htmlFor="ironLosses">Iron Losses (Core Losses) (Watts)</Label>
-                    <p className="text-xs text-muted-foreground">Constant losses in the core, regardless of load.</p>
+                    <p className="text-xs text-muted-foreground">Constant losses in the magnetic core due to hysteresis and eddy currents. They occur whenever the transformer is energized.</p>
                     <Input id="ironLosses" type="number" {...register('ironLosses')} />
                     {errors.ironLosses && <p className="text-destructive text-sm">{errors.ironLosses.message}</p>}
                   </div>
@@ -154,33 +154,37 @@ export default function TransformerEfficiencyCalculatorPage({
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-                Transformer efficiency is the ratio of the output power to the input power. An ideal transformer would be 100% efficient, but in reality, all transformers have losses that reduce efficiency.
+                Transformer efficiency is the ratio of the useful output power to the total input power. An ideal transformer would be 100% efficient, but in reality, all transformers have losses that generate heat and reduce efficiency.
               </p>
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="item-1">
-                  <AccordionTrigger>What are Copper and Iron Losses?</AccordionTrigger>
+                  <AccordionTrigger>How is efficiency calculated?</AccordionTrigger>
                   <AccordionContent>
-                   <p><b>Copper Losses (I²R Losses):</b> These are due to the electrical resistance of the copper windings. They vary with the load on the transformer.</p>
-                   <p className="mt-2"><b>Iron Losses (Core Losses):</b> These are caused by the alternating magnetic field in the transformer core and consist of hysteresis and eddy current losses. They are constant and occur whenever the transformer is energized, regardless of the load.</p>
+                   The efficiency (η) is calculated using the formula:
+                   <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
+                    <code>
+                      Efficiency (%) = (Output Power / Input Power) × 100
+                    </code>
+                  </pre>
+                  Where `Input Power = Output Power + Copper Losses + Iron Losses`.
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-2">
-                  <AccordionTrigger>How is efficiency calculated?</AccordionTrigger>
-                  <AccordionContent>
-                   The efficiency is calculated using the formula:
-                   <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
-                    <code>
-                      Efficiency (%) = (Output Power / Input Power) * 100
-                    </code>
-                  </pre>
-                  Where Input Power = Output Power + Copper Losses + Iron Losses.
+                  <AccordionTrigger>FAQs</AccordionTrigger>
+                  <AccordionContent className="space-y-4">
+                    <div>
+                        <h4 className="font-semibold">What is maximum efficiency?</h4>
+                        <p>A transformer achieves maximum efficiency when the variable copper losses are equal to the constant iron losses (Copper Losses = Iron Losses). The load at which this occurs is the point of maximum efficiency.</p>
+                    </div>
+                     <div>
+                        <h4 className="font-semibold">Why is high efficiency important?</h4>
+                        <p>High efficiency is crucial for minimizing energy waste, which reduces operating costs and lowers the environmental impact of power generation. In large-scale power distribution, even a fractional improvement in efficiency across thousands of transformers results in significant energy savings.</p>
+                    </div>
+                    <div>
+                        <h4 className="font-semibold">Disclaimer</h4>
+                        <p>This calculator is for educational purposes. It does not account for other factors like temperature, power factor of the load, or harmonic distortion, which can affect real-world efficiency.</p>
+                    </div>
                   </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="item-3">
-                    <AccordionTrigger>Why is high efficiency important?</AccordionTrigger>
-                    <AccordionContent>
-                    High efficiency is crucial for minimizing energy waste, reducing operating costs, and lowering the environmental impact. In large-scale power distribution, even a small improvement in efficiency can lead to significant energy and cost savings.
-                    </AccordionContent>
                 </AccordionItem>
               </Accordion>
             </CardContent>
@@ -192,15 +196,19 @@ export default function TransformerEfficiencyCalculatorPage({
               </CardHeader>
               <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <Link href="/ohms-law-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                   <Zap className="mx-auto mb-2 size-6" />
                   <p className="font-semibold">Ohm's Law</p>
                 </Link>
                 <Link href="/voltage-drop-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <TrendingDown className="mx-auto mb-2 size-6" />
                   <p className="font-semibold">Voltage Drop</p>
                 </Link>
                 <Link href="/electrical-load-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <Bolt className="mx-auto mb-2 size-6" />
                   <p className="font-semibold">Electrical Load</p>
                 </Link>
                 <Link href="/battery-backup-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <BatteryCharging className="mx-auto mb-2 size-6" />
                   <p className="font-semibold">Battery Backup</p>
                 </Link>
               </CardContent>

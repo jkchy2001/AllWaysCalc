@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home, Trash2, Bolt } from 'lucide-react';
+import { Home, Trash2, Bolt, Zap, BatteryCharging, RotateCw } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
@@ -90,12 +90,13 @@ export default function ElectricalLoadCalculatorPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">Electrical Load Calculator</CardTitle>
-                <CardDescription>Estimate the total power and current draw of your appliances.</CardDescription>
+                <CardDescription>Estimate the total power and current draw of your appliances to plan circuits and size generators or inverters.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
                    <div>
                     <Label>Appliances</Label>
+                    <p className="text-xs text-muted-foreground mb-2">List all appliances, their power consumption in Watts, and the quantity.</p>
                     <div className="space-y-2 mt-2">
                       {fields.map((field, index) => (
                         <div key={field.id} className="grid grid-cols-[1fr_80px_60px_auto] items-center gap-2">
@@ -111,6 +112,7 @@ export default function ElectricalLoadCalculatorPage() {
 
                   <div className="space-y-2 pt-4 border-t">
                     <Label htmlFor="voltage">System Voltage (V)</Label>
+                    <p className="text-xs text-muted-foreground">The voltage of your electrical system (e.g., 230V in India, 120V in the US).</p>
                     <Input id="voltage" type="number" {...register('voltage')} />
                     {errors.voltage && <p className="text-destructive text-sm">{errors.voltage.message}</p>}
                   </div>
@@ -160,18 +162,60 @@ export default function ElectricalLoadCalculatorPage() {
                 <AccordionItem value="item-1">
                   <AccordionTrigger>How is the load calculated?</AccordionTrigger>
                   <AccordionContent>
-                   The total power (in Watts) is the sum of the wattage of each appliance multiplied by its quantity. The total current (in Amperes) is then calculated using the formula: Current (A) = Total Power (W) / Voltage (V).
+                   <p>The total power (in Watts) is the sum of the wattage of each appliance multiplied by its quantity.</p>
+                   <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
+                    <code>Total Power (W) = Σ (Appliance Wattage × Quantity)</code>
+                  </pre>
+                   <p className="mt-2">The total current (in Amperes) is then calculated using a rearranged version of the power formula (P=VI):</p>
+                    <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
+                    <code>Current (A) = Total Power (W) / Voltage (V)</code>
+                  </pre>
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-2">
                   <AccordionTrigger>Why is this important?</AccordionTrigger>
                   <AccordionContent>
-                    Overloading a circuit can cause breakers to trip or, in worse cases, lead to overheating and electrical fires. Understanding your total load ensures your electrical system is safe and appropriately sized for your needs.
+                    Overloading a circuit can cause breakers to trip or, in worse cases, lead to overheating and electrical fires. Understanding your total load ensures your electrical system is safe and appropriately sized for your needs. For example, a circuit with a 15 Amp breaker should not have a continuous load of more than 12 Amps (80% rule).
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-3">
+                  <AccordionTrigger>Where do I find the wattage of an appliance?</AccordionTrigger>
+                  <AccordionContent>
+                    The power consumption in Watts is usually printed on a label on the appliance itself or in its user manual. If only Voltage (V) and Current (A) are given, you can calculate wattage by multiplying them (Watts = Volts × Amps).
+                  </AccordionContent>
+                </AccordionItem>
+                 <AccordionItem value="item-4">
+                  <AccordionTrigger>Disclaimer</AccordionTrigger>
+                  <AccordionContent>
+                    This is an estimation for planning purposes only. Real-world power consumption can vary. For any electrical work, always consult a qualified and licensed electrician.
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
             </CardContent>
           </Card>
+            <Card className="mt-8">
+              <CardHeader>
+                <CardTitle>Related Calculators</CardTitle>
+              </CardHeader>
+              <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <Link href="/ohms-law-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <Zap className="mx-auto mb-2 size-6" />
+                  <p className="font-semibold">Ohm's Law</p>
+                </Link>
+                <Link href="/voltage-drop-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <TrendingDown className="mx-auto mb-2 size-6" />
+                  <p className="font-semibold">Voltage Drop</p>
+                </Link>
+                 <Link href="/battery-backup-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <BatteryCharging className="mx-auto mb-2 size-6" />
+                  <p className="font-semibold">Battery Backup</p>
+                </Link>
+                 <Link href="/transformer-efficiency-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <Activity className="mx-auto mb-2 size-6" />
+                  <p className="font-semibold">Transformer Efficiency</p>
+                </Link>
+              </CardContent>
+            </Card>
         </div>
       </main>
     </div>

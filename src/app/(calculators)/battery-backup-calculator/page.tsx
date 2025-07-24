@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home, BatteryCharging } from 'lucide-react';
+import { Home, BatteryCharging, Ohm, OhmSquare, Bolt, Zap } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
 import {
   Accordion,
@@ -91,14 +91,14 @@ export default function BatteryBackupCalculatorPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">Battery Backup & Runtime Calculator</CardTitle>
-                <CardDescription>Estimate how long a battery will last under a specific load, for UPS, inverters, or solar systems.</CardDescription>
+                <CardDescription>Estimate how long a battery will last under a specific load, ideal for UPS, inverters, or solar systems.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="batteryCapacity">Battery Capacity (Ah)</Label>
-                      <p className="text-xs text-muted-foreground">Ampere-hours of your battery.</p>
+                      <p className="text-xs text-muted-foreground">Ampere-hours rating of your battery.</p>
                       <Input id="batteryCapacity" type="number" {...register('batteryCapacity')} />
                       {errors.batteryCapacity && <p className="text-destructive text-sm">{errors.batteryCapacity.message}</p>}
                     </div>
@@ -118,7 +118,7 @@ export default function BatteryBackupCalculatorPage() {
                    <div className="grid grid-cols-2 gap-4">
                      <div className="space-y-2">
                         <Label htmlFor="usableCapacity">Usable Capacity / DoD (%)</Label>
-                        <p className="text-xs text-muted-foreground">Percentage of battery you can safely use.</p>
+                        <p className="text-xs text-muted-foreground">Max percentage of battery to use.</p>
                         <Input id="usableCapacity" type="number" {...register('usableCapacity')} />
                         {errors.usableCapacity && <p className="text-destructive text-sm">{errors.usableCapacity.message}</p>}
                     </div>
@@ -160,29 +160,41 @@ export default function BatteryBackupCalculatorPage() {
             </CardHeader>
             <CardContent>
                 <p className="mb-4">
-                 This calculator helps you estimate the runtime of a battery given a constant power load. It accounts for battery capacity, voltage, and inefficiencies in the system.
+                 This calculator helps you estimate the runtime of a battery given a constant power load. It accounts for battery capacity, voltage, and inefficiencies in the system like inverter loss and depth of discharge.
                 </p>
                  <Accordion type="single" collapsible className="w-full">
                     <AccordionItem value="item-1">
                       <AccordionTrigger>Key Terms Explained</AccordionTrigger>
-                      <AccordionContent>
-                        <ul className="list-disc list-inside space-y-2">
-                            <li><b>Battery Capacity (Ah):</b> Ampere-hours measure the charge capacity of a battery. A higher Ah means a longer runtime.</li>
-                            <li><b>Load (Watts):</b> The total power consumed by the devices connected to the battery. You can usually find this on the device's label.</li>
-                            <li><b>Usable Capacity / Depth of Discharge (DoD):</b> The percentage of the battery that can be safely drained. You should not fully drain most batteries to prolong their life; 80% is a safe value for many lithium-ion types, while 50% is common for lead-acid.</li>
-                            <li><b>Inverter Efficiency:</b> Inverters, which convert DC battery power to AC for your appliances, are not 100% efficient. Some energy is lost as heat during this conversion. 90% is a typical efficiency for good quality inverters.</li>
-                        </ul>
+                      <AccordionContent className="space-y-2">
+                        <p><b>Battery Capacity (Ah):</b> Ampere-hours measure the charge capacity. A higher Ah means a longer runtime.</p>
+                        <p><b>Load (Watts):</b> The total power consumed by the devices connected to the battery. You can usually find this on the device's power label.</p>
+                        <p><b>Usable Capacity / Depth of Discharge (DoD):</b> The percentage of the battery you can safely drain without damaging it. Discharging to 100% can significantly reduce a battery's lifespan. 80% is a safe value for many lithium-ion types, while 50% is often recommended for lead-acid batteries.</p>
+                        <p><b>Inverter Efficiency:</b> Inverters convert DC battery power to AC for your appliances. This process isn't 100% efficient; some energy is lost as heat. 90% is a typical efficiency for good quality inverters.</p>
                       </AccordionContent>
                     </AccordionItem>
                      <AccordionItem value="item-2">
-                        <AccordionTrigger>Calculation Formula</AccordionTrigger>
+                        <AccordionTrigger>Calculation Formulas</AccordionTrigger>
                         <AccordionContent>
                           <ol className="list-decimal list-inside space-y-2">
-                            <li><b>Total Energy (Wh):</b> `Capacity (Ah) × Voltage (V)`</li>
-                            <li><b>Usable Energy (Wh):</b> `Total Energy × (Usable Capacity % / 100)`</li>
-                            <li><b>Adjusted Load (W):</b> `Load (W) / (Inverter Efficiency % / 100)`</li>
-                            <li><b>Backup Time (Hours):</b> `Usable Energy / Adjusted Load`</li>
+                            <li><b>Total Energy (Wh):</b> First, we find the total energy stored in the battery in Watt-hours.
+                                <pre className="p-2 mt-1 rounded-md bg-muted font-code text-xs">Total Energy (Wh) = Capacity (Ah) × Voltage (V)</pre>
+                            </li>
+                            <li><b>Usable Energy (Wh):</b> We then account for the usable capacity.
+                                <pre className="p-2 mt-1 rounded-md bg-muted font-code text-xs">Usable Energy = Total Energy × (Usable Capacity % / 100)</pre>
+                            </li>
+                            <li><b>Adjusted Load (W):</b> The actual power drawn from the battery is higher than the load due to inverter inefficiency.
+                                 <pre className="p-2 mt-1 rounded-md bg-muted font-code text-xs">Adjusted Load = Load (W) / (Inverter Efficiency % / 100)</pre>
+                            </li>
+                            <li><b>Backup Time (Hours):</b> Finally, we calculate the runtime.
+                                <pre className="p-2 mt-1 rounded-md bg-muted font-code text-xs">Backup Time = Usable Energy / Adjusted Load</pre>
+                            </li>
                           </ol>
+                        </AccordionContent>
+                    </AccordionItem>
+                     <AccordionItem value="item-3">
+                        <AccordionTrigger>Disclaimer</AccordionTrigger>
+                        <AccordionContent>
+                            <p>This is an estimate. Real-world battery performance can be affected by temperature, battery age, and the specific discharge curve of the battery chemistry. Always consult manufacturer specifications for critical applications.</p>
                         </AccordionContent>
                     </AccordionItem>
                 </Accordion>
@@ -194,15 +206,19 @@ export default function BatteryBackupCalculatorPage() {
             </CardHeader>
             <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <Link href="/ohms-law-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <Zap className="mx-auto mb-2 size-6" />
                 <p className="font-semibold">Ohm's Law</p>
               </Link>
               <Link href="/voltage-drop-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <TrendingDown className="mx-auto mb-2 size-6" />
                 <p className="font-semibold">Voltage Drop</p>
               </Link>
               <Link href="/electrical-load-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <Bolt className="mx-auto mb-2 size-6" />
                 <p className="font-semibold">Electrical Load</p>
               </Link>
                <Link href="/solar-panel-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <Sun className="mx-auto mb-2 size-6" />
                 <p className="font-semibold">Solar Panel</p>
               </Link>
             </CardContent>

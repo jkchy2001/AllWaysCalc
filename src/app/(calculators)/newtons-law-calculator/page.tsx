@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home, Zap } from 'lucide-react';
+import { Home, Zap, Atom, TrendingUp, Flame, RotateCw } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -61,20 +61,20 @@ export default function NewtonsLawCalculatorPage() {
     try {
         switch (data.solveFor) {
             case 'force':
-                if (mass && acceleration) {
+                if (mass !== undefined && acceleration !== undefined) {
                     calculatedValue = mass * acceleration;
                     calculatedUnit = 'Newtons (N)';
                 }
                 break;
             case 'mass':
-                 if (force && acceleration) {
+                 if (force !== undefined && acceleration !== undefined) {
                     if (acceleration === 0) throw new Error("Acceleration cannot be zero when solving for mass.");
                     calculatedValue = force / acceleration;
                     calculatedUnit = 'Kilograms (kg)';
                 }
                 break;
             case 'acceleration':
-                 if (force && mass) {
+                 if (force !== undefined && mass !== undefined) {
                     if (mass === 0) throw new Error("Mass cannot be zero when solving for acceleration.");
                     calculatedValue = force / mass;
                     calculatedUnit = 'm/s²';
@@ -96,9 +96,9 @@ export default function NewtonsLawCalculatorPage() {
   };
 
   const variableMap = {
-      force: { label: 'Force (F)', unit: 'Newtons' },
-      mass: { label: 'Mass (m)', unit: 'kg' },
-      acceleration: { label: 'Acceleration (a)', unit: 'm/s²' },
+      force: { label: 'Force (F)', unit: 'Newtons', description: 'The push or pull on an object.' },
+      mass: { label: 'Mass (m)', unit: 'kg', description: 'The amount of matter in an object.' },
+      acceleration: { label: 'Acceleration (a)', unit: 'm/s²', description: 'The rate of change of velocity.' },
   }
 
   return (
@@ -115,7 +115,7 @@ export default function NewtonsLawCalculatorPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">Newton's Second Law Calculator</CardTitle>
-                <CardDescription>Solve for any variable in the equation F = ma.</CardDescription>
+                <CardDescription>Solve for force, mass, or acceleration using the equation F = ma.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
@@ -138,11 +138,12 @@ export default function NewtonsLawCalculatorPage() {
                     </div>
                   
                    <div className="space-y-4 p-4 border rounded-md">
-                    {Object.entries(variableMap).map(([key, {label, unit}]) => {
+                    {Object.entries(variableMap).map(([key, {label, unit, description}]) => {
                         if (key !== solveFor) {
                             return (
                                 <div className="space-y-2" key={key}>
                                     <Label htmlFor={key}>{label}</Label>
+                                    <p className="text-xs text-muted-foreground">{description}</p>
                                     <Input 
                                         id={key}
                                         type="number"
@@ -191,27 +192,64 @@ export default function NewtonsLawCalculatorPage() {
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-                Newton's Second Law of Motion states that the force acting on an object is equal to the mass of that object times its acceleration. It's a fundamental principle in classical mechanics.
+                Newton's Second Law of Motion is a fundamental principle in classical mechanics that describes the relationship between an object's mass, the force applied to it, and the resulting acceleration.
               </p>
                <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="item-1">
-                      <AccordionTrigger>Formula Used</AccordionTrigger>
+                      <AccordionTrigger>Formula Explained</AccordionTrigger>
                       <AccordionContent>
+                       <p>The law is mathematically stated as:</p>
                        <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
                         <code>
                             F = m × a
                         </code>
                         </pre>
                         <ul className="list-disc list-inside mt-2 text-sm">
-                            <li><b>F</b> = Force (Newtons)</li>
-                            <li><b>m</b> = Mass (kg)</li>
-                            <li><b>a</b> = Acceleration (m/s²)</li>
+                            <li><b>F (Force):</b> The net force acting on the object, measured in Newtons (N).</li>
+                            <li><b>m (Mass):</b> A measure of the object's inertia, measured in kilograms (kg).</li>
+                            <li><b>a (Acceleration):</b> The rate at which the object's velocity changes, measured in meters per second squared (m/s²).</li>
                         </ul>
                       </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="item-2">
+                    <AccordionTrigger>FAQs</AccordionTrigger>
+                    <AccordionContent className="space-y-4">
+                        <div>
+                            <h4 className="font-semibold">What is a Newton (N)?</h4>
+                            <p>One Newton is defined as the amount of force required to accelerate a 1 kilogram mass at a rate of 1 meter per second squared. So, 1 N = 1 kg·m/s².</p>
+                        </div>
+                        <div>
+                            <h4 className="font-semibold">Why can't acceleration be zero when solving for mass?</h4>
+                            <p>If acceleration is zero, the net force on the object is also zero (unless the mass is infinite, which is not physically possible). The formula becomes `Mass = Force / 0`, which is an undefined mathematical operation. An object with zero acceleration is either at rest or moving at a constant velocity.</p>
+                        </div>
+                    </AccordionContent>
                   </AccordionItem>
               </Accordion>
             </CardContent>
           </Card>
+           <Card className="mt-8">
+              <CardHeader>
+                <CardTitle>Related Calculators</CardTitle>
+              </CardHeader>
+              <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <Link href="/acceleration-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <TrendingUp className="mx-auto mb-2 size-6" />
+                  <p className="font-semibold">Acceleration</p>
+                </Link>
+                <Link href="/kinetic-energy-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                   <Flame className="mx-auto mb-2 size-6" />
+                   <p className="font-semibold">Kinetic Energy</p>
+                </Link>
+                <Link href="/torque-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <RotateCw className="mx-auto mb-2 size-6" />
+                  <p className="font-semibold">Torque</p>
+                </Link>
+                <Link href="/ohms-law-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <Zap className="mx-auto mb-2 size-6" />
+                  <p className="font-semibold">Ohm's Law</p>
+                </Link>
+              </CardContent>
+            </Card>
         </div>
       </main>
     </div>

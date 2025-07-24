@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home, Zap } from 'lucide-react';
+import { Home, Zap, Bolt, BatteryCharging, TrendingDown } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -61,20 +61,20 @@ export default function OhmsLawCalculatorPage() {
     try {
         switch (data.solveFor) {
             case 'voltage':
-                if (current && resistance) {
+                if (current !== undefined && resistance !== undefined) {
                     calculatedValue = current * resistance;
                     calculatedUnit = 'Volts (V)';
                 }
                 break;
             case 'current':
-                 if (voltage && resistance) {
+                 if (voltage !== undefined && resistance !== undefined) {
                     if (resistance === 0) throw new Error("Resistance cannot be zero when solving for current.");
                     calculatedValue = voltage / resistance;
                     calculatedUnit = 'Amperes (A)';
                 }
                 break;
             case 'resistance':
-                 if (voltage && current) {
+                 if (voltage !== undefined && current !== undefined) {
                     if (current === 0) throw new Error("Current cannot be zero when solving for resistance.");
                     calculatedValue = voltage / current;
                     calculatedUnit = 'Ohms (Ω)';
@@ -96,9 +96,9 @@ export default function OhmsLawCalculatorPage() {
   };
 
   const variableMap = {
-      voltage: { label: 'Voltage (V)', unit: 'Volts' },
-      current: { label: 'Current (I)', unit: 'Amps' },
-      resistance: { label: 'Resistance (R)', unit: 'Ohms' },
+      voltage: { label: 'Voltage (V)', unit: 'Volts', description: 'The electrical potential difference between two points.' },
+      current: { label: 'Current (I)', unit: 'Amps', description: 'The rate of flow of electric charge.' },
+      resistance: { label: 'Resistance (R)', unit: 'Ohms', description: "The measure of opposition to current flow in a circuit." },
   }
 
   return (
@@ -115,7 +115,7 @@ export default function OhmsLawCalculatorPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">Ohm's Law Calculator</CardTitle>
-                <CardDescription>Solve for any variable in the equation V = IR.</CardDescription>
+                <CardDescription>Solve for voltage, current, or resistance using the formula V = IR.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
@@ -138,11 +138,12 @@ export default function OhmsLawCalculatorPage() {
                     </div>
                   
                    <div className="space-y-4 p-4 border rounded-md">
-                    {Object.entries(variableMap).map(([key, {label, unit}]) => {
+                    {Object.entries(variableMap).map(([key, {label, unit, description}]) => {
                         if (key !== solveFor) {
                             return (
                                 <div className="space-y-2" key={key}>
                                     <Label htmlFor={key}>{label}</Label>
+                                    <p className="text-xs text-muted-foreground">{description}</p>
                                     <Input 
                                         id={key}
                                         type="number"
@@ -191,27 +192,63 @@ export default function OhmsLawCalculatorPage() {
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-                Ohm's Law states that the voltage across a conductor is directly proportional to the current flowing through it, provided all physical conditions and temperature remain constant.
+                Ohm's Law states that the current through a conductor between two points is directly proportional to the voltage across the two points. It's one of the most fundamental equations in electrical engineering.
               </p>
                <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="item-1">
-                      <AccordionTrigger>Formula Used</AccordionTrigger>
+                      <AccordionTrigger>Formulas Used</AccordionTrigger>
                       <AccordionContent>
-                       <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
-                        <code>
-                            V = I × R
-                        </code>
-                        </pre>
-                        <ul className="list-disc list-inside mt-2 text-sm">
-                            <li><b>V</b> = Voltage (Volts)</li>
-                            <li><b>I</b> = Current (Amperes)</li>
-                            <li><b>R</b> = Resistance (Ohms)</li>
+                       <p>The base formula can be rearranged to solve for any variable:</p>
+                       <ul className="list-disc list-inside mt-2 text-sm bg-muted p-4 rounded-md space-y-2">
+                            <li>To find Voltage (V): <code className="font-mono">V = I × R</code></li>
+                            <li>To find Current (I): <code className="font-mono">I = V / R</code></li>
+                            <li>To find Resistance (R): <code className="font-mono">R = V / I</code></li>
                         </ul>
+                      </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="item-2">
+                      <AccordionTrigger>FAQs</AccordionTrigger>
+                      <AccordionContent className="space-y-4">
+                          <div>
+                              <h4 className="font-semibold">What are the units?</h4>
+                              <p>The standard SI units are Volts (V) for voltage, Amperes (A) for current, and Ohms (Ω) for resistance. This calculator uses these standard units.</p>
+                          </div>
+                          <div>
+                              <h4 className="font-semibold">Does Ohm's Law apply to all components?</h4>
+                              <p>No. Ohm's Law applies to ohmic materials and components, like resistors, where the resistance is constant regardless of the voltage or current. It does not apply to non-ohmic components like diodes or transistors.</p>
+                          </div>
+                           <div>
+                              <h4 className="font-semibold">Disclaimer</h4>
+                              <p>This calculator is for educational purposes. Electrical work can be dangerous. Always consult a qualified professional for any real-world applications.</p>
+                          </div>
                       </AccordionContent>
                   </AccordionItem>
               </Accordion>
             </CardContent>
           </Card>
+           <Card className="mt-8">
+              <CardHeader>
+                <CardTitle>Related Calculators</CardTitle>
+              </CardHeader>
+              <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <Link href="/electrical-load-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <Bolt className="mx-auto mb-2 size-6" />
+                  <p className="font-semibold">Electrical Load</p>
+                </Link>
+                <Link href="/voltage-drop-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                   <TrendingDown className="mx-auto mb-2 size-6" />
+                   <p className="font-semibold">Voltage Drop</p>
+                </Link>
+                <Link href="/battery-backup-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <BatteryCharging className="mx-auto mb-2 size-6" />
+                  <p className="font-semibold">Battery Backup</p>
+                </Link>
+                <Link href="/transformer-efficiency-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <Activity className="mx-auto mb-2 size-6" />
+                  <p className="font-semibold">Transformer Efficiency</p>
+                </Link>
+              </CardContent>
+            </Card>
         </div>
       </main>
     </div>

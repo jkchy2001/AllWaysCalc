@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home, RotateCw } from 'lucide-react';
+import { Home, RotateCw, Atom, Flame, Gear, Cog, Zap, Bolt } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -87,17 +87,15 @@ export default function TorqueCalculatorPage() {
              setResult(null);
         }
 
-    } catch (e: any) {
-      console.error(e);
-      setResult(null);
+    } catch (e: any)      setResult(null);
       form.setError("root", { message: e.message || "Invalid input for calculation." });
     }
   };
 
   const variableMap = {
-      torque: { label: 'Torque (τ)', unit: 'Nm' },
-      force: { label: 'Force (F)', unit: 'N' },
-      radius: { label: 'Radius (Lever Arm)', unit: 'm' },
+      torque: { label: 'Torque (τ)', unit: 'Nm', description: 'The rotational force.' },
+      force: { label: 'Force (F)', unit: 'N', description: 'The linear force applied.' },
+      radius: { label: 'Radius (Lever Arm)', unit: 'm', description: 'The distance from the axis of rotation.' },
   }
 
   return (
@@ -114,7 +112,7 @@ export default function TorqueCalculatorPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">Torque Calculator</CardTitle>
-                <CardDescription>Solve for torque, force, or radius.</CardDescription>
+                <CardDescription>Solve for torque, force, or radius using the formula τ = F × r.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
@@ -137,11 +135,12 @@ export default function TorqueCalculatorPage() {
                     </div>
                   
                    <div className="space-y-4 p-4 border rounded-md">
-                    {Object.entries(variableMap).map(([key, {label, unit}]) => {
+                    {Object.entries(variableMap).map(([key, {label, unit, description}]) => {
                         if (key !== solveFor) {
                             return (
                                 <div className="space-y-2" key={key}>
                                     <Label htmlFor={key}>{label}</Label>
+                                    <p className="text-xs text-muted-foreground">{description}</p>
                                     <Input 
                                         id={key}
                                         type="number"
@@ -190,27 +189,64 @@ export default function TorqueCalculatorPage() {
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-                Torque, also known as moment of force, is the rotational equivalent of linear force. It measures how much a force acting on an object causes that object to rotate. This calculator assumes the force is applied perpendicularly to the lever arm.
+                Torque, also known as moment of force, is the rotational equivalent of linear force. Just as a linear force is a push or a pull, a torque can be thought of as a twist to an object.
               </p>
                <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="item-1">
-                      <AccordionTrigger>Formula Used</AccordionTrigger>
+                      <AccordionTrigger>Formula and Units</AccordionTrigger>
                       <AccordionContent>
+                       <p>The simplest formula for torque assumes the force is applied perpendicularly to the lever arm:</p>
                        <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
                         <code>
                             τ = F × r
                         </code>
                         </pre>
                         <ul className="list-disc list-inside mt-2 text-sm">
-                            <li><b>τ (tau)</b> = Torque (Newton-meters)</li>
-                            <li><b>F</b> = Force (Newtons)</li>
-                            <li><b>r</b> = Radius / Lever Arm Length (meters)</li>
+                            <li><b>τ (tau)</b> = Torque, measured in Newton-meters (Nm).</li>
+                            <li><b>F</b> = Force, measured in Newtons (N).</li>
+                            <li><b>r</b> = Radius or Lever Arm Length, measured in meters (m). This is the distance from the pivot point to the point where the force is applied.</li>
                         </ul>
                       </AccordionContent>
+                  </AccordionItem>
+                   <AccordionItem value="item-2">
+                    <AccordionTrigger>FAQs</AccordionTrigger>
+                    <AccordionContent className="space-y-4">
+                        <div>
+                            <h4 className="font-semibold">What is a real-world example of torque?</h4>
+                            <p>Using a wrench to tighten a bolt is a classic example. Your hand applies a force (F) to the handle of the wrench at a certain distance (r) from the bolt. The resulting twisting force on the bolt is the torque (τ).</p>
+                        </div>
+                        <div>
+                            <h4 className="font-semibold">What if the force isn't perpendicular?</h4>
+                            <p>If the force is applied at an angle (θ) to the lever arm, the formula becomes `τ = F × r × sin(θ)`. This calculator assumes a perpendicular force (θ = 90°), where sin(90°) = 1, simplifying the formula.</p>
+                        </div>
+                    </AccordionContent>
                   </AccordionItem>
               </Accordion>
             </CardContent>
           </Card>
+           <Card className="mt-8">
+              <CardHeader>
+                <CardTitle>Related Calculators</CardTitle>
+              </CardHeader>
+              <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <Link href="/gear-ratio-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <Cog className="mx-auto mb-2 size-6" />
+                  <p className="font-semibold">Gear Ratio</p>
+                </Link>
+                <Link href="/newtons-law-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                   <Atom className="mx-auto mb-2 size-6" />
+                   <p className="font-semibold">Newton's Second Law</p>
+                </Link>
+                <Link href="/kinetic-energy-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <Flame className="mx-auto mb-2 size-6" />
+                  <p className="font-semibold">Kinetic Energy</p>
+                </Link>
+                <Link href="/electrical-load-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <Bolt className="mx-auto mb-2 size-6" />
+                  <p className="font-semibold">Electrical Load</p>
+                </Link>
+              </CardContent>
+            </Card>
         </div>
       </main>
     </div>
