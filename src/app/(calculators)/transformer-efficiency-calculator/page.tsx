@@ -200,8 +200,8 @@ export default function TransformerEfficiencyCalculatorPage({
                 <Link href="/electrical-load-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
                   <p className="font-semibold">Electrical Load</p>
                 </Link>
-                <Link href="/solar-panel-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
-                  <p className="font-semibold">Solar Panel</p>
+                <Link href="/battery-backup-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <p className="font-semibold">Battery Backup</p>
                 </Link>
               </CardContent>
             </Card>
