@@ -25,11 +25,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 
-export default function AspectRatioCalculatorPage({
-  searchParams,
-}: {
-  searchParams?: { [key: string]: string | string[] | undefined };
-}) {
+export default function AspectRatioCalculatorPage() {
   const [activeInput, setActiveInput] = useState<'w2' | 'h2' | null>(null);
   
   const form = useForm({
@@ -69,7 +65,7 @@ export default function AspectRatioCalculatorPage({
   
 
   return (
-    <div className="flex flex-col min-h-screen bg-secondary/30">
+    <div className="flex flex-col min-h-screen">
       <Header />
       <main className="flex-1 p-4 md:p-8">
         <div className="max-w-4xl mx-auto">

@@ -24,15 +24,17 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="font-body antialiased flex flex-col min-h-screen bg-gradient-to-br from-background to-[#111115]">
+      <body className="font-body antialiased">
         <ThemeProvider
             attribute="class"
             defaultTheme="dark"
             enableSystem
             disableTransitionOnChange
         >
-            <div className="flex-1">{children}</div>
-            <Footer />
+            <div className="flex flex-col min-h-screen">
+              <div className="flex-1">{children}</div>
+              <Footer />
+            </div>
             <Toaster />
         </ThemeProvider>
       </body>

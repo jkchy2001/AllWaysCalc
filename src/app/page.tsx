@@ -84,7 +84,6 @@ import {
   CalendarHeart,
   CalendarClock,
   Users,
-  Moon,
   Star,
   Gem,
   Palette,
@@ -108,18 +107,16 @@ import {
   Bolt,
   FlaskConical,
 } from 'lucide-react';
-import { CalculatorCard } from '@/components/calculator-card';
 import { Header } from '@/components/header';
-import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { HeroGrid } from '@/components/hero-grid';
+import { motion } from 'framer-motion';
 
 const calculatorCategories = [
   {
     title: 'Finance & Investment',
     description: 'EMI, SIP, Loans, Compound Interest, Investments.',
-    icon: <Banknote className="size-8 text-primary" />,
+    icon: <Banknote className="size-6 text-primary" />,
     links: [
       { href: '/loan-calculator', name: 'Loan / EMI Calculator', icon: <Landmark className="size-4" /> },
       { href: '/home-loan-calculator', name: 'Home Loan Calculator', icon: <Home className="size-4" /> },
@@ -145,7 +142,7 @@ const calculatorCategories = [
   {
     title: 'Business & Tax',
     description: 'GST, Profit Margin, Break-Even, NPV.',
-    icon: <Briefcase className="size-8 text-primary" />,
+    icon: <Briefcase className="size-6 text-primary" />,
     links: [
       { href: '/gst-calculator', name: 'GST Calculator', icon: <FilePlus className="size-4" /> },
       { href: '/income-tax-calculator', name: 'Income Tax Calculator', icon: <FileText className="size-4" /> },
@@ -166,7 +163,7 @@ const calculatorCategories = [
   {
     title: 'Banking & Credit Calculators',
     description: 'Credit card interest, overdrafts, and more.',
-    icon: <CreditCard className="size-8 text-primary" />,
+    icon: <CreditCard className="size-6 text-primary" />,
     links: [
       { href: '/credit-card-interest-calculator', name: 'Credit Card Interest Calculator', icon: <CreditCard className="size-4" /> },
       { href: '/overdraft-interest-calculator', name: 'Overdraft Interest Calculator', icon: <TrendingDown className="size-4" /> },
@@ -180,7 +177,7 @@ const calculatorCategories = [
   {
     title: 'Education & Student',
     description: 'GPA, CGPA, Percentage, Study Planners.',
-    icon: <GraduationCap className="size-8 text-primary" />,
+    icon: <GraduationCap className="size-6 text-primary" />,
     links: [
       { href: '/percentage-calculator', name: 'Percentage Calculator', icon: <Percent className="size-4" /> },
       { href: '/gpa-calculator', name: 'GPA Calculator', icon: <GraduationCapIcon className="size-4" /> },
@@ -196,7 +193,7 @@ const calculatorCategories = [
   {
     title: 'Math & Geometry',
     description: 'Percentage Change, Mean, Median, Mode.',
-    icon: <Calculator className="size-8 text-primary" />,
+    icon: <Calculator className="size-6 text-primary" />,
     links: [
       { href: '/basic-arithmetic-calculator', name: 'Basic Arithmetic Calculator', icon: <CalculatorIcon className="size-4" /> },
       { href: '/scientific-calculator', name: 'Scientific Calculator', icon: <FlaskConical className="size-4" /> },
@@ -220,7 +217,7 @@ const calculatorCategories = [
   {
     title: 'Health & Fitness',
     description: 'BMI, BMR, Calorie Intake, Ideal Weight.',
-    icon: <HeartPulse className="size-8 text-primary" />,
+    icon: <HeartPulse className="size-6 text-primary" />,
     links: [
         { href: '/bmi-calculator', name: 'BMI Calculator', icon: <UserCheck className="size-4" /> },
         { href: '/bmr-calculator', name: 'BMR Calculator', icon: <Flame className="size-4" /> },
@@ -238,7 +235,7 @@ const calculatorCategories = [
    {
     title: 'Conversions',
     description: 'Length, Mass, Volume, Temperature, Speed.',
-    icon: <Ruler className="size-8 text-primary" />,
+    icon: <Ruler className="size-6 text-primary" />,
     links: [
       { href: '/length-converter', name: 'Length Converter', icon: <Ruler className="size-4" /> },
       { href: '/mass-converter', name: 'Mass (Weight) Converter', icon: <Scale className="size-4" /> },
@@ -253,7 +250,7 @@ const calculatorCategories = [
   {
     title: 'Life & Personal',
     description: 'Age, Date Duration, Due Date, Tip Jar.',
-    icon: <Heart className="size-8 text-primary" />,
+    icon: <Heart className="size-6 text-primary" />,
     links: [
       { href: '/age-calculator', name: 'Age Calculator', icon: <CalendarClock className="size-4" /> },
       { href: '/date-duration-calculator', name: 'Date Duration Calculator', icon: <CalendarDays className="size-4" /> },
@@ -274,7 +271,7 @@ const calculatorCategories = [
   {
     title: 'Construction & Home',
     description: 'Paint, Tile, Concrete, Flooring Costs.',
-    icon: <Construction className="size-8 text-primary" />,
+    icon: <Construction className="size-6 text-primary" />,
     links: [
       { href: '/paint-calculator', name: 'Paint Calculator', icon: <PaintBucket className="size-4" /> },
       { href: '/tile-calculator', name: 'Tile Calculator', icon: <Layers className="size-4" /> },
@@ -290,7 +287,7 @@ const calculatorCategories = [
   {
     title: 'Tech & Digital',
     description: 'Download Time, Bandwidth, Subnet, Aspect Ratio.',
-    icon: <Monitor className="size-8 text-primary" />,
+    icon: <Monitor className="size-6 text-primary" />,
     links: [
         { href: '/download-time-calculator', name: 'Download Time Calculator', icon: <DownloadCloud className="size-4" /> },
         { href: '/bandwidth-calculator', name: 'Bandwidth Calculator', icon: <Signal className="size-4" /> },
@@ -305,7 +302,7 @@ const calculatorCategories = [
   {
     title: 'Environment & Agriculture',
     description: 'Carbon Footprint, Solar Panel, Crop Yield.',
-    icon: <Leaf className="size-8 text-primary" />,
+    icon: <Leaf className="size-6 text-primary" />,
     links: [
         { href: '/carbon-footprint-calculator', name: 'Carbon Footprint Calculator', icon: <Leaf className="size-4" /> },
         { href: '/water-usage-calculator', name: 'Water Usage Calculator', icon: <Droplets className="size-4" /> },
@@ -319,7 +316,7 @@ const calculatorCategories = [
   {
     title: 'Science',
     description: 'Molar Mass, pH, Ideal Gas Law, Ohm’s Law.',
-    icon: <Atom className="size-8 text-primary" />,
+    icon: <Atom className="size-6 text-primary" />,
     links: [
       { href: '/molar-mass-calculator', name: 'Molar Mass Calculator', icon: <TestTube className="size-4" /> },
       { href: '/ph-calculator', name: 'pH Calculator', icon: <Beaker className="size-4" /> },
@@ -345,7 +342,7 @@ const calculatorCategories = [
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="size-8 text-primary"
+        className="size-6 text-primary"
       >
         <path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z" />
         <path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
@@ -378,7 +375,7 @@ const calculatorCategories = [
   {
     title: 'Travel & Transport',
     description: 'Useful in apps related to logistics or tourism.',
-    icon: <Luggage className="size-8 text-primary" />,
+    icon: <Luggage className="size-6 text-primary" />,
     links: [
       { href: '/distance-fuel-cost-calculator', name: 'Distance & Fuel Cost Calculator', icon: <Fuel className="size-4" /> },
       { href: '/travel-time-estimator', name: 'Travel Time Estimator', icon: <Clock className="size-4" /> },
@@ -392,25 +389,18 @@ const allLinks = calculatorCategories.flatMap(category => category.links.map(lin
 
 export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
 
   const filteredLinks = useMemo(() => {
-    let links = allLinks;
-    if (selectedCategory !== 'All') {
-      links = links.filter(link => link.category === selectedCategory);
+    if (!searchQuery) {
+      return allLinks;
     }
-    if (searchQuery) {
-      links = links.filter(link => link.name.toLowerCase().includes(searchQuery.toLowerCase()));
-    }
-    return links;
-  }, [searchQuery, selectedCategory]);
+    return allLinks.filter(link =>
+      link.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      link.category.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [searchQuery]);
 
   const filteredCategories = useMemo(() => {
-    if (selectedCategory === 'All' && !searchQuery) {
-        return calculatorCategories;
-    }
-
     const categoriesMap = new Map();
     
     filteredLinks.forEach(link => {
@@ -429,103 +419,78 @@ export default function HomePage() {
   }, [filteredLinks]);
   
 
-  const searchResults = useMemo(() => {
-    if (!searchQuery) {
-      return [];
-    }
-    return allLinks.filter(link =>
-      link.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  }, [searchQuery]);
-
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
       <main className="flex-1">
         <section className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
-            <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
-              <div className="flex flex-col justify-center space-y-4">
-                <div className="space-y-2">
-                  <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-headline">
-                    AllWaysCalc: Your Go-To Calculation Hub
-                  </h1>
-                  <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                    From simple tips to complex financial models, AllWaysCalc
-                    provides the tools you need with clarity and precision.
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center justify-center">
-                 <HeroGrid />
-              </div>
-            </div>
+          <div className="container px-4 md:px-6 text-center">
+            <motion.h1 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-headline"
+            >
+              All-in-One Calculator Suite
+            </motion.h1>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="max-w-[600px] mx-auto text-muted-foreground md:text-xl mt-4"
+            >
+              Precise tools for every calculation need. Simple, fast, and accurate.
+            </motion.p>
+             <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="w-full max-w-xl mx-auto mt-8"
+             >
+              <Input
+                type="text"
+                placeholder="Search for a calculator (e.g., 'Loan', 'BMI', 'Paint')..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full h-12 text-lg"
+              />
+            </motion.div>
           </div>
         </section>
-        <section className="w-full py-12 md:py-24 lg:py-32">
+        
+        <section className="w-full py-12">
           <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline">
-                  Calculators for Every Occasion
+             {filteredCategories.map((category, index) => (
+              <motion.div 
+                key={category.title} 
+                className="mb-12"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+              >
+                <h2 className="text-2xl font-bold font-headline flex items-center gap-3 mb-6">
+                   {category.icon}
+                   {category.title}
                 </h2>
-                <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Explore our comprehensive suite of calculators, designed for
-                  accuracy and ease of use.
-                </p>
-              </div>
-              <div className="w-full max-w-xl mx-auto py-4 relative">
-                <Input
-                  type="text"
-                  placeholder="Search for a calculator..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onFocus={() => setIsSearchFocused(true)}
-                  onBlur={() => setTimeout(() => setIsSearchFocused(false), 100)} // Delay to allow click on results
-                  className="w-full"
-                />
-                {isSearchFocused && searchResults.length > 0 && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-card border rounded-md shadow-lg z-10 max-h-60 overflow-y-auto">
-                    <ul>
-                      {searchResults.map(link => (
-                        <li key={link.href}>
-                           <Link href={link.href} className="block p-3 hover:bg-secondary">
-                              <p className="font-semibold">{link.name}</p>
-                              <p className="text-sm text-muted-foreground">{link.category}</p>
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-            </div>
-             <div className="mx-auto grid grid-cols-1 gap-4 py-12 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                 {filteredCategories.map((category) => (
-                    <div key={category.title} className="space-y-3">
-                        <h3 className="text-xl font-bold font-headline flex items-center gap-2">
-                           {category.icon}
-                           {category.title}
-                        </h3>
-                        <ul className="space-y-2">
-                        {category.links.map((link) => (
-                             <li key={link.href}>
-                                <Link href={link.href} className="text-muted-foreground hover:text-primary flex items-center justify-between group">
-                                    <span className='flex items-center gap-2'>
-                                      {link.icon}
-                                      {link.name}
-                                    </span>
-                                     <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                </Link>
-                            </li>
-                        ))}
-                        </ul>
-                    </div>
-                ))}
-            </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                  {category.links.map((link) => (
+                    <Link href={link.href} key={link.href} className="group">
+                        <div className="bg-card/50 border rounded-lg p-4 h-full flex flex-col transition-all duration-300 hover:bg-card hover:shadow-lg hover:-translate-y-1">
+                          <div className="flex items-center gap-3">
+                            <div className="bg-muted p-2 rounded-md">
+                                {link.icon}
+                            </div>
+                            <h3 className="font-semibold text-md">{link.name}</h3>
+                          </div>
+                        </div>
+                    </Link>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
              {filteredCategories.length === 0 && (
               <p className="text-center text-muted-foreground py-12">
-                No calculators found.
+                No calculators found. Try a different search term.
               </p>
             )}
           </div>

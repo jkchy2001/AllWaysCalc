@@ -12,8 +12,7 @@ import {
 } from '@/components/ui/card';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home, Delete } from 'lucide-react';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Home } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function BasicArithmeticCalculatorPage() {
@@ -27,9 +26,7 @@ export default function BasicArithmeticCalculatorPage() {
       setDisplayValue(digit);
       setWaitingForSecondOperand(false);
     } else {
-      // Prevent multiple leading zeros
       if (displayValue === '0' && digit === '0') return;
-      // Prevent very long numbers
       if (displayValue.length >= 15) return;
       setDisplayValue(displayValue === '0' ? digit : displayValue + digit);
     }
@@ -126,22 +123,13 @@ export default function BasicArithmeticCalculatorPage() {
     }
   };
   
-  const backspace = () => {
-    if (waitingForSecondOperand) return;
-    if (displayValue.length > 1) {
-        setDisplayValue(displayValue.slice(0, -1));
-    } else {
-        setDisplayValue('0');
-    }
-  }
-
   const buttonClass = "h-16 w-16 text-2xl rounded-full shadow-lg transition-all duration-150 transform hover:scale-105 active:scale-95";
   const numberButtonClass = "bg-secondary/70 text-secondary-foreground hover:bg-secondary";
-  const operatorButtonClass = "bg-accent text-accent-foreground hover:bg-accent/90";
+  const operatorButtonClass = "bg-primary text-primary-foreground hover:bg-primary/90";
   const functionButtonClass = "bg-muted/70 text-muted-foreground hover:bg-muted";
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-background to-[#111115]">
+    <div className="flex flex-col min-h-screen">
       <Header />
       <main className="flex-1 p-4 md:p-8 flex items-center justify-center">
         <div className="w-full max-w-sm space-y-4">

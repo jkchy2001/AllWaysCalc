@@ -105,7 +105,7 @@ export default function BmrCalculatorPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-secondary/30">
+    <div className="flex flex-col min-h-screen">
         <Header />
         <main className="flex-1 p-4 md:p-8">
             <div className="max-w-4xl mx-auto">
@@ -201,7 +201,7 @@ export default function BmrCalculatorPage() {
                                 {errors.unit && <p className="text-destructive text-sm">{errors.unit.message}</p>}
                             </CardContent>
                             <CardFooter>
-                                <Button type="submit" className="w-full bg-accent hover:bg-accent/90">Calculate BMR</Button>
+                                <Button type="submit" className="w-full">Calculate BMR</Button>
                             </CardFooter>
                         </form>
                     </Card>

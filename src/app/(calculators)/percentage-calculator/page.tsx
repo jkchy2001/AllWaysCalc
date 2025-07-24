@@ -63,7 +63,7 @@ export default function PercentageCalculatorPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-secondary/30">
+    <div className="flex flex-col min-h-screen">
         <Header />
         <main className="flex-1 p-4 md:p-8">
             <div className="max-w-4xl mx-auto">
@@ -92,7 +92,7 @@ export default function PercentageCalculatorPage() {
                                 </div>
                             </CardContent>
                             <CardFooter>
-                                <Button type="submit" className="w-full bg-accent hover:bg-accent/90">Calculate</Button>
+                                <Button type="submit" className="w-full">Calculate</Button>
                             </CardFooter>
                         </form>
                     </Card>
