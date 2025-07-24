@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home } from 'lucide-react';
+import { Home, Info } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
 import {
   Accordion,
@@ -44,7 +44,11 @@ type CalculationResult = {
     totalDays: number;
 };
 
-export default function AgeCalculatorPage() {
+export default function AgeCalculatorPage({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
   const [result, setResult] = useState<CalculationResult | null>(null);
 
   const form = useForm<FormValues>({
@@ -60,6 +64,12 @@ export default function AgeCalculatorPage() {
     const birthDate = new Date(data.birthDate);
     const today = new Date();
     
+    if (birthDate > today) {
+        form.setError('birthDate', {type: 'custom', message: 'Date of birth cannot be in the future.'});
+        setResult(null);
+        return;
+    }
+
     const years = differenceInYears(today, birthDate);
     let months = differenceInMonths(today, birthDate) % 12;
     
@@ -104,8 +114,8 @@ export default function AgeCalculatorPage() {
                 <div className="grid gap-8 lg:grid-cols-2">
                     <Card>
                         <CardHeader>
-                            <CardTitle className="font-headline text-2xl">Age Calculator</CardTitle>
-                            <CardDescription>Find out your exact age in years, months, and days.</CardDescription>
+                            <CardTitle className="font-headline text-2xl">Chronological Age Calculator</CardTitle>
+                            <CardDescription>Find out your exact age in years, months, and days from your date of birth.</CardDescription>
                         </CardHeader>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <CardContent className="space-y-4">
@@ -153,36 +163,53 @@ export default function AgeCalculatorPage() {
                 </div>
                 <Card className="mt-8">
                   <CardHeader>
-                      <CardTitle className="font-headline">How It Works</CardTitle>
+                      <CardTitle className="font-headline flex items-center gap-2"><Info className="size-5" /> How It Works</CardTitle>
                   </CardHeader>
                   <CardContent>
                       <p className="mb-4">
-                        This calculator determines the time elapsed from a date of birth to today's date. It provides a detailed breakdown in years, months, and days, as well as a summary in total months and total days.
+                        This age calculator determines the time elapsed from a date of birth to the current date. It provides a detailed breakdown in years, months, and days, as well as a summary in total months and total days.
                       </p>
-                      <div className="space-y-4">
-                      <div>
-                          <h3 className="font-bold font-headline">Method Used</h3>
-                          <p>We use the current date and your birth date to calculate the precise difference in time, accounting for variations in the number of days in each month and leap years.</p>
-                      </div>
-                      <div>
-                          <h3 className="font-bold font-headline">FAQs</h3>
-                          <Accordion type="single" collapsible className="w-full">
+                      <Accordion type="single" collapsible className="w-full">
                           <AccordionItem value="item-1">
-                              <AccordionTrigger>Is this calculation exact?</AccordionTrigger>
+                              <AccordionTrigger>How is the age calculated?</AccordionTrigger>
                               <AccordionContent>
-                              Yes, the calculation is highly accurate. It's based on the popular and well-tested `date-fns` library for date manipulations.
+                                We use the current date and your provided birth date to calculate the precise difference in time. The calculation leverages the `date-fns` library, which accurately accounts for variations in the number of days in each month and leap years to provide an exact chronological age.
                               </AccordionContent>
                           </AccordionItem>
                           <AccordionItem value="item-2">
-                              <AccordionTrigger>Can I calculate the age for a future date?</AccordionTrigger>
+                              <AccordionTrigger>Why is my age shown in total months and days too?</AccordionTrigger>
                               <AccordionContent>
-                              This calculator is designed to work with past dates of birth. Calculating for a future date of birth will result in a negative age, which this tool does not support.
+                                Presenting the age in different units provides more perspective. For example, knowing your age in total days can be a fun fact, while total months is sometimes used in developmental contexts for young children.
                               </AccordionContent>
                           </AccordionItem>
-                          </Accordion>
-                      </div>
-                      </div>
+                           <AccordionItem value="item-3">
+                              <AccordionTrigger>Can I calculate age for a future date?</AccordionTrigger>
+                              <AccordionContent>
+                              This calculator is designed to work with past dates of birth. Calculating for a future date of birth will result in a negative age, which this tool does not support. The calculation is always based on today's date.
+                              </AccordionContent>
+                          </AccordionItem>
+                      </Accordion>
                   </CardContent>
+                </Card>
+
+                 <Card className="mt-8">
+                    <CardHeader>
+                    <CardTitle>Related Calculators</CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <Link href="/anniversary-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Anniversary Calculator</p>
+                        </Link>
+                        <Link href="/date-duration-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Date Duration Calculator</p>
+                        </Link>
+                         <Link href="/countdown-timer-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Countdown Timer</p>
+                        </Link>
+                         <Link href="/life-expectancy-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Life Expectancy Calculator</p>
+                        </Link>
+                    </CardContent>
                 </Card>
             </div>
         </main>

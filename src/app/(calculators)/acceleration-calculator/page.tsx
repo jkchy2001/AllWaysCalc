@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home, TrendingUp } from 'lucide-react';
+import { Home, TrendingUp, Info } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -38,7 +38,11 @@ type CalculationResult = {
   unit: string;
 };
 
-export default function AccelerationCalculatorPage() {
+export default function AccelerationCalculatorPage({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
   const [result, setResult] = useState<CalculationResult | null>(null);
 
   const form = useForm<FormValues>({
@@ -123,7 +127,7 @@ export default function AccelerationCalculatorPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">Acceleration Calculator</CardTitle>
-                <CardDescription>Solve for any variable in the uniform acceleration equation.</CardDescription>
+                <CardDescription>Solve for any variable in the uniform acceleration equation (a = Δv / t).</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
@@ -196,30 +200,69 @@ export default function AccelerationCalculatorPage() {
           </div>
           <Card className="mt-8">
             <CardHeader>
-              <CardTitle className="font-headline">Understanding Acceleration</CardTitle>
+              <CardTitle className="font-headline flex items-center gap-2"><Info className="size-5" /> Understanding Acceleration</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-                Acceleration is the rate of change of velocity of an object with respect to time. An object's acceleration is the net result of any and all forces acting on the object, as described by Newton's Second Law.
+                Acceleration is a vector quantity defined as the rate at which an object changes its velocity. An object is accelerating if it is changing its velocity. This calculator deals with uniform acceleration, where the velocity changes at a constant rate.
               </p>
                <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="item-1">
                       <AccordionTrigger>Formula Used</AccordionTrigger>
                       <AccordionContent>
+                       <p>The calculator uses the fundamental formula for uniform acceleration:</p>
                        <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
                         <code>
                             a = (v - u) / t
                         </code>
                         </pre>
-                        <ul className="list-disc list-inside mt-2 text-sm">
-                            <li><b>a</b> = Acceleration (m/s²)</li>
-                            <li><b>v</b> = Final Velocity (m/s)</li>
-                            <li><b>u</b> = Initial Velocity (m/s)</li>
-                            <li><b>t</b> = Time (s)</li>
+                        <ul className="list-disc list-inside mt-2 text-sm space-y-1">
+                            <li><b>a</b> = Acceleration (in meters per second squared, m/s²)</li>
+                            <li><b>v</b> = Final Velocity (in meters per second, m/s)</li>
+                            <li><b>u</b> = Initial Velocity (in meters per second, m/s)</li>
+                            <li><b>t</b> = Time elapsed (in seconds, s)</li>
                         </ul>
+                        <p className='mt-2'>This formula can be algebraically rearranged to solve for any of the other variables.</p>
                       </AccordionContent>
                   </AccordionItem>
+                  <AccordionItem value="item-2">
+                    <AccordionTrigger>FAQs</AccordionTrigger>
+                    <AccordionContent className="space-y-4">
+                        <div>
+                            <h4 className="font-semibold">What is negative acceleration?</h4>
+                            <p>Negative acceleration, also known as deceleration or retardation, occurs when an object slows down. In the formula, this would mean the final velocity (v) is less than the initial velocity (u).</p>
+                        </div>
+                        <div>
+                            <h4 className="font-semibold">What if acceleration is zero?</h4>
+                            <p>If acceleration is zero, the object's velocity is constant. It is not speeding up or slowing down. Our calculator will show an error if you try to solve for time when acceleration is zero, as the time taken would be infinite unless the initial and final velocities are the same.</p>
+                        </div>
+                        <div>
+                            <h4 className="font-semibold">What are the units used?</h4>
+                            <p>This calculator uses standard SI units for consistency: meters per second (m/s) for velocity, seconds (s) for time, and meters per second squared (m/s²) for acceleration.</p>
+                        </div>
+                    </AccordionContent>
+                  </AccordionItem>
               </Accordion>
+            </CardContent>
+          </Card>
+
+          <Card className="mt-8">
+            <CardHeader>
+              <CardTitle>Related Calculators</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Link href="/newtons-law-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Newton's Second Law</p>
+              </Link>
+              <Link href="/kinetic-energy-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Kinetic Energy</p>
+              </Link>
+              <Link href="/speed-distance-time-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Speed, Distance, Time</p>
+              </Link>
+              <Link href="/torque-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Torque</p>
+              </Link>
             </CardContent>
           </Card>
         </div>

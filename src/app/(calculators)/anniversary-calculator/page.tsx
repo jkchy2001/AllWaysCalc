@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home, Gift } from 'lucide-react';
+import { Home, Gift, Info } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
 import {
   Accordion,
@@ -44,7 +44,11 @@ type CalculationResult = {
     milestones: { year: number, date: string }[];
 };
 
-export default function AnniversaryCalculatorPage() {
+export default function AnniversaryCalculatorPage({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
   const [result, setResult] = useState<CalculationResult | null>(null);
 
   const form = useForm<FormValues>({
@@ -114,8 +118,8 @@ export default function AnniversaryCalculatorPage() {
                 <div className="grid gap-8 lg:grid-cols-2">
                     <Card>
                         <CardHeader>
-                            <CardTitle className="font-headline text-2xl">Anniversary Calculator</CardTitle>
-                            <CardDescription>Calculate how long it's been and see future milestones.</CardDescription>
+                            <CardTitle className="font-headline text-2xl">Anniversary & Milestone Calculator</CardTitle>
+                            <CardDescription>Calculate the duration of a relationship or event and see upcoming milestones.</CardDescription>
                         </CardHeader>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <CardContent className="space-y-4">
@@ -172,35 +176,45 @@ export default function AnniversaryCalculatorPage() {
                 </div>
                 <Card className="mt-8">
                     <CardHeader>
-                        <CardTitle className="font-headline">How It Works</CardTitle>
+                        <CardTitle className="font-headline flex items-center gap-2"><Info className="size-5" /> How It Works</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <p className="mb-4">
-                            This calculator celebrates your special dates by calculating the elapsed time since your anniversary and showing you when your next big milestones are.
+                            This calculator celebrates your special dates by calculating the elapsed time since your anniversary and showing you when your next big milestones are. It's perfect for wedding anniversaries, relationship milestones, work anniversaries, or any other significant date you want to track.
                         </p>
-                        <div className="space-y-4">
-                            <div>
-                                <h3 className="font-bold font-headline">Methodology</h3>
-                                <p>Using the date of your anniversary, the calculator determines the total years, months, and days that have passed until today. It also projects forward to find upcoming milestone anniversaries (like your 1st, 5th, 10th, etc.) and displays their future dates.</p>
-                            </div>
-                            <div>
-                                <h3 className="font-bold font-headline">FAQs</h3>
-                                <Accordion type="single" collapsible className="w-full">
-                                    <AccordionItem value="item-1">
-                                        <AccordionTrigger>What can I use this for?</AccordionTrigger>
-                                        <AccordionContent>
-                                            It's perfect for wedding anniversaries, relationship milestones, work anniversaries, or any other significant date you want to track.
-                                        </AccordionContent>
-                                    </AccordionItem>
-                                    <AccordionItem value="item-2">
-                                        <AccordionTrigger>How accurate is the duration calculation?</AccordionTrigger>
-                                        <AccordionContent>
-                                            The duration is calculated accurately using well-tested date libraries, correctly accounting for leap years and the varying number of days in each month.
-                                        </AccordionContent>
-                                    </AccordionItem>
-                                </Accordion>
-                            </div>
-                        </div>
+                        <Accordion type="single" collapsible className="w-full">
+                            <AccordionItem value="item-1">
+                                <AccordionTrigger>How is the duration calculated?</AccordionTrigger>
+                                <AccordionContent>
+                                Using the date of your anniversary, the calculator determines the total years, months, and days that have passed until today. The calculation is done using precise date functions that account for leap years and the varying number of days in each month.
+                                </AccordionContent>
+                            </AccordionItem>
+                            <AccordionItem value="item-2">
+                                <AccordionTrigger>What are milestones?</AccordionTrigger>
+                                <AccordionContent>
+                                    Milestones are significant markers of time, like the 1st, 5th, 10th, 25th, and 50th anniversaries. This calculator projects forward to find the dates of your next 5 major milestones, helping you plan ahead for celebrations.
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                    </CardContent>
+                </Card>
+                 <Card className="mt-8">
+                    <CardHeader>
+                    <CardTitle>Related Calculators</CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <Link href="/age-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Age Calculator</p>
+                        </Link>
+                        <Link href="/date-duration-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Date Duration Calculator</p>
+                        </Link>
+                         <Link href="/countdown-timer-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Countdown Timer</p>
+                        </Link>
+                         <Link href="/sleep-cycle-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Sleep Cycle Calculator</p>
+                        </Link>
                     </CardContent>
                 </Card>
             </div>
