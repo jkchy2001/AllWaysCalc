@@ -112,32 +112,33 @@ export default function CgpaToPercentageCalculatorPage() {
                       <p className="mb-4">
                         This calculator converts a Cumulative Grade Point Average (CGPA) on a 10-point scale to an equivalent percentage. This is a common conversion required for various applications for jobs and higher education.
                       </p>
-                      <Accordion type="single" collapsible className="w-full">
+                      <div className="space-y-4">
+                      <div>
+                          <h3 className="font-bold font-headline">Formula Used</h3>
+                          <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
+                          <code>
+                              Percentage = CGPA × 9.5
+                          </code>
+                          </pre>
+                      </div>
+                      <div>
+                          <h3 className="font-bold font-headline">FAQs</h3>
+                          <Accordion type="single" collapsible className="w-full">
                           <AccordionItem value="item-1">
-                              <AccordionTrigger>Formula Used</AccordionTrigger>
+                              <AccordionTrigger>Is this formula universally applicable?</AccordionTrigger>
                               <AccordionContent>
-                                  <p>The conversion is based on the directive provided by many Indian universities and boards:</p>
-                                  <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
-                                  <code>
-                                      Percentage = CGPA × 9.5
-                                  </code>
-                                  </pre>
+                                While this formula is widely used, some universities or institutions may have their own specific conversion formulas. It's always best to check with the concerned institution for their official conversion method. This calculator should be used as a general guide.
                               </AccordionContent>
                           </AccordionItem>
                           <AccordionItem value="item-2">
-                              <AccordionTrigger>FAQs</AccordionTrigger>
-                              <AccordionContent className="space-y-4">
-                                <div>
-                                    <h4 className="font-semibold">Is this formula universally applicable?</h4>
-                                    <p>While this formula is widely used, some universities or institutions may have their own specific conversion formulas. It's always best to check with the concerned institution for their official conversion method. This calculator should be used as a general guide.</p>
-                                </div>
-                                <div>
-                                    <h4 className="font-semibold">Why is 9.5 used as the multiplier?</h4>
-                                    <p>The multiplier of 9.5 is an approximation derived by analyzing the results of previous years' examinations and finding the average marks of candidates across different subjects. It is the standard conversion factor provided by many educational boards in India, including CBSE.</p>
-                                </div>
+                              <AccordionTrigger>Why is 9.5 used as the multiplier?</AccordionTrigger>
+                              <AccordionContent>
+                                The multiplier of 9.5 is an approximation derived by analyzing the results of previous years' examinations and finding the average marks of candidates across different subjects. It is the standard conversion factor provided by many educational boards in India, including CBSE.
                               </AccordionContent>
                           </AccordionItem>
-                      </Accordion>
+                          </Accordion>
+                      </div>
+                      </div>
                   </CardContent>
                 </Card>
                  <Card className="mt-8">

@@ -81,16 +81,19 @@ export default function ExamMarksNeededCalculatorPage() {
                             <CardContent className="space-y-4">
                                 <div className="space-y-2">
                                     <Label htmlFor="currentGrade">Your Current Grade (%)</Label>
+                                    <p className="text-xs text-muted-foreground">The grade you have for the course so far, before the final exam.</p>
                                     <Input id="currentGrade" type="number" step="0.01" placeholder="e.g., 85" {...register('currentGrade')} />
                                     {errors.currentGrade && <p className="text-destructive text-sm">{errors.currentGrade.message}</p>}
                                 </div>
                                  <div className="space-y-2">
                                     <Label htmlFor="desiredGrade">Desired Final Grade (%)</Label>
+                                    <p className="text-xs text-muted-foreground">The overall grade you want to achieve in the course.</p>
                                     <Input id="desiredGrade" type="number" step="0.01" placeholder="e.g., 90" {...register('desiredGrade')} />
                                     {errors.desiredGrade && <p className="text-destructive text-sm">{errors.desiredGrade.message}</p>}
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="examWeight">Weight of the Final Exam (%)</Label>
+                                    <p className="text-xs text-muted-foreground">How much the final exam is worth as a percentage of your total grade.</p>
                                     <Input id="examWeight" type="number" step="0.01" placeholder="e.g., 25" {...register('examWeight')} />
                                     {errors.examWeight && <p className="text-destructive text-sm">{errors.examWeight.message}</p>}
                                 </div>
@@ -158,6 +161,25 @@ export default function ExamMarksNeededCalculatorPage() {
                       </div>
                       </div>
                   </CardContent>
+                </Card>
+                 <Card className="mt-8">
+                    <CardHeader>
+                    <CardTitle>Related Calculators</CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <Link href="/gpa-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">GPA Calculator</p>
+                        </Link>
+                        <Link href="/assignment-weight-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Assignment Weight</p>
+                        </Link>
+                        <Link href="/semester-grade-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Semester Grade</p>
+                        </Link>
+                        <Link href="/attendance-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Attendance Calculator</p>
+                        </Link>
+                    </CardContent>
                 </Card>
             </div>
         </main>

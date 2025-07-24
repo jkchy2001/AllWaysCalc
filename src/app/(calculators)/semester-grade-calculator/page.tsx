@@ -111,6 +111,7 @@ export default function SemesterGradeCalculatorPage() {
                 <CardContent className="space-y-4">
                   <div>
                     <Label>Your Courses for the Semester</Label>
+                    <p className="text-xs text-muted-foreground">Add each course, its credit value, and the grade you received.</p>
                     <div className="space-y-2 mt-2">
                       {fields.map((field, index) => (
                         <div key={field.id} className="grid grid-cols-[1fr_80px_120px_auto] items-center gap-2 p-2 border rounded-md">
@@ -208,6 +209,25 @@ export default function SemesterGradeCalculatorPage() {
                   </Accordion>
                 </div>
               </div>
+            </CardContent>
+          </Card>
+           <Card className="mt-8">
+            <CardHeader>
+              <CardTitle>Related Calculators</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Link href="/gpa-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Cumulative GPA</p>
+              </Link>
+              <Link href="/cgpa-to-percentage-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">CGPA to Percentage</p>
+              </Link>
+              <Link href="/exam-marks-needed-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Exam Marks Needed</p>
+              </Link>
+              <Link href="/attendance-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Attendance Calculator</p>
+              </Link>
             </CardContent>
           </Card>
         </div>

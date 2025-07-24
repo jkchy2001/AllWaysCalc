@@ -105,12 +105,13 @@ export default function GpaCalculatorPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">GPA Calculator</CardTitle>
-                <CardDescription>Calculate your Grade Point Average (GPA).</CardDescription>
+                <CardDescription>Calculate your Grade Point Average (GPA) for any number of courses.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
                   <div>
                     <Label>Courses</Label>
+                    <p className="text-xs text-muted-foreground">Add each course, its credit value, and the grade you received.</p>
                     <div className="space-y-2 mt-2">
                       {fields.map((field, index) => (
                         <div key={field.id} className="grid grid-cols-[1fr_80px_120px_auto] items-center gap-2 p-2 border rounded-md">
@@ -208,6 +209,25 @@ export default function GpaCalculatorPage() {
                   </Accordion>
                 </div>
               </div>
+            </CardContent>
+          </Card>
+           <Card className="mt-8">
+            <CardHeader>
+              <CardTitle>Related Calculators</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Link href="/semester-grade-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Semester Grade</p>
+              </Link>
+              <Link href="/cgpa-to-percentage-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">CGPA to Percentage</p>
+              </Link>
+              <Link href="/exam-marks-needed-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Exam Marks Needed</p>
+              </Link>
+              <Link href="/attendance-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Attendance Calculator</p>
+              </Link>
             </CardContent>
           </Card>
         </div>

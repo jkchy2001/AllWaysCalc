@@ -116,7 +116,8 @@ export default function TimeManagementCalculatorPage() {
                     {errors.totalHours && <p className="text-destructive text-sm">{errors.totalHours.message}</p>}
                   </div>
                   <div>
-                    <Label>Subjects / Tasks</Label>
+                    <Label>Subjects / Tasks and their Importance (Weight)</Label>
+                     <p className="text-xs text-muted-foreground">Assign a weight (e.g., 1-5) to each subject based on its difficulty or importance.</p>
                     <div className="space-y-2 mt-2">
                       {fields.map((field, index) => (
                         <div key={field.id} className="grid grid-cols-[1fr_100px_auto] items-center gap-2">
@@ -210,6 +211,25 @@ export default function TimeManagementCalculatorPage() {
                   </Accordion>
                 </div>
               </div>
+            </CardContent>
+          </Card>
+           <Card className="mt-8">
+            <CardHeader>
+              <CardTitle>Related Calculators</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Link href="/gpa-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">GPA Calculator</p>
+              </Link>
+              <Link href="/semester-grade-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Semester Grade</p>
+              </Link>
+              <Link href="/memory-retention-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Memory Retention</p>
+              </Link>
+              <Link href="/attendance-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Attendance Calculator</p>
+              </Link>
             </CardContent>
           </Card>
         </div>

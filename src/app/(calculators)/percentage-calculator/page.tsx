@@ -151,6 +151,25 @@ export default function PercentageCalculatorPage() {
                       </div>
                   </CardContent>
                 </Card>
+                 <Card className="mt-8">
+                    <CardHeader>
+                    <CardTitle>Related Calculators</CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <Link href="/gpa-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">GPA Calculator</p>
+                        </Link>
+                        <Link href="/cgpa-to-percentage-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">CGPA to Percentage</p>
+                        </Link>
+                        <Link href="/semester-grade-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Semester Grade</p>
+                        </Link>
+                         <Link href="/percentage-change-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Percentage Change</p>
+                        </Link>
+                    </CardContent>
+                </Card>
             </div>
         </main>
     </div>

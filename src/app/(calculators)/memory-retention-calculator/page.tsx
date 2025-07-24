@@ -68,8 +68,7 @@ export default function MemoryRetentionCalculatorPage() {
 
     const nextReviewDate = addDays(new Date(), Math.round(nextIntervalDays));
     
-    // Retention strength is a percentage based on how long the next interval is
-    // This is a heuristic value to give the user some feedback
+    // Retention strength is a heuristic value to give the user some feedback
     const retentionStrength = Math.min(100, (nextIntervalDays / 90) * 100);
 
     setResult({
@@ -186,6 +185,25 @@ export default function MemoryRetentionCalculatorPage() {
                   </Accordion>
                 </div>
               </div>
+            </CardContent>
+          </Card>
+           <Card className="mt-8">
+            <CardHeader>
+              <CardTitle>Related Calculators</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Link href="/time-management-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Time Management</p>
+              </Link>
+              <Link href="/exam-marks-needed-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Exam Marks Needed</p>
+              </Link>
+              <Link href="/gpa-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">GPA Calculator</p>
+              </Link>
+              <Link href="/sleep-cycle-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Sleep Cycle Calculator</p>
+              </Link>
             </CardContent>
           </Card>
         </div>
