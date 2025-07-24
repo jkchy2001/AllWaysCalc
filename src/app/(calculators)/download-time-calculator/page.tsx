@@ -204,6 +204,25 @@ export default function DownloadTimeCalculatorPage() {
               </div>
             </CardContent>
           </Card>
+           <Card className="mt-8">
+            <CardHeader>
+              <CardTitle>Related Calculators</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Link href="/bandwidth-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Bandwidth Calculator</p>
+              </Link>
+              <Link href="/file-size-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">File Size Calculator</p>
+              </Link>
+              <Link href="/bitrate-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Bitrate Calculator</p>
+              </Link>
+               <Link href="/ip-subnet-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">IP Subnet Calculator</p>
+              </Link>
+            </CardContent>
+          </Card>
         </div>
       </main>
     </div>

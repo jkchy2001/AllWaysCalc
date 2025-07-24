@@ -157,6 +157,25 @@ export default function CropYieldCalculatorPage() {
               </div>
             </CardContent>
           </Card>
+           <Card className="mt-8">
+              <CardHeader>
+                <CardTitle>Related Calculators</CardTitle>
+              </CardHeader>
+              <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <Link href="/fertilizer-requirement-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <p className="font-semibold">Fertilizer Requirement</p>
+                </Link>
+                <Link href="/rainwater-harvesting-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <p className="font-semibold">Rainwater Harvesting</p>
+                </Link>
+                <Link href="/carbon-footprint-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <p className="font-semibold">Carbon Footprint</p>
+                </Link>
+                <Link href="/solar-panel-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <p className="font-semibold">Solar Panel</p>
+                </Link>
+              </CardContent>
+            </Card>
         </div>
       </main>
     </div>

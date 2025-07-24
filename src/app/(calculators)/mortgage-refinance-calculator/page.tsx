@@ -75,7 +75,7 @@ export default function MortgageRefinanceCalculatorPage() {
 
     const monthlySavings = currentEmi - newEmi;
     const totalSavings = monthlySavings * remainingTenure;
-    const breakEvenMonths = refinanceCost > 0 ? Math.ceil(refinanceCost / monthlySavings) : 0;
+    const breakEvenMonths = refinanceCost > 0 && monthlySavings > 0 ? Math.ceil(refinanceCost / monthlySavings) : 0;
 
     setResult({
       newEmi,
@@ -166,6 +166,25 @@ export default function MortgageRefinanceCalculatorPage() {
                         </Card>
                     )}
                 </div>
+                <Card className="mt-8">
+                    <CardHeader>
+                        <CardTitle>Related Calculators</CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                         <Link href="/loan-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Loan / EMI Calculator</p>
+                        </Link>
+                        <Link href="/home-loan-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Home Loan Calculator</p>
+                        </Link>
+                        <Link href="/balance-transfer-benefit-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Balance Transfer Benefit</p>
+                        </Link>
+                        <Link href="/credit-card-interest-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Credit Card Interest</p>
+                        </Link>
+                    </CardContent>
+                </Card>
             </div>
         </main>
     </div>

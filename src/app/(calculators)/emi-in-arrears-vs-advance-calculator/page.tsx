@@ -21,6 +21,7 @@ import Link from 'next/link';
 import { Home, CalendarClock } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const formSchema = z.object({
   loanAmount: z.coerce.number().min(1, 'Loan amount must be positive'),
@@ -57,12 +58,10 @@ export default function EmiTimingCalculatorPage() {
     const r = data.interestRate / 100 / 12;
     const n = data.loanTerm * 12;
 
-    // Standard EMI (in Arrears)
     const emiArrears = (p * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
     const totalPaymentArrears = emiArrears * n;
     const totalInterestArrears = totalPaymentArrears - p;
 
-    // EMI in Advance
     const emiAdvance = emiArrears / (1 + r);
     const totalPaymentAdvance = emiAdvance * n;
     const totalInterestAdvance = totalPaymentAdvance - p;
@@ -151,6 +150,25 @@ export default function EmiTimingCalculatorPage() {
                         </Card>
                     )}
                 </div>
+                 <Card className="mt-8">
+                    <CardHeader>
+                        <CardTitle>Related Calculators</CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <Link href="/loan-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Loan / EMI Calculator</p>
+                        </Link>
+                        <Link href="/prepayment-vs-tenure-reduction-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Prepayment vs Tenure Reduction</p>
+                        </Link>
+                        <Link href="/balance-transfer-benefit-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Balance Transfer Benefit</p>
+                        </Link>
+                        <Link href="/credit-card-interest-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Credit Card Interest</p>
+                        </Link>
+                    </CardContent>
+                </Card>
             </div>
         </main>
     </div>

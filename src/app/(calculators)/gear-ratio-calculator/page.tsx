@@ -153,6 +153,25 @@ export default function GearRatioCalculatorPage() {
               </Card>
             )}
           </div>
+            <Card className="mt-8">
+                <CardHeader>
+                    <CardTitle>Related Calculators</CardTitle>
+                </CardHeader>
+                <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <Link href="/torque-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                        <p className="font-semibold">Torque Calculator</p>
+                    </Link>
+                    <Link href="/newtons-law-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                        <p className="font-semibold">Newton's Second Law</p>
+                    </Link>
+                    <Link href="/electrical-load-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                        <p className="font-semibold">Electrical Load</p>
+                    </Link>
+                    <Link href="/battery-backup-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                        <p className="font-semibold">Battery Backup</p>
+                    </Link>
+                </CardContent>
+            </Card>
         </div>
       </main>
     </div>

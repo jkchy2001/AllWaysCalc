@@ -129,6 +129,25 @@ export default function DistanceFuelCostCalculatorPage() {
               </Card>
             )}
           </div>
+           <Card className="mt-8">
+            <CardHeader>
+              <CardTitle>Related Calculators</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Link href="/travel-time-estimator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Travel Time Estimator</p>
+              </Link>
+              <Link href="/speed-converter" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Speed Converter</p>
+              </Link>
+              <Link href="/car-loan-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Car Loan Calculator</p>
+              </Link>
+               <Link href="/speed-distance-time-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Speed, Distance, Time</p>
+              </Link>
+            </CardContent>
+          </Card>
         </div>
       </main>
     </div>

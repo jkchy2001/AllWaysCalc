@@ -2,6 +2,7 @@
 'use client';
 import { Header } from '@/components/header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import Link from 'next/link';
 
 export default function DisclaimerPage() {
   return (

@@ -148,6 +148,25 @@ export default function CreditScoreSimulatorPage() {
                 </p>
             </CardContent>
             </Card>
+             <Card className="mt-8">
+                    <CardHeader>
+                        <CardTitle>Related Calculators</CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                         <Link href="/loan-eligibility-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Loan Eligibility</p>
+                        </Link>
+                        <Link href="/debt-to-income-ratio-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Debt-to-Income Ratio</p>
+                        </Link>
+                        <Link href="/credit-card-interest-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Credit Card Interest</p>
+                        </Link>
+                        <Link href="/balance-transfer-benefit-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Balance Transfer Benefit</p>
+                        </Link>
+                    </CardContent>
+                </Card>
         </div>
       </main>
     </div>
