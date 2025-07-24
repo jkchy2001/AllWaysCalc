@@ -16,7 +16,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home, ChevronsRight, Beaker } from 'lucide-react';
+import { Home, ChevronsRight, Beaker, Ruler, Scale, Thermometer, Gauge } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
@@ -162,15 +162,19 @@ export default function VolumeConverterPage() {
               </CardHeader>
               <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <Link href="/length-converter" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                   <Ruler className="mx-auto mb-2 size-6" />
                   <p className="font-semibold">Length Converter</p>
                 </Link>
                 <Link href="/mass-converter" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                   <Scale className="mx-auto mb-2 size-6" />
                   <p className="font-semibold">Mass Converter</p>
                 </Link>
                  <Link href="/temperature-converter" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                    <Thermometer className="mx-auto mb-2 size-6" />
                   <p className="font-semibold">Temperature Converter</p>
                 </Link>
                  <Link href="/speed-converter" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                    <Gauge className="mx-auto mb-2 size-6" />
                   <p className="font-semibold">Speed Converter</p>
                 </Link>
               </CardContent>

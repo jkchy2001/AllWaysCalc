@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home, TrendingDown } from 'lucide-react';
+import { Home, TrendingDown, Bolt, BatteryCharging, Zap } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -223,15 +223,19 @@ export default function VoltageDropCalculatorPage({
               </CardHeader>
               <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <Link href="/ohms-law-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <Zap className="mx-auto mb-2 size-6" />
                   <p className="font-semibold">Ohm's Law</p>
                 </Link>
                 <Link href="/electrical-load-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <Bolt className="mx-auto mb-2 size-6" />
                   <p className="font-semibold">Electrical Load</p>
                 </Link>
                 <Link href="/transformer-efficiency-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <Activity className="mx-auto mb-2 size-6" />
                   <p className="font-semibold">Transformer Efficiency</p>
                 </Link>
                 <Link href="/battery-backup-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <BatteryCharging className="mx-auto mb-2 size-6" />
                   <p className="font-semibold">Battery Backup</p>
                 </Link>
               </CardContent>

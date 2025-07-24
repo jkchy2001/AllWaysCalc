@@ -87,7 +87,7 @@ export default function TorqueCalculatorPage() {
              setResult(null);
         }
 
-    } catch (e: any)      setResult(null);
+    } catch (e: any) {      setResult(null);
       form.setError("root", { message: e.message || "Invalid input for calculation." });
     }
   };

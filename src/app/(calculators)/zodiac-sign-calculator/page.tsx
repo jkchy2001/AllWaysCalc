@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home, Sparkles } from 'lucide-react';
+import { Home, Sparkles, HeartHandshake, Users, Gem, Star } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
 import {
   Accordion,
@@ -178,15 +178,19 @@ export default function ZodiacSignCalculatorPage() {
                   </CardHeader>
                   <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <Link href="/love-compatibility-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                       <HeartHandshake className="mx-auto mb-2 size-6" />
                       <p className="font-semibold">Love Compatibility</p>
                     </Link>
                     <Link href="/numerology-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                       <Star className="mx-auto mb-2 size-6" />
                       <p className="font-semibold">Numerology Calculator</p>
                     </Link>
                      <Link href="/marriage-date-compatibility-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                       <Users className="mx-auto mb-2 size-6" />
                       <p className="font-semibold">Marriage Compatibility</p>
                     </Link>
                      <Link href="/lucky-number-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                       <Gem className="mx-auto mb-2 size-6" />
                       <p className="font-semibold">Lucky Number</p>
                     </Link>
                   </CardContent>
