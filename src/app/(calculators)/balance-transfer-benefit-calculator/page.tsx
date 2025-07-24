@@ -1,4 +1,11 @@
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Balance Transfer Benefit Calculator',
+  description: 'See how much you can save by transferring your existing loan to a new lender with a lower interest rate. Analyze your EMI reduction and total savings.',
+};
+
 'use client';
 
 import { useState } from 'react';

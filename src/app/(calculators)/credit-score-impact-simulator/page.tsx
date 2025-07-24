@@ -1,4 +1,11 @@
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Credit Score Impact Simulator',
+  description: 'An educational tool to see how common financial actions like missed payments, hard inquiries, or paying down debt might affect your credit score.',
+};
+
 'use client';
 
 import { useState } from 'react';

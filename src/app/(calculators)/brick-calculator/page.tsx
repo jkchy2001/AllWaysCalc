@@ -1,4 +1,11 @@
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Brick Calculator for Walls',
+  description: 'Estimate the number of bricks needed for a wall or construction project. Accounts for wall dimensions, brick size, mortar gap, and wastage.',
+};
+
 'use client';
 
 import { useState } from 'react';

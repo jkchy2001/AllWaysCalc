@@ -1,4 +1,11 @@
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Compound Interest Calculator',
+  description: 'Calculate the future value of your investment with the power of compound interest. See how your savings can grow over time with different compounding frequencies.',
+};
+
 'use client';
 
 import { useState } from 'react';

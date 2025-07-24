@@ -1,4 +1,11 @@
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Carbon Footprint Calculator',
+  description: 'Get a simplified estimate of your annual carbon footprint based on key lifestyle areas like electricity use, transport, and diet.',
+};
+
 'use client';
 
 import { useState } from 'react';

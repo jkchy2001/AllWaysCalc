@@ -1,4 +1,11 @@
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Advance Tax Calculator (India)',
+  description: 'Estimate your quarterly advance tax liability for the financial year. Avoid penalties by planning your payments accurately for salaried or business income.',
+};
+
 'use client';
 
 import { useState } from 'react';

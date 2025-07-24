@@ -1,4 +1,11 @@
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Anniversary Calculator - Track Milestones',
+  description: 'Calculate the duration of a relationship or event in years, months, and days. Find out the dates of your upcoming major milestones.',
+};
+
 'use client';
 
 import { useState } from 'react';

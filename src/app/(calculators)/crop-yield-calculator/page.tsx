@@ -1,4 +1,11 @@
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Crop Yield Calculator',
+  description: 'Calculate your crop yield per unit of area (kg/ha or lbs/acre). An essential tool for farmers and agronomists to measure agricultural productivity.',
+};
+
 'use client';
 
 import { useState } from 'react';

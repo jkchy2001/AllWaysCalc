@@ -1,4 +1,11 @@
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Business Loan EMI Calculator',
+  description: 'Estimate your monthly business loan payments (EMI) and total interest cost. Plan your finances for working capital, expansion, or equipment purchases.',
+};
+
 'use client';
 
 import { useState } from 'react';
@@ -168,7 +175,7 @@ export default function BusinessLoanCalculatorPage() {
                           This calculator helps you estimate the Equated Monthly Installment (EMI) for a business loan, which can be used for working capital, expansion, or purchasing equipment. Understanding your EMI is the first step in managing your business's financial obligations.
                       </p>
                       <Accordion type="single" collapsible className="w-full">
-                          <AccordionItem value="item-1">
+                           <AccordionItem value="item-1">
                               <AccordionTrigger>Key Terms Explained</AccordionTrigger>
                               <AccordionContent>
                                   <ul className="list-disc pl-5 space-y-2">

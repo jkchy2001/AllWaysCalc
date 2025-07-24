@@ -1,4 +1,11 @@
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Concrete Calculator for Slabs',
+  description: 'Estimate the volume of concrete needed for a rectangular slab, including wastage. Supports both metric (cubic meters) and imperial (cubic yards) units.',
+};
+
 'use client';
 
 import { useState } from 'react';

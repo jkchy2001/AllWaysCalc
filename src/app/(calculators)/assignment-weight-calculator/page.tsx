@@ -1,4 +1,11 @@
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Weighted Grade Calculator for Assignments',
+  description: 'Calculate your current weighted grade in a course by entering your assignment scores and their respective weights. Plan your academic success.',
+};
+
 'use client';
 
 import { useState } from 'react';

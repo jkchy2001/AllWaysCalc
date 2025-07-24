@@ -1,4 +1,11 @@
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Date Duration Calculator',
+  description: 'Calculate the duration between two dates in years, months, and days. Also, add or subtract days from a given date to find a future or past date.',
+};
+
 'use client';
 
 import { useState } from 'react';

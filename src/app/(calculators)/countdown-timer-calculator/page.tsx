@@ -1,4 +1,11 @@
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Countdown Timer Calculator',
+  description: 'Set a live countdown timer for any future event, date, or time. See the remaining days, hours, minutes, and seconds tick down.',
+};
+
 'use client';
 
 import { useState, useEffect } from 'react';

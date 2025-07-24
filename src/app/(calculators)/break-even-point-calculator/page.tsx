@@ -1,3 +1,11 @@
+
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Break-Even Point Calculator for Business',
+  description: 'Find the point where total costs equal total revenue. This is crucial for understanding the minimum sales your business needs to make to avoid a loss.',
+};
+
 'use client';
 
 import { useState } from 'react';

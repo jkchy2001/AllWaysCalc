@@ -1,4 +1,11 @@
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Bandwidth Calculator',
+  description: 'Calculate the required network bandwidth (in Mbps or Gbps) based on the amount of data to be transferred over a specific time. Useful for network planning.',
+};
+
 'use client';
 
 import { useState } from 'react';

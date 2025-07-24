@@ -1,4 +1,11 @@
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Baby Name Numerology Calculator',
+  description: 'Discover the Destiny (Expression) Number hidden in a name based on numerological principles. A fun tool for parents and the curious.',
+};
+
 'use client';
 
 import { useState } from 'react';

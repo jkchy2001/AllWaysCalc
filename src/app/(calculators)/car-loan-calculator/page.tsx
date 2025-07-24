@@ -1,4 +1,11 @@
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Car Loan EMI Calculator',
+  description: 'Estimate your monthly car loan payments (EMI) and total interest cost. Plan your budget for your new vehicle with our easy-to-use calculator.',
+};
+
 'use client';
 
 import { useState } from 'react';

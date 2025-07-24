@@ -1,4 +1,11 @@
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Daily Calorie Intake Calculator',
+  description: 'Estimate your daily calorie needs to maintain, lose, or gain weight. Personalized results based on your activity level, age, height, and gender.',
+};
+
 'use client';
 
 import { useState } from 'react';

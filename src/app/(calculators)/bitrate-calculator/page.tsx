@@ -1,4 +1,11 @@
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Bitrate Calculator for Video & Audio',
+  description: 'Calculate the required bitrate (in bps, kbps, Mbps) for a file of a specific size and duration. Ideal for video encoding and streaming.',
+};
+
 'use client';
 
 import { useState } from 'react';
