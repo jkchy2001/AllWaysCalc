@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -120,23 +119,26 @@ export default function TdsLateFeeCalculatorPage() {
           <div className="grid gap-8 lg:grid-cols-2">
             <Card>
               <CardHeader>
-                <CardTitle className="font-headline text-2xl">TDS Late Fee & Penalty Calculator</CardTitle>
-                <CardDescription>Estimate penalties for delayed TDS payment.</CardDescription>
+                <CardTitle className="font-headline text-2xl">TDS Late Fee &amp; Penalty Calculator</CardTitle>
+                <CardDescription>Estimate penalties for delayed TDS payment and understand the financial consequences of non-compliance.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="tdsAmount">TDS Amount (₹)</Label>
+                    <p className="text-xs text-muted-foreground">The amount of tax that was deducted.</p>
                     <Input id="tdsAmount" type="number" {...register('tdsAmount')} />
                     {errors.tdsAmount && <p className="text-destructive text-sm">{errors.tdsAmount.message}</p>}
                   </div>
                    <div className="space-y-2">
                     <Label htmlFor="deductionDate">Date of TDS Deduction</Label>
+                    <p className="text-xs text-muted-foreground">The date the TDS amount was actually deducted from the payment.</p>
                     <Input id="deductionDate" type="date" {...register('deductionDate')} />
                     {errors.deductionDate && <p className="text-destructive text-sm">{errors.deductionDate.message}</p>}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="depositDate">Date of TDS Deposit</Label>
+                    <p className="text-xs text-muted-foreground">The date the TDS was actually paid to the government.</p>
                     <Input id="depositDate" type="date" {...register('depositDate')} />
                     {errors.depositDate && <p className="text-destructive text-sm">{errors.depositDate.message}</p>}
                   </div>
@@ -189,19 +191,44 @@ export default function TdsLateFeeCalculatorPage() {
                     <AccordionItem value="item-1">
                       <AccordionTrigger>Interest for Late Deposit (Section 201(1A))</AccordionTrigger>
                       <AccordionContent>
-                       Interest is charged at **1.5% per month or part of a month** on the TDS amount, from the date the tax was deducted to the date it is actually deposited.
+                       Interest is charged at **1.5% per month or part of a month** on the TDS amount, from the date the tax was deducted to the date it is actually deposited. Even a one-day delay into the next calendar month is considered a full month for this calculation.
                       </AccordionContent>
                     </AccordionItem>
                      <AccordionItem value="item-2">
                       <AccordionTrigger>Fee for Late Filing (Section 234E)</AccordionTrigger>
                       <AccordionContent>
-                       A late filing fee of **₹200 per day** is levied for the delay in filing the TDS return. The total fee cannot exceed the TDS amount. This calculator assumes the return is filed on the same day as the deposit.
+                       A late filing fee of **₹200 per day** is levied for the delay in filing the TDS return. The total fee cannot exceed the TDS amount. This calculator assumes the return is filed on the same day as the deposit, which is a common scenario but may not always be the case.
+                      </AccordionContent>
+                    </AccordionItem>
+                     <AccordionItem value="item-3">
+                      <AccordionTrigger>When is TDS due?</AccordionTrigger>
+                      <AccordionContent>
+                       TDS deducted must be deposited to the government by the 7th day of the following month. For tax deducted in March, the due date is April 30th.
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
                 </div>
                  <p className="text-sm font-semibold mt-4 text-destructive">Disclaimer: This is for estimation purposes only and should not be considered legal or financial advice. Consult with a tax professional for accurate calculations and compliance.</p>
               </div>
+            </CardContent>
+          </Card>
+          <Card className="mt-8">
+            <CardHeader>
+              <CardTitle>Related Calculators</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Link href="/tds-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">TDS Calculator</p>
+              </Link>
+              <Link href="/income-tax-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Income Tax Calculator</p>
+              </Link>
+              <Link href="/advance-tax-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Advance Tax Calculator</p>
+              </Link>
+               <Link href="/gst-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">GST Calculator</p>
+              </Link>
             </CardContent>
           </Card>
         </div>

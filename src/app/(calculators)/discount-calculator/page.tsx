@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -84,17 +83,19 @@ export default function DiscountCalculatorPage() {
                     <Card>
                         <CardHeader>
                             <CardTitle className="font-headline text-2xl">Discount Calculator</CardTitle>
-                            <CardDescription>Calculate the final price after a discount.</CardDescription>
+                            <CardDescription>Quickly calculate the final price after a discount. Essential for shoppers and business owners for promotions and sales.</CardDescription>
                         </CardHeader>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <CardContent className="space-y-4">
                                 <div className="space-y-2">
                                     <Label htmlFor="originalPrice">Original Price (₹)</Label>
+                                    <p className="text-xs text-muted-foreground">Enter the full price of the item before any discounts are applied.</p>
                                     <Input id="originalPrice" type="number" step="0.01" placeholder="e.g., 999" {...register('originalPrice')} />
                                     {errors.originalPrice && <p className="text-destructive text-sm">{errors.originalPrice.message}</p>}
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="discount">Discount (%)</Label>
+                                    <p className="text-xs text-muted-foreground">Enter the percentage discount being offered.</p>
                                     <Input id="discount" type="number" step="0.01" placeholder="e.g., 25" {...register('discount')} />
                                     {errors.discount && <p className="text-destructive text-sm">{errors.discount.message}</p>}
                                 </div>
@@ -158,13 +159,32 @@ export default function DiscountCalculatorPage() {
                           <AccordionItem value="item-2">
                               <AccordionTrigger>Does this include sales tax?</AccordionTrigger>
                               <AccordionContent>
-                              No, this calculator only handles the discount. Sales tax would typically be calculated on the final, discounted price.
+                              No, this calculator only handles the discount. Sales tax (like GST) would typically be calculated on the final, discounted price.
                               </AccordionContent>
                           </AccordionItem>
                           </Accordion>
                       </div>
                       </div>
                   </CardContent>
+                </Card>
+                <Card className="mt-8">
+                    <CardHeader>
+                        <CardTitle>Related Calculators</CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <Link href="/profit-margin-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                        <p className="font-semibold">Profit Margin Calculator</p>
+                    </Link>
+                    <Link href="/markup-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                        <p className="font-semibold">Markup Calculator</p>
+                    </Link>
+                    <Link href="/gst-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                        <p className="font-semibold">GST Calculator</p>
+                    </Link>
+                    <Link href="/cagr-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                        <p className="font-semibold">CAGR Calculator</p>
+                    </Link>
+                    </CardContent>
                 </Card>
             </div>
         </main>

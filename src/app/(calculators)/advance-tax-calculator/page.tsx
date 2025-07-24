@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -257,7 +256,7 @@ export default function AdvanceTaxCalculatorPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">Advance Tax Calculator (India)</CardTitle>
-                <CardDescription>Estimate your advance tax liability for FY 2025-26.</CardDescription>
+                <CardDescription>Estimate your advance tax liability for the financial year. This calculator helps you plan your finances and avoid penalties for non-payment.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                  <CardContent className="space-y-6">
@@ -488,25 +487,39 @@ export default function AdvanceTaxCalculatorPage() {
               </p>
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="item-1">
-                  <h3 className="font-bold font-headline">Who should pay Advance Tax?</h3>
+                  <AccordionTrigger>Who should pay Advance Tax?</AccordionTrigger>
                   <AccordionContent>
                   <p>Any person—including salaried individuals, freelancers, and businesses—whose estimated tax liability for the financial year is ₹10,000 or more is required to pay advance tax. Senior citizens (aged 60 years or more) not having any income from business or profession are exempt from paying advance tax.</p>
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-2">
-                  <h3 className="font-bold font-headline">Old vs. New Tax Regime</h3>
+                  <AccordionTrigger>Old vs. New Tax Regime</AccordionTrigger>
                   <AccordionContent>
                   <p>The choice of tax regime significantly impacts your tax calculation. The Old Regime allows for various deductions (like 80C, 80D, HRA), while the New Regime offers different slab rates but forgoes most deductions. A tax rebate u/s 87A makes the final tax zero if your calculated tax amount is below a certain threshold.</p>
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-3">
-                  <h3 className="font-bold font-headline">FAQs</h3>
+                  <AccordionTrigger>Benefits and Risks</AccordionTrigger>
                   <AccordionContent className="space-y-4">
                     <div>
-                      <h4 className="font-semibold">What happens if I miss a payment?</h4>
-                      <p>If you fail to pay, or pay less than the required amount of advance tax in any installment, you will be liable to pay interest under sections 234B (for non-payment or short payment) and 234C (for deferment of installments) of the Income Tax Act.</p>
+                      <h4 className="font-semibold text-primary">Benefits of Paying Advance Tax</h4>
+                      <ul className="list-disc pl-5 mt-2">
+                        <li>Avoids a large, single tax payment at year-end, making budgeting easier.</li>
+                        <li>Ensures compliance with tax laws, avoiding penalties and interest charges.</li>
+                      </ul>
                     </div>
                      <div>
+                      <h4 className="font-semibold text-destructive">Risks of Not Paying Advance Tax</h4>
+                      <ul className="list-disc pl-5 mt-2">
+                        <li>If you fail to pay, or pay less than the required amount of advance tax in any installment, you will be liable to pay interest under sections 234B (for non-payment or short payment) and 234C (for deferment of installments) of the Income Tax Act.</li>
+                      </ul>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-4">
+                  <AccordionTrigger>Frequently Asked Questions</AccordionTrigger>
+                  <AccordionContent className="space-y-4">
+                    <div>
                       <h4 className="font-semibold">Can I adjust the amount in subsequent installments?</h4>
                       <p>Yes. If your estimated income changes during the year, you can revise your advance tax in the remaining installments to ensure you meet the required payment percentages by each due date.</p>
                     </div>

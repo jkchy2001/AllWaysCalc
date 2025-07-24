@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -91,7 +90,7 @@ export default function BreakEvenPointCalculatorPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">Break-Even Point Calculator</CardTitle>
-                <CardDescription>Find the point where your total costs equal total revenue for your business.</CardDescription>
+                <CardDescription>Find the point where your total costs equal total revenue. This is crucial for understanding the minimum sales your business needs to avoid a loss.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
@@ -164,19 +163,26 @@ export default function BreakEvenPointCalculatorPage() {
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-2">
+                  <AccordionTrigger>Key Terms Explained</AccordionTrigger>
+                  <AccordionContent>
+                    <ul className="list-disc pl-5 space-y-2">
+                        <li><strong>Fixed Costs:</strong> Expenses that do not change regardless of the level of production, such as rent, salaries, insurance, and office supplies.</li>
+                        <li><strong>Variable Costs:</strong> Expenses that change in direct proportion to the volume of production. This includes raw materials, direct labor, and shipping costs.</li>
+                        <li><strong>Sales Price Per Unit:</strong> The amount for which you sell a single product or service.</li>
+                        <li><strong>Contribution Margin:</strong> The revenue left over to cover fixed costs after considering variable costs. It's calculated as `Sales Price - Variable Costs`.</li>
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-3">
                   <AccordionTrigger>FAQs</AccordionTrigger>
                   <AccordionContent className="space-y-4">
-                    <div>
-                      <h4 className="font-semibold">What are fixed vs. variable costs?</h4>
-                      <p>Fixed costs do not change with the number of units produced (e.g., rent, salaries, insurance). Variable costs change directly with production volume (e.g., raw materials, direct labor, shipping).</p>
-                    </div>
                     <div>
                       <h4 className="font-semibold">How can I lower my break-even point?</h4>
                       <p>You can lower your break-even point by reducing fixed costs (e.g., finding cheaper rent), reducing variable costs per unit (e.g., negotiating better prices with suppliers), or increasing the sales price per unit.</p>
                     </div>
                     <div>
                       <h4 className="font-semibold">Why is this important for a business?</h4>
-                      <p>Understanding your break-even point is crucial for setting prices, managing costs, and making informed decisions about your business strategy. It helps you determine the sales volume needed to be profitable.</p>
+                      <p>Understanding your break-even point is crucial for setting prices, managing costs, and making informed decisions about your business strategy. It helps you determine the sales volume needed to be profitable and forms the basis for pricing strategies and budget planning.</p>
                     </div>
                   </AccordionContent>
                 </AccordionItem>

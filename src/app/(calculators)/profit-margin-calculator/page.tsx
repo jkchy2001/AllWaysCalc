@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -53,6 +52,10 @@ export default function ProfitMarginCalculatorPage() {
   const { register, handleSubmit, formState: { errors } } = form;
 
   const onSubmit = (data: FormValues) => {
+    if (data.revenue === 0) {
+      setResult({ profitMargin: 0, grossProfit: 0 - data.cost });
+      return;
+    }
     const grossProfit = data.revenue - data.cost;
     const profitMargin = (grossProfit / data.revenue) * 100;
     
@@ -85,17 +88,19 @@ export default function ProfitMarginCalculatorPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">Profit Margin Calculator</CardTitle>
-                <CardDescription>Calculate the profit margin of your product or service.</CardDescription>
+                <CardDescription>Calculate the gross profit margin of your product or service to understand its profitability.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="cost">Total Cost (₹)</Label>
+                    <p className="text-xs text-muted-foreground">Enter the cost of goods sold (COGS). This is the direct cost of producing the goods sold by a company.</p>
                     <Input id="cost" type="number" step="0.01" {...register('cost')} />
                     {errors.cost && <p className="text-destructive text-sm">{errors.cost.message}</p>}
                   </div>
                    <div className="space-y-2">
                     <Label htmlFor="revenue">Total Revenue (₹)</Label>
+                     <p className="text-xs text-muted-foreground">Enter the total income from selling the goods or services.</p>
                     <Input id="revenue" type="number" step="0.01" {...register('revenue')} />
                     {errors.revenue && <p className="text-destructive text-sm">{errors.revenue.message}</p>}
                   </div>
@@ -150,18 +155,43 @@ export default function ProfitMarginCalculatorPage() {
                     <AccordionItem value="item-1">
                       <AccordionTrigger>What is a good profit margin?</AccordionTrigger>
                       <AccordionContent>
-                       A "good" profit margin varies widely by industry. A 10% net profit margin is generally considered average, while a 20% margin is considered high and a 5% margin is low.
+                       A "good" profit margin varies widely by industry. A 10% net profit margin is generally considered average, while a 20% margin is considered high and a 5% margin is low. Comparing your margin to industry benchmarks is a key part of financial analysis.
                       </AccordionContent>
                     </AccordionItem>
                      <AccordionItem value="item-2">
                       <AccordionTrigger>What's the difference between profit margin and markup?</AccordionTrigger>
                       <AccordionContent>
-                       Profit margin shows profit as a percentage of revenue. Markup shows profit as a percentage of cost. They are two different ways of looking at profitability.
+                       Profit margin shows profit as a percentage of revenue. Markup shows profit as a percentage of cost. They are two different ways of looking at profitability. A 100% markup results in a 50% profit margin.
+                      </AccordionContent>
+                    </AccordionItem>
+                    <AccordionItem value="item-3">
+                      <AccordionTrigger>What is the difference between Gross and Net Profit Margin?</AccordionTrigger>
+                      <AccordionContent>
+                        This calculator computes the **Gross Profit Margin**, which only considers the direct cost of goods sold (COGS). **Net Profit Margin** is calculated after subtracting all other business expenses, including operating costs, interest, and taxes. Net margin gives a more complete picture of overall profitability.
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
                 </div>
               </div>
+            </CardContent>
+          </Card>
+          <Card className="mt-8">
+            <CardHeader>
+              <CardTitle>Related Calculators</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Link href="/net-profit-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Net Profit Calculator</p>
+              </Link>
+              <Link href="/markup-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Markup Calculator</p>
+              </Link>
+              <Link href="/break-even-point-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Break-Even Point</p>
+              </Link>
+              <Link href="/discount-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Discount Calculator</p>
+              </Link>
             </CardContent>
           </Card>
         </div>

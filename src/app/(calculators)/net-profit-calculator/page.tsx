@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -88,22 +87,25 @@ export default function NetProfitCalculatorPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">Net Profit Calculator</CardTitle>
-                <CardDescription>Calculate your business's net profit and margin.</CardDescription>
+                <CardDescription>Calculate your business's net profit and net profit margin to understand its true profitability after all expenses.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="revenue">Total Revenue (₹)</Label>
+                    <p className="text-xs text-muted-foreground">The total income generated from sales of goods or services.</p>
                     <Input id="revenue" type="number" step="0.01" {...register('revenue')} />
                     {errors.revenue && <p className="text-destructive text-sm">{errors.revenue.message}</p>}
                   </div>
                    <div className="space-y-2">
                     <Label htmlFor="cogs">Cost of Goods Sold (COGS) (₹)</Label>
+                    <p className="text-xs text-muted-foreground">Direct costs attributable to the production of goods sold (materials, direct labor).</p>
                     <Input id="cogs" type="number" step="0.01" {...register('cogs')} />
                     {errors.cogs && <p className="text-destructive text-sm">{errors.cogs.message}</p>}
                   </div>
                    <div className="space-y-2">
                     <Label htmlFor="operatingExpenses">Operating Expenses (₹)</Label>
+                    <p className="text-xs text-muted-foreground">Indirect costs not related to production (e.g., rent, salaries, marketing).</p>
                     <Input id="operatingExpenses" type="number" step="0.01" {...register('operatingExpenses')} />
                     {errors.operatingExpenses && <p className="text-destructive text-sm">{errors.operatingExpenses.message}</p>}
                   </div>
@@ -151,6 +153,7 @@ export default function NetProfitCalculatorPage() {
                       Net Profit = Total Revenue - COGS - Operating Expenses
                     </code>
                   </pre>
+                  <p>Note: This is a simplified calculation. A true net profit calculation would also subtract interest and taxes.</p>
                 </div>
                 <div>
                   <h3 className="font-bold font-headline">FAQs</h3>
@@ -158,7 +161,7 @@ export default function NetProfitCalculatorPage() {
                     <AccordionItem value="item-1">
                       <AccordionTrigger>What's the difference between Gross Profit and Net Profit?</AccordionTrigger>
                       <AccordionContent>
-                       Gross profit is revenue minus the Cost of Goods Sold (COGS). Net profit takes it a step further by also subtracting operating expenses, interest, and taxes from the gross profit.
+                       Gross profit is revenue minus the Cost of Goods Sold (COGS). Net profit takes it a step further by also subtracting operating expenses, interest, and taxes from the gross profit. Net profit gives a more complete picture of a company's financial health.
                       </AccordionContent>
                     </AccordionItem>
                      <AccordionItem value="item-2">
@@ -167,9 +170,34 @@ export default function NetProfitCalculatorPage() {
                        Operating expenses are the costs a business incurs that are not directly related to the production of a product. Examples include rent, utilities, marketing, and salaries for administrative staff.
                       </AccordionContent>
                     </AccordionItem>
+                     <AccordionItem value="item-3">
+                      <AccordionTrigger>Why is Net Profit Margin important?</AccordionTrigger>
+                      <AccordionContent>
+                       Net Profit Margin (`Net Profit / Revenue * 100`) is a key performance indicator that shows how much profit the company makes for every rupee of revenue. It is useful for comparing the profitability of companies within the same industry.
+                      </AccordionContent>
+                    </AccordionItem>
                   </Accordion>
                 </div>
               </div>
+            </CardContent>
+          </Card>
+          <Card className="mt-8">
+            <CardHeader>
+              <CardTitle>Related Calculators</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Link href="/profit-margin-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Profit Margin Calculator</p>
+              </Link>
+              <Link href="/markup-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Markup Calculator</p>
+              </Link>
+              <Link href="/break-even-point-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Break-Even Point</p>
+              </Link>
+              <Link href="/npv-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">NPV Calculator</p>
+              </Link>
             </CardContent>
           </Card>
         </div>

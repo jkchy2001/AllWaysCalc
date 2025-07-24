@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -85,17 +84,19 @@ export default function MarkupCalculatorPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">Markup Calculator</CardTitle>
-                <CardDescription>Calculate the selling price based on cost and markup.</CardDescription>
+                <CardDescription>Determine the optimal selling price for your products by applying a desired markup percentage to your costs.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="cost">Product Cost (₹)</Label>
+                    <p className="text-xs text-muted-foreground">Enter the total cost to acquire or produce one unit of your product.</p>
                     <Input id="cost" type="number" step="0.01" {...register('cost')} />
                     {errors.cost && <p className="text-destructive text-sm">{errors.cost.message}</p>}
                   </div>
                    <div className="space-y-2">
                     <Label htmlFor="markupPercentage">Markup Percentage (%)</Label>
+                    <p className="text-xs text-muted-foreground">Enter the percentage you want to add to the cost to determine the selling price.</p>
                     <Input id="markupPercentage" type="number" step="0.01" {...register('markupPercentage')} />
                     {errors.markupPercentage && <p className="text-destructive text-sm">{errors.markupPercentage.message}</p>}
                   </div>
@@ -150,18 +151,37 @@ export default function MarkupCalculatorPage() {
                     <AccordionItem value="item-1">
                       <AccordionTrigger>What's the difference between Markup and Margin?</AccordionTrigger>
                       <AccordionContent>
-                       Markup is the percentage of profit relative to the cost (Profit / Cost). Profit Margin is the percentage of profit relative to the selling price (Profit / Revenue). They are two different but related ways to look at profitability.
+                       Markup is the percentage of profit relative to the cost (Profit / Cost). Profit Margin is the percentage of profit relative to the selling price (Profit / Revenue). They are two different but related ways of looking at profitability. A 50% markup is equivalent to a 33.3% profit margin.
                       </AccordionContent>
                     </AccordionItem>
                      <AccordionItem value="item-2">
                       <AccordionTrigger>Why is markup important for a business?</AccordionTrigger>
                       <AccordionContent>
-                      Setting the right markup is crucial for covering all business expenses (like rent, salaries, and marketing) and ensuring the business generates a sustainable profit.
+                      Setting the right markup is crucial for covering all business expenses (like rent, salaries, and marketing) and ensuring the business generates a sustainable profit. It's a fundamental step in building a viable pricing model.
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
                 </div>
               </div>
+            </CardContent>
+          </Card>
+           <Card className="mt-8">
+            <CardHeader>
+              <CardTitle>Related Calculators</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Link href="/profit-margin-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Profit Margin Calculator</p>
+              </Link>
+               <Link href="/discount-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Discount Calculator</p>
+              </Link>
+              <Link href="/break-even-point-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Break-Even Point</p>
+              </Link>
+               <Link href="/gst-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">GST Calculator</p>
+              </Link>
             </CardContent>
           </Card>
         </div>

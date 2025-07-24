@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -149,26 +148,28 @@ export default function SalaryCalculatorPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">Salary Calculator (CTC to Take-Home)</CardTitle>
-                <CardDescription>Estimate your net monthly salary from your annual CTC.</CardDescription>
+                <CardDescription>Estimate your net monthly salary from your annual CTC based on the new tax regime. Understand the various components and deductions.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="ctc">Annual CTC (Cost to Company) (₹)</Label>
+                     <p className="text-xs text-muted-foreground">Your total annual salary package including all benefits and contributions from the employer.</p>
                     <Input id="ctc" type="number" {...register('ctc')} />
                     {errors.ctc && <p className="text-destructive text-sm">{errors.ctc.message}</p>}
                   </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="bonus">Annual Bonus (if any) (₹)</Label>
+                    <p className="text-xs text-muted-foreground">Any performance bonus or other variable pay not included in the monthly salary.</p>
                     <Input id="bonus" type="number" {...register('bonus')} />
                      {errors.bonus && <p className="text-destructive text-sm">{errors.bonus.message}</p>}
                   </div>
                   
                   <div className="space-y-2">
                     <Label htmlFor="deductions80c">Total Annual Tax Deductions (80C, 80D etc.) (₹)</Label>
-                    <Input id="deductions80c" type="number" {...register('deductions80c')} />
                     <p className="text-xs text-muted-foreground">Note: Most deductions are not applicable under the New Tax Regime, which is used for this calculation.</p>
+                    <Input id="deductions80c" type="number" {...register('deductions80c')} />
                   </div>
                 </CardContent>
                 <CardFooter>
@@ -251,9 +252,34 @@ export default function SalaryCalculatorPage() {
                        Starting from the financial year 2023-24, the New Tax Regime is the default option for all taxpayers. It generally offers lower tax rates but does not allow for most common tax deductions (like 80C, HRA, etc.), except for the standard deduction.
                       </AccordionContent>
                     </AccordionItem>
+                     <AccordionItem value="item-3">
+                      <AccordionTrigger>What are the key components of CTC?</AccordionTrigger>
+                      <AccordionContent>
+                       A CTC package typically includes: Basic Salary, House Rent Allowance (HRA), Special Allowances, Employer's PF Contribution, and may also include Gratuity, Bonus, and other benefits.
+                      </AccordionContent>
+                    </AccordionItem>
                   </Accordion>
                 </div>
               </div>
+            </CardContent>
+          </Card>
+           <Card className="mt-8">
+            <CardHeader>
+              <CardTitle>Related Calculators</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Link href="/income-tax-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Income Tax Calculator</p>
+              </Link>
+              <Link href="/hra-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">HRA Calculator</p>
+              </Link>
+              <Link href="/tds-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">TDS Calculator</p>
+              </Link>
+               <Link href="/gratuity-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Gratuity Calculator</p>
+              </Link>
             </CardContent>
           </Card>
         </div>
