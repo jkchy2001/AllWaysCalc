@@ -28,8 +28,8 @@ import {
 } from '@/components/ui/accordion';
 
 const formSchema = z.object({
-  initialValue: z.coerce.number().min(0, 'Initial value must be positive.'),
-  finalValue: z.coerce.number().min(0, 'Final value must be positive.'),
+  initialValue: z.coerce.number().min(0.01, 'Initial value must be greater than zero.'),
+  finalValue: z.coerce.number().min(0, 'Final value must be a positive number.'),
   years: z.coerce.number().int().min(1, 'Years must be at least 1.'),
 });
 
@@ -76,22 +76,25 @@ export default function CAGRCalculatorPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">CAGR Calculator</CardTitle>
-                <CardDescription>Calculate the Compound Annual Growth Rate of an investment.</CardDescription>
+                <CardDescription>Calculate the Compound Annual Growth Rate to measure an investment's annual growth over a period.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="initialValue">Initial Value (₹)</Label>
+                    <p className="text-xs text-muted-foreground">The starting value of the investment.</p>
                     <Input id="initialValue" type="number" step="0.01" {...register('initialValue')} />
                     {errors.initialValue && <p className="text-destructive text-sm">{errors.initialValue.message}</p>}
                   </div>
                    <div className="space-y-2">
                     <Label htmlFor="finalValue">Final Value (₹)</Label>
+                    <p className="text-xs text-muted-foreground">The value of the investment at the end of the period.</p>
                     <Input id="finalValue" type="number" step="0.01" {...register('finalValue')} />
                     {errors.finalValue && <p className="text-destructive text-sm">{errors.finalValue.message}</p>}
                   </div>
                    <div className="space-y-2">
                     <Label htmlFor="years">Number of Years</Label>
+                    <p className="text-xs text-muted-foreground">The total duration of the investment.</p>
                     <Input id="years" type="number" {...register('years')} />
                     {errors.years && <p className="text-destructive text-sm">{errors.years.message}</p>}
                   </div>
@@ -125,34 +128,55 @@ export default function CAGRCalculatorPage() {
               <p className="mb-4">
                The Compound Annual Growth Rate (CAGR) is the rate of return that would be required for an investment to grow from its beginning balance to its ending balance, assuming the profits were reinvested at the end of each year of the investment’s lifespan.
               </p>
-              <div className="space-y-4">
-                <div>
-                  <h3 className="font-bold font-headline">Formula Used</h3>
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="item-1">
+                  <AccordionTrigger>Formula Used</AccordionTrigger>
+                  <AccordionContent>
                    <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
                     <code>
                       CAGR = ((Ending Value / Beginning Value)^(1 / N)) - 1<br/><br/>
                       <b>N</b> = Number of Years
                     </code>
                   </pre>
-                </div>
-                <div>
-                  <h3 className="font-bold font-headline">FAQs</h3>
-                  <Accordion type="single" collapsible className="w-full">
-                    <AccordionItem value="item-1">
-                      <AccordionTrigger>What does CAGR tell you?</AccordionTrigger>
-                      <AccordionContent>
-                       CAGR isn't the actual return in reality. It's an imaginary number that describes the rate at which an investment would have grown if it grew at a steady rate. You can think of it as a way to smooth out the returns over time.
-                      </AccordionContent>
-                    </AccordionItem>
-                     <AccordionItem value="item-2">
-                      <AccordionTrigger>Is CAGR better than average returns?</AccordionTrigger>
-                      <AccordionContent>
-                       CAGR is often considered a better measure than simple average return because it accounts for the effect of compounding. It provides a more accurate representation of an investment's performance over a period.
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
-                </div>
-              </div>
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-2">
+                  <AccordionTrigger>FAQs</AccordionTrigger>
+                  <AccordionContent className="space-y-4">
+                    <div>
+                        <h4 className="font-semibold">What does CAGR tell you?</h4>
+                        <p>CAGR isn't the actual return in reality. It's an imaginary number that describes the rate at which an investment would have grown if it grew at a steady rate. You can think of it as a way to smooth out the returns over time, making it easier to compare the performance of different investments.</p>
+                    </div>
+                    <div>
+                        <h4 className="font-semibold">Is CAGR better than average returns?</h4>
+                        <p>CAGR is often considered a better measure than simple average return because it accounts for the effect of compounding. The simple average can be misleading if the investment returns are volatile.</p>
+                    </div>
+                     <div>
+                        <h4 className="font-semibold">What are the limitations of CAGR?</h4>
+                        <p>CAGR's main limitation is that it's a historical measure and does not indicate future returns. It also assumes a smooth, constant growth rate, which rarely happens in real-world investments. It is a representation of growth, not a true return rate.</p>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </CardContent>
+          </Card>
+            <Card className="mt-8">
+            <CardHeader>
+              <CardTitle>Related Calculators</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Link href="/sip-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">SIP Calculator</p>
+              </Link>
+              <Link href="/lumpsum-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Lumpsum Calculator</p>
+              </Link>
+              <Link href="/compound-interest-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Compound Interest</p>
+              </Link>
+              <Link href="/inflation-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Inflation Calculator</p>
+              </Link>
             </CardContent>
           </Card>
         </div>

@@ -114,18 +114,20 @@ export default function BitrateCalculatorPage() {
           <div className="grid gap-8 lg:grid-cols-2">
             <Card>
               <CardHeader>
-                <CardTitle className="font-headline text-2xl">Bitrate Calculator</CardTitle>
-                <CardDescription>Calculate bitrate from file size and duration.</CardDescription>
+                <CardTitle className="font-headline text-2xl">Video & Audio Bitrate Calculator</CardTitle>
+                <CardDescription>Calculate the required bitrate for a file of a specific size and duration.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
                   <div className="flex gap-4">
                       <div className="space-y-2 w-2/3">
                           <Label htmlFor="fileSize">File Size</Label>
+                           <p className="text-xs text-muted-foreground">The target size of your video or audio file.</p>
                           <Input id="fileSize" type="number" {...register('fileSize')} />
                       </div>
                       <div className="space-y-2 w-1/3">
                          <Label>Unit</Label>
+                         <p className="text-xs text-transparent select-none">.</p>
                           <Controller
                               name="fileSizeUnit"
                               control={control}
@@ -146,10 +148,12 @@ export default function BitrateCalculatorPage() {
                   <div className="flex gap-4">
                       <div className="space-y-2 w-2/3">
                           <Label htmlFor="time">Duration</Label>
+                           <p className="text-xs text-muted-foreground">The total length of your video or audio.</p>
                           <Input id="time" type="number" {...register('time')} />
                       </div>
                       <div className="space-y-2 w-1/3">
                           <Label>Unit</Label>
+                           <p className="text-xs text-transparent select-none">.</p>
                           <Controller
                               name="timeUnit"
                               control={control}
@@ -203,28 +207,51 @@ export default function BitrateCalculatorPage() {
               <p className="mb-4">
                 This calculator helps you determine the bitrate (data rate) of a video or audio file based on its size and duration. This is useful for streaming, encoding, and network planning.
               </p>
-              <div className="space-y-4">
-                <div>
-                  <h3 className="font-bold font-headline">Methodology</h3>
-                  <ol className="list-decimal list-inside space-y-2 mt-2 p-4 rounded-md bg-muted">
-                    <li>We convert the total file size to bits (1 byte = 8 bits).</li>
-                    <li>We convert the total duration to seconds.</li>
-                    <li>We divide the file size in bits by the duration in seconds to find the required bitrate in bits per second (bps).</li>
-                    <li>This result is then converted to kilobits per second (kbps), megabits per second (Mbps), and gigabits per second (Gbps) for convenience.</li>
-                  </ol>
-                </div>
-                 <div>
-                    <h3 className="font-bold font-headline">FAQs</h3>
-                    <Accordion type="single" collapsible className="w-full">
-                        <AccordionItem value="item-1">
-                            <AccordionTrigger>What's the difference between bits and bytes?</AccordionTrigger>
-                            <AccordionContent>
-                            A byte is a unit of data size used for file sizes (like Megabytes, Gigabytes). A bit is the smallest unit of data. There are 8 bits in a byte. Data transfer speeds (like internet connections) and bitrates are almost always measured in bits per second (like Mbps).
-                            </AccordionContent>
-                        </AccordionItem>
-                    </Accordion>
-                </div>
-              </div>
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="item-1">
+                  <AccordionTrigger>Methodology</AccordionTrigger>
+                  <AccordionContent>
+                    <ol className="list-decimal list-inside space-y-2 mt-2">
+                        <li>We convert the total file size to bits (1 byte = 8 bits).</li>
+                        <li>We convert the total duration to seconds.</li>
+                        <li>We divide the file size in bits by the duration in seconds to find the required bitrate in bits per second (bps).</li>
+                        <li>This result is then converted to kilobits per second (kbps), megabits per second (Mbps), and gigabits per second (Gbps) for convenience.</li>
+                    </ol>
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-2">
+                    <AccordionTrigger>FAQs</AccordionTrigger>
+                    <AccordionContent className="space-y-4">
+                        <div>
+                            <h4 className="font-semibold">What's the difference between bits and bytes?</h4>
+                            <p>A byte is a unit of data size used for file sizes (like Megabytes, Gigabytes). A bit is the smallest unit of data. There are 8 bits in a byte. Data transfer speeds (like internet connections) and bitrates are almost always measured in bits per second (like Mbps).</p>
+                        </div>
+                         <div>
+                            <h4 className="font-semibold">Why is this useful for video encoding?</h4>
+                            <p>When you encode a video, you often have a target file size in mind (e.g., to fit on a disc or for efficient streaming). This calculator tells you what bitrate to set in your encoding software to achieve that target file size for a given video length.</p>
+                        </div>
+                    </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </CardContent>
+          </Card>
+            <Card className="mt-8">
+            <CardHeader>
+              <CardTitle>Related Calculators</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Link href="/download-time-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Download Time Calculator</p>
+              </Link>
+              <Link href="/file-size-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">File Size Calculator</p>
+              </Link>
+              <Link href="/bandwidth-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Bandwidth Calculator</p>
+              </Link>
+               <Link href="/ip-subnet-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">IP Subnet Calculator</p>
+              </Link>
             </CardContent>
           </Card>
         </div>

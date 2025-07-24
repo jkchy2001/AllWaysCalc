@@ -21,6 +21,7 @@ import Link from 'next/link';
 import { Home, Shuffle } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const formSchema = z.object({
   outstandingPrincipal: z.coerce.number().min(1, 'Principal must be positive'),
@@ -57,6 +58,7 @@ export default function BalanceTransferCalculatorPage() {
   const { register, handleSubmit, formState: { errors } } = form;
   
   const calculateEmi = (p: number, r: number, n: number) => {
+    if (r === 0) return p / n;
     return (p * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
   };
 
@@ -100,28 +102,33 @@ export default function BalanceTransferCalculatorPage() {
                     <Card>
                         <CardHeader>
                             <CardTitle className="font-headline text-2xl">Balance Transfer Benefit Calculator</CardTitle>
-                            <CardDescription>See how much you can save by transferring your loan.</CardDescription>
+                            <CardDescription>See how much you can save by transferring your existing loan to a new lender with a lower interest rate.</CardDescription>
                         </CardHeader>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <CardContent className="space-y-4">
                                 <div className="space-y-2">
                                     <Label htmlFor="outstandingPrincipal">Outstanding Loan Amount (₹)</Label>
+                                    <p className="text-xs text-muted-foreground">The current principal amount you still owe.</p>
                                     <Input id="outstandingPrincipal" type="number" {...register('outstandingPrincipal')} />
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="existingRate">Existing Interest Rate (%)</Label>
+                                    <p className="text-xs text-muted-foreground">The annual interest rate on your current loan.</p>
                                     <Input id="existingRate" type="number" step="0.01" {...register('existingRate')} />
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="remainingTenure">Remaining Tenure (Months)</Label>
+                                     <p className="text-xs text-muted-foreground">The number of months left on your current loan.</p>
                                     <Input id="remainingTenure" type="number" {...register('remainingTenure')} />
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="newRate">New Interest Rate (%)</Label>
+                                     <p className="text-xs text-muted-foreground">The proposed annual interest rate from the new lender.</p>
                                     <Input id="newRate" type="number" step="0.01" {...register('newRate')} />
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="processingFee">Processing Fee (₹)</Label>
+                                     <p className="text-xs text-muted-foreground">Any fees charged by the new lender for the transfer.</p>
                                     <Input id="processingFee" type="number" {...register('processingFee')} />
                                 </div>
                             </CardContent>
@@ -168,6 +175,49 @@ export default function BalanceTransferCalculatorPage() {
                         </Card>
                     )}
                 </div>
+                 <Card className="mt-8">
+                    <CardHeader>
+                        <CardTitle>How Balance Transfer Works</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <p className="mb-4">
+                            A balance transfer involves moving your outstanding loan amount from your current lender to a new one, typically to take advantage of a lower interest rate. This can lead to significant savings over the life of the loan.
+                        </p>
+                        <Accordion type="single" collapsible className="w-full">
+                            <AccordionItem value="item-1">
+                                <AccordionTrigger>Is a balance transfer always a good idea?</AccordionTrigger>
+                                <AccordionContent>
+                                    Not necessarily. It's important to consider the processing fees charged by the new lender. This calculator helps you by showing the "Net Savings" after accounting for those fees. If the net savings are positive and substantial, it's generally a good move.
+                                </AccordionContent>
+                            </AccordionItem>
+                            <AccordionItem value="item-2">
+                                <AccordionTrigger>What should I look for when considering a balance transfer?</AccordionTrigger>
+                                <AccordionContent>
+                                    Beyond the interest rate and processing fee, check for other hidden charges, the reputation of the new lender, and any conditions attached to the new loan. Ensure the long-term benefits outweigh the short-term costs and effort.
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                    </CardContent>
+                </Card>
+                 <Card className="mt-8">
+                    <CardHeader>
+                    <CardTitle>Related Calculators</CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <Link href="/loan-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Loan / EMI Calculator</p>
+                        </Link>
+                        <Link href="/prepayment-vs-tenure-reduction-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Prepayment vs Tenure Reduction</p>
+                        </Link>
+                        <Link href="/mortgage-refinance-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Mortgage Refinance</p>
+                        </Link>
+                         <Link href="/credit-card-interest-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Credit Card Interest</p>
+                        </Link>
+                    </CardContent>
+                </Card>
             </div>
         </main>
     </div>

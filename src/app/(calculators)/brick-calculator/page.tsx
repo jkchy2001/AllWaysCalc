@@ -76,7 +76,7 @@ export default function BrickCalculatorPage() {
         brickLength /= 12; // in to ft
         brickHeight /= 12;  // in to ft
         brickWidth /= 12; // in to ft
-        mortarJoint /= 12;   // in to ft
+        groutGap /= 12;   // in to ft
     }
 
     const wallVolume = wallLength * wallHeight * wallWidth;
@@ -106,8 +106,8 @@ export default function BrickCalculatorPage() {
           <div className="grid gap-8 lg:grid-cols-2">
             <Card>
               <CardHeader>
-                <CardTitle className="font-headline text-2xl">Brick Calculator</CardTitle>
-                <CardDescription>Estimate the number of bricks needed for a structure.</CardDescription>
+                <CardTitle className="font-headline text-2xl">Brick Wall Calculator</CardTitle>
+                <CardDescription>Estimate the number of bricks needed to build a wall or structure.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
@@ -169,8 +169,8 @@ export default function BrickCalculatorPage() {
 
                     <div className="space-y-2">
                         <Label htmlFor="wastage">Wastage (%)</Label>
+                        <p className="text-xs text-muted-foreground">Extra percentage to account for cuts, breaks, and mistakes.</p>
                         <Input id="wastage" type="number" {...register('wastage')} />
-                        <p className="text-xs text-muted-foreground">Recommended: 5-10% for cuts, waste, and mistakes.</p>
                     </div>
 
                 </CardContent>
@@ -208,17 +208,51 @@ export default function BrickCalculatorPage() {
               <p className="mb-4">
                 This calculator helps you determine how many bricks you need to construct a wall or structure. Accurate measurements are key to a good estimate, and always remember to account for mortar and wastage.
               </p>
-              <div className="space-y-4">
-                <div>
-                  <h3 className="font-bold font-headline">Methodology</h3>
-                  <ol className="list-decimal list-inside space-y-2 mt-2 p-4 rounded-md bg-muted">
-                    <li>Calculate the total volume of the wall (Length × Height × Width).</li>
-                    <li>Calculate the volume of a single brick, including the mortar joint on all sides to account for spacing.</li>
-                    <li>Divide the total wall volume by the single brick volume to find the minimum number of bricks needed.</li>
-                    <li>Add a wastage percentage to account for cuts, breaks, and future repairs. This is typically 5-10%.</li>
-                  </ol>
-                </div>
-              </div>
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="item-1">
+                  <AccordionTrigger>Methodology</AccordionTrigger>
+                  <AccordionContent>
+                    <ol className="list-decimal list-inside space-y-2 mt-2">
+                      <li><b>Calculate Wall Volume:</b> The total volume of the wall is calculated: `Wall Volume = Length × Height × Width`.</li>
+                      <li><b>Calculate Brick Volume with Mortar:</b> The area of a single brick is calculated, including the specified mortar joint on all sides that will be exposed: `Single Brick Volume = (Brick Length + Mortar) × (Brick Height + Mortar) × (Brick Width + Mortar)`.</li>
+                      <li><b>Find Number of Bricks:</b> The total wall volume is divided by the single brick volume to find the minimum number of bricks needed.</li>
+                      <li><b>Add Wastage:</b> A wastage percentage (typically 5-10%) is added to account for bricks that may be cut, broken during transport, or used for other purposes.</li>
+                    </ol>
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-2">
+                    <AccordionTrigger>FAQs</AccordionTrigger>
+                    <AccordionContent className="space-y-4">
+                        <div>
+                            <h4 className="font-semibold">What is a standard brick size?</h4>
+                            <p>Standard brick sizes vary by region. In India, a standard modular brick is 190mm x 90mm x 90mm. In the US, a standard modular brick is 7 5/8" x 3 5/8" x 2 1/4". Always measure your specific bricks for the most accurate calculation.</p>
+                        </div>
+                         <div>
+                            <h4 className="font-semibold">Why is the mortar joint important?</h4>
+                            <p>The mortar joint adds to the overall space each brick takes up in the wall. Ignoring it will lead to an overestimation of the number of bricks required.</p>
+                        </div>
+                    </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </CardContent>
+          </Card>
+           <Card className="mt-8">
+            <CardHeader>
+              <CardTitle>Related Calculators</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Link href="/concrete-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Concrete Calculator</p>
+              </Link>
+              <Link href="/tile-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Tile Calculator</p>
+              </Link>
+              <Link href="/paint-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Paint Calculator</p>
+              </Link>
+               <Link href="/plaster-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Plaster Calculator</p>
+              </Link>
             </CardContent>
           </Card>
         </div>

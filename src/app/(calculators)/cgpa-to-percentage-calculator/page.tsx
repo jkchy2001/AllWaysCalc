@@ -70,12 +70,13 @@ export default function CgpaToPercentageCalculatorPage() {
                     <Card>
                         <CardHeader>
                             <CardTitle className="font-headline text-2xl">CGPA to Percentage Converter</CardTitle>
-                            <CardDescription>Convert your CGPA to an equivalent percentage.</CardDescription>
+                            <CardDescription>Convert your CGPA to an equivalent percentage using the standard 9.5 multiplier.</CardDescription>
                         </CardHeader>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <CardContent className="space-y-4">
                                 <div className="space-y-2">
                                     <Label htmlFor="cgpa">Your CGPA (out of 10)</Label>
+                                    <p className="text-xs text-muted-foreground">Enter your Cumulative Grade Point Average on a 10-point scale.</p>
                                     <Input id="cgpa" type="number" step="0.01" placeholder="e.g., 8.5" {...register('cgpa')} />
                                     {errors.cgpa && <p className="text-destructive text-sm">{errors.cgpa.message}</p>}
                                 </div>
@@ -111,35 +112,52 @@ export default function CgpaToPercentageCalculatorPage() {
                       <p className="mb-4">
                         This calculator converts a Cumulative Grade Point Average (CGPA) on a 10-point scale to an equivalent percentage. This is a common conversion required for various applications for jobs and higher education.
                       </p>
-                      <div className="space-y-4">
-                      <div>
-                          <h3 className="font-bold font-headline">Formula Used</h3>
-                          <p>The conversion is based on the directive provided by many Indian universities and boards:</p>
-                          <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
-                          <code>
-                              Percentage = CGPA × 9.5
-                          </code>
-                          </pre>
-                      </div>
-                      <div>
-                          <h3 className="font-bold font-headline">FAQs</h3>
-                          <Accordion type="single" collapsible className="w-full">
+                      <Accordion type="single" collapsible className="w-full">
                           <AccordionItem value="item-1">
-                              <AccordionTrigger>Is this formula universally applicable?</AccordionTrigger>
+                              <AccordionTrigger>Formula Used</AccordionTrigger>
                               <AccordionContent>
-                              While this formula is widely used, some universities or institutions may have their own specific conversion formulas. It's always best to check with the concerned institution for their official conversion method.
+                                  <p>The conversion is based on the directive provided by many Indian universities and boards:</p>
+                                  <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
+                                  <code>
+                                      Percentage = CGPA × 9.5
+                                  </code>
+                                  </pre>
                               </AccordionContent>
                           </AccordionItem>
                           <AccordionItem value="item-2">
-                              <AccordionTrigger>Why is 9.5 used as the multiplier?</AccordionTrigger>
-                              <AccordionContent>
-                              The multiplier of 9.5 is an approximation derived by analyzing the results of previous years' examinations and finding the average marks of candidates across different subjects.
+                              <AccordionTrigger>FAQs</AccordionTrigger>
+                              <AccordionContent className="space-y-4">
+                                <div>
+                                    <h4 className="font-semibold">Is this formula universally applicable?</h4>
+                                    <p>While this formula is widely used, some universities or institutions may have their own specific conversion formulas. It's always best to check with the concerned institution for their official conversion method. This calculator should be used as a general guide.</p>
+                                </div>
+                                <div>
+                                    <h4 className="font-semibold">Why is 9.5 used as the multiplier?</h4>
+                                    <p>The multiplier of 9.5 is an approximation derived by analyzing the results of previous years' examinations and finding the average marks of candidates across different subjects. It is the standard conversion factor provided by many educational boards in India, including CBSE.</p>
+                                </div>
                               </AccordionContent>
                           </AccordionItem>
-                          </Accordion>
-                      </div>
-                      </div>
+                      </Accordion>
                   </CardContent>
+                </Card>
+                 <Card className="mt-8">
+                    <CardHeader>
+                    <CardTitle>Related Calculators</CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <Link href="/gpa-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">GPA Calculator</p>
+                        </Link>
+                        <Link href="/semester-grade-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Semester Grade</p>
+                        </Link>
+                        <Link href="/exam-marks-needed-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Exam Marks Needed</p>
+                        </Link>
+                        <Link href="/percentage-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Percentage Calculator</p>
+                        </Link>
+                    </CardContent>
                 </Card>
             </div>
         </main>

@@ -267,6 +267,7 @@ export default function AdvanceTaxCalculatorPage() {
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
                           <Label>Age Group</Label>
+                           <p className="text-xs text-muted-foreground">Select your age group as it affects tax slabs under the old regime.</p>
                           <Select onValueChange={(val) => setValue('ageGroup', val as FormValues['ageGroup'])} defaultValue={ageGroup}>
                             <SelectTrigger>
                               <SelectValue placeholder="Select Age" />
@@ -280,6 +281,7 @@ export default function AdvanceTaxCalculatorPage() {
                         </div>
                         <div className="space-y-2">
                           <Label>Occupation</Label>
+                           <p className="text-xs text-muted-foreground">This helps determine applicability of certain deductions.</p>
                            <Select onValueChange={(val) => setValue('occupationType', val as FormValues['occupationType'])} defaultValue={watch('occupationType')}>
                             <SelectTrigger>
                               <SelectValue placeholder="Select Occupation" />
@@ -301,19 +303,19 @@ export default function AdvanceTaxCalculatorPage() {
                      <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
                             <Label htmlFor="salaryIncome">Salary Income (₹)</Label>
-                            <Input id="salaryIncome" type="number" step="0.01" {...register('salaryIncome')} />
+                            <Input id="salaryIncome" type="number" step="0.01" {...register('salaryIncome')} placeholder="Income from employment" />
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="businessIncome">Business/Professional Income (₹)</Label>
-                            <Input id="businessIncome" type="number" step="0.01" {...register('businessIncome')} />
+                            <Input id="businessIncome" type="number" step="0.01" {...register('businessIncome')} placeholder="Profits from business"/>
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="pensionIncome">Pension Income (₹)</Label>
-                            <Input id="pensionIncome" type="number" step="0.01" {...register('pensionIncome')} />
+                            <Input id="pensionIncome" type="number" step="0.01" {...register('pensionIncome')} placeholder="Pension received"/>
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="otherIncome">Other Income (₹)</Label>
-                            <Input id="otherIncome" type="number" step="0.01" {...register('otherIncome')} />
+                            <Input id="otherIncome" type="number" step="0.01" {...register('otherIncome')} placeholder="Interest, rent, etc."/>
                         </div>
                         <div className="space-y-2 col-span-2">
                             <Label htmlFor="agriculturalIncome">Agricultural Income (₹)</Label>
@@ -446,6 +448,8 @@ export default function AdvanceTaxCalculatorPage() {
                          <p className="text-center text-green-600 font-semibold pt-4">Tax Rebate Applied u/s 87A. No tax is due.</p>
                     )}
                     {result.installments.length > 0 && (
+                        <>
+                        <p className="text-center text-muted-foreground pt-4">Your estimated quarterly installments are:</p>
                         <Table>
                             <TableHeader>
                                 <TableRow>
@@ -465,6 +469,7 @@ export default function AdvanceTaxCalculatorPage() {
                                 ))}
                             </TableBody>
                         </Table>
+                        </>
                     )}
                 </CardContent>
                 <CardFooter>
@@ -481,39 +486,56 @@ export default function AdvanceTaxCalculatorPage() {
               <p className="mb-4">
                Advance tax is the income tax paid in advance during the financial year instead of in a lump sum at year-end. It is applicable if your total tax liability for the year is ₹10,000 or more. This prevents a large tax burden at the end of the year and helps the government with a steady flow of revenue.
               </p>
-              <div className="space-y-4">
-                <div>
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="item-1">
                   <h3 className="font-bold font-headline">Who should pay Advance Tax?</h3>
+                  <AccordionContent>
                   <p>Any person—including salaried individuals, freelancers, and businesses—whose estimated tax liability for the financial year is ₹10,000 or more is required to pay advance tax. Senior citizens (aged 60 years or more) not having any income from business or profession are exempt from paying advance tax.</p>
-                </div>
-                <div>
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-2">
                   <h3 className="font-bold font-headline">Old vs. New Tax Regime</h3>
+                  <AccordionContent>
                   <p>The choice of tax regime significantly impacts your tax calculation. The Old Regime allows for various deductions (like 80C, 80D, HRA), while the New Regime offers different slab rates but forgoes most deductions. A tax rebate u/s 87A makes the final tax zero if your calculated tax amount is below a certain threshold.</p>
-                </div>
-                <div>
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-3">
                   <h3 className="font-bold font-headline">FAQs</h3>
-                  <Accordion type="single" collapsible className="w-full">
-                    <AccordionItem value="item-1">
-                      <AccordionTrigger>What happens if I miss a payment?</AccordionTrigger>
-                      <AccordionContent>
-                       If you fail to pay, or pay less than the required amount of advance tax in any installment, you will be liable to pay interest under sections 234B (for non-payment or short payment) and 234C (for deferment of installments) of the Income Tax Act.
-                      </AccordionContent>
-                    </AccordionItem>
-                     <AccordionItem value="item-2">
-                      <AccordionTrigger>Can I adjust the amount in subsequent installments?</AccordionTrigger>
-                      <AccordionContent>
-                       Yes. If your estimated income changes during the year, you can revise your advance tax in the remaining installments to ensure you meet the required payment percentages by each due date.
-                      </AccordionContent>
-                    </AccordionItem>
-                    <AccordionItem value="item-3">
-                        <AccordionTrigger>How do I pay Advance Tax?</AccordionTrigger>
-                        <AccordionContent>
-                        You can pay advance tax online through the Income Tax Department's e-payment portal using Challan 280.
-                        </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
-                </div>
-              </div>
+                  <AccordionContent className="space-y-4">
+                    <div>
+                      <h4 className="font-semibold">What happens if I miss a payment?</h4>
+                      <p>If you fail to pay, or pay less than the required amount of advance tax in any installment, you will be liable to pay interest under sections 234B (for non-payment or short payment) and 234C (for deferment of installments) of the Income Tax Act.</p>
+                    </div>
+                     <div>
+                      <h4 className="font-semibold">Can I adjust the amount in subsequent installments?</h4>
+                      <p>Yes. If your estimated income changes during the year, you can revise your advance tax in the remaining installments to ensure you meet the required payment percentages by each due date.</p>
+                    </div>
+                    <div>
+                        <h4 className="font-semibold">How do I pay Advance Tax?</h4>
+                        <p>You can pay advance tax online through the Income Tax Department's e-payment portal using Challan 280.</p>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </CardContent>
+          </Card>
+          <Card className="mt-8">
+            <CardHeader>
+              <CardTitle>Related Calculators</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Link href="/income-tax-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Income Tax</p>
+              </Link>
+              <Link href="/tds-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">TDS Calculator</p>
+              </Link>
+              <Link href="/hra-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">HRA Calculator</p>
+              </Link>
+              <Link href="/gst-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">GST Calculator</p>
+              </Link>
             </CardContent>
           </Card>
         </div>
@@ -521,5 +543,3 @@ export default function AdvanceTaxCalculatorPage() {
     </div>
   );
 }
-
-    

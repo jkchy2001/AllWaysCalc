@@ -108,7 +108,7 @@ export default function BodyFatPercentageCalculatorPage() {
                     <Card>
                         <CardHeader>
                             <CardTitle className="font-headline text-2xl">Body Fat Percentage Calculator</CardTitle>
-                            <CardDescription>Estimate your body fat using the U.S. Navy method.</CardDescription>
+                            <CardDescription>Estimate your body fat percentage using the U.S. Navy method, which only requires a tape measure.</CardDescription>
                         </CardHeader>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <CardContent className="space-y-4">
@@ -160,11 +160,13 @@ export default function BodyFatPercentageCalculatorPage() {
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="space-y-2">
                                         <Label htmlFor="neck">Neck ({unit === 'metric' ? 'cm' : 'in'})</Label>
+                                        <p className="text-xs text-muted-foreground">Measure around your neck, below the larynx.</p>
                                         <Input id="neck" type="number" step="0.1" {...register('neck')} />
                                         {errors.neck && <p className="text-destructive text-sm">{errors.neck.message}</p>}
                                     </div>
                                     <div className="space-y-2">
                                         <Label htmlFor="waist">Waist ({unit === 'metric' ? 'cm' : 'in'})</Label>
+                                        <p className="text-xs text-muted-foreground">Measure at the navel for men, narrowest point for women.</p>
                                         <Input id="waist" type="number" step="0.1" {...register('waist')} />
                                         {errors.waist && <p className="text-destructive text-sm">{errors.waist.message}</p>}
                                     </div>
@@ -173,6 +175,7 @@ export default function BodyFatPercentageCalculatorPage() {
                                 {gender === 'female' && (
                                     <div className="space-y-2">
                                         <Label htmlFor="hip">Hip ({unit === 'metric' ? 'cm' : 'in'})</Label>
+                                        <p className="text-xs text-muted-foreground">Measure around the widest part of your hips/buttocks.</p>
                                         <Input id="hip" type="number" step="0.1" {...register('hip')} />
                                         {errors.hip && <p className="text-destructive text-sm">{errors.hip.message}</p>}
                                     </div>
@@ -209,35 +212,53 @@ export default function BodyFatPercentageCalculatorPage() {
                       <p className="mb-4">
                           This calculator uses a method developed by the U.S. Navy to estimate body fat percentage based on simple body measurements. It's a convenient way to track your body composition without special equipment.
                       </p>
-                      <div className="space-y-4">
-                      <div>
-                          <h3 className="font-bold font-headline">Formulas Used</h3>
-                          <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
-                          <code>
-                              <b>Men:</b> %Fat = 495 / (1.0324 - 0.19077 * log10(waist - neck) + 0.15456 * log10(height)) - 450<br/><br/>
-                              <b>Women:</b> %Fat = 495 / (1.29579 - 0.35004 * log10(waist + hip - neck) + 0.22100 * log10(height)) - 450
-                          </code>
-                          </pre>
-                      </div>
-                      <div>
-                          <h3 className="font-bold font-headline">FAQs</h3>
-                          <Accordion type="single" collapsible className="w-full">
+                      <Accordion type="single" collapsible className="w-full">
                           <AccordionItem value="item-1">
-                              <AccordionTrigger>Is this calculator accurate?</AccordionTrigger>
+                              <AccordionTrigger>Formula Used</AccordionTrigger>
                               <AccordionContent>
-                                While methods like DEXA scans are more precise, the U.S. Navy formula is considered a good estimator for most people. Consistency in how you measure is key to tracking changes over time.
+                                  The U.S. Navy method uses height, neck, waist, and (for women) hip measurements in a logarithmic formula to estimate body fat.
+                                  <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
+                                  <code>
+                                      <b>Men:</b> %Fat = 495 / (1.0324 - 0.19077 * log10(waist - neck) + 0.15456 * log10(height)) - 450<br/><br/>
+                                      <b>Women:</b> %Fat = 495 / (1.29579 - 0.35004 * log10(waist + hip - neck) + 0.22100 * log10(height)) - 450
+                                  </code>
+                                  </pre>
                               </AccordionContent>
                           </AccordionItem>
                           <AccordionItem value="item-2">
-                              <AccordionTrigger>Why is body fat percentage important?</AccordionTrigger>
-                              <AccordionContent>
-                                Body fat percentage is a better indicator of health than just weight or BMI because it distinguishes between fat mass and lean mass (muscles, bones, water). Maintaining a healthy body fat percentage is important for overall fitness and reducing the risk of certain diseases.
+                              <AccordionTrigger>FAQs</AccordionTrigger>
+                              <AccordionContent className="space-y-4">
+                                <div>
+                                    <h4 className="font-semibold">Is this calculator accurate?</h4>
+                                    <p>While methods like DEXA scans are more precise, the U.S. Navy formula is considered a good estimator for most people. Consistency in how you measure is key to tracking changes over time.</p>
+                                </div>
+                                <div>
+                                    <h4 className="font-semibold">Why is body fat percentage important?</h4>
+                                    <p>Body fat percentage is a better indicator of health than just weight or BMI because it distinguishes between fat mass and lean mass (muscles, bones, water). Maintaining a healthy body fat percentage is important for overall fitness and reducing the risk of certain diseases.</p>
+                                </div>
                               </AccordionContent>
                           </AccordionItem>
-                          </Accordion>
-                      </div>
-                      </div>
+                      </Accordion>
                   </CardContent>
+                </Card>
+                <Card className="mt-8">
+                    <CardHeader>
+                    <CardTitle>Related Calculators</CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <Link href="/bmi-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">BMI Calculator</p>
+                        </Link>
+                        <Link href="/bmr-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">BMR Calculator</p>
+                        </Link>
+                         <Link href="/calorie-intake-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Calorie Intake</p>
+                        </Link>
+                         <Link href="/ideal-weight-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Ideal Weight</p>
+                        </Link>
+                    </CardContent>
                 </Card>
             </div>
         </main>

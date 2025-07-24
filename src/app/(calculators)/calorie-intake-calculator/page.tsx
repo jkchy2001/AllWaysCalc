@@ -141,7 +141,7 @@ export default function CalorieIntakeCalculatorPage() {
                     <Card>
                         <CardHeader>
                             <CardTitle className="font-headline text-2xl">Daily Calorie Intake Calculator</CardTitle>
-                            <CardDescription>Estimate your daily calorie needs based on your activity and goals.</CardDescription>
+                            <CardDescription>Estimate your daily calorie needs based on your activity and goals to maintain, lose, or gain weight.</CardDescription>
                         </CardHeader>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <CardContent className="space-y-4">
@@ -224,6 +224,7 @@ export default function CalorieIntakeCalculatorPage() {
                                 
                                 <div className="space-y-2">
                                     <Label>Activity Level</Label>
+                                    <p className="text-xs text-muted-foreground">How active are you on a weekly basis?</p>
                                     <Select onValueChange={(val) => setValue('activityLevel', val as FormValues['activityLevel'])} defaultValue={watch('activityLevel')}>
                                         <SelectTrigger>
                                         <SelectValue placeholder="Select your activity level" />
@@ -278,34 +279,51 @@ export default function CalorieIntakeCalculatorPage() {
                       <p className="mb-4">
                           This calculator estimates your Total Daily Energy Expenditure (TDEE) to help you set calorie goals for weight management.
                       </p>
-                      <div className="space-y-4">
-                      <div>
-                          <h3 className="font-bold font-headline">Methodology (Harris-Benedict Principle)</h3>
-                          <ol className="list-decimal list-inside space-y-2 mt-2 p-4 rounded-md bg-muted">
-                            <li>First, we calculate your Basal Metabolic Rate (BMR) using your personal data.</li>
-                            <li>Then, we multiply your BMR by an activity factor based on your exercise level to find your maintenance calories (TDEE).</li>
-                            <li>Finally, we adjust this number to provide goals for weight loss (a calorie deficit) or weight gain (a calorie surplus).</li>
-                          </ol>
-                      </div>
-                      <div>
-                          <h3 className="font-bold font-headline">FAQs</h3>
-                          <Accordion type="single" collapsible className="w-full">
+                      <Accordion type="single" collapsible className="w-full">
                           <AccordionItem value="item-1">
-                              <AccordionTrigger>What is TDEE?</AccordionTrigger>
+                              <AccordionTrigger>Methodology (Harris-Benedict Principle)</AccordionTrigger>
                               <AccordionContent>
-                                TDEE stands for Total Daily Energy Expenditure. It's an estimation of how many calories you burn per day when exercise is taken into account. It is the number of calories you would need to eat to maintain your current weight.
+                                  <ol className="list-decimal list-inside space-y-2 mt-2">
+                                    <li>First, we calculate your Basal Metabolic Rate (BMR) using the Mifflin-St Jeor equation, which is based on your weight, height, age, and gender.</li>
+                                    <li>Then, we multiply your BMR by an activity factor based on your exercise level to find your maintenance calories (TDEE).</li>
+                                    <li>Finally, we provide estimates for weight loss (a 500 calorie deficit) or weight gain (a 500 calorie surplus), which generally corresponds to a loss or gain of about 0.5 kg (1 lb) per week.</li>
+                                  </ol>
                               </AccordionContent>
                           </AccordionItem>
                           <AccordionItem value="item-2">
-                              <AccordionTrigger>Is this calculator 100% accurate?</AccordionTrigger>
-                              <AccordionContent>
-                                No calculator is perfect. These formulas provide a good starting point, but individual metabolisms can vary. Use these results as a guideline and adjust based on your real-world progress.
+                              <AccordionTrigger>FAQs</AccordionTrigger>
+                              <AccordionContent className="space-y-4">
+                                <div>
+                                    <h4 className="font-semibold">What is TDEE?</h4>
+                                    <p>TDEE stands for Total Daily Energy Expenditure. It's an estimation of how many calories you burn per day when exercise is taken into account. It is the number of calories you would need to eat to maintain your current weight.</p>
+                                </div>
+                                <div>
+                                    <h4 className="font-semibold">Is this calculator 100% accurate?</h4>
+                                    <p>No calculator is perfect. These formulas provide a good starting point, but individual metabolisms can vary. Use these results as a guideline and adjust based on your real-world progress. The best approach is to monitor your weight over a couple of weeks and adjust your calorie intake up or down as needed.</p>
+                                </div>
                               </AccordionContent>
                           </AccordionItem>
-                          </Accordion>
-                      </div>
-                      </div>
+                      </Accordion>
                   </CardContent>
+                </Card>
+                 <Card className="mt-8">
+                    <CardHeader>
+                    <CardTitle>Related Calculators</CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <Link href="/bmi-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">BMI Calculator</p>
+                        </Link>
+                        <Link href="/bmr-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">BMR Calculator</p>
+                        </Link>
+                         <Link href="/macronutrient-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Macronutrient Calculator</p>
+                        </Link>
+                         <Link href="/body-fat-percentage-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Body Fat Percentage</p>
+                        </Link>
+                    </CardContent>
                 </Card>
             </div>
         </main>

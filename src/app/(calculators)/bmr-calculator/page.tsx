@@ -117,8 +117,8 @@ export default function BmrCalculatorPage() {
                 <div className="grid gap-8 lg:grid-cols-2">
                     <Card>
                         <CardHeader>
-                            <CardTitle className="font-headline text-2xl">BMR Calculator</CardTitle>
-                            <CardDescription>Calculate your Basal Metabolic Rate.</CardDescription>
+                            <CardTitle className="font-headline text-2xl">Basal Metabolic Rate (BMR) Calculator</CardTitle>
+                            <CardDescription>Calculate the minimum number of calories your body needs at rest to function.</CardDescription>
                         </CardHeader>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <CardContent className="space-y-4">
@@ -215,7 +215,7 @@ export default function BmrCalculatorPage() {
                                 <div className="text-6xl font-bold text-primary">{result.bmr.toLocaleString()}</div>
                                 <div className="text-xl font-semibold">Calories / day</div>
                                 <div className="text-sm text-muted-foreground">
-                                    <p>This is the number of calories your body needs at rest.</p>
+                                    <p>This is the number of calories your body needs to perform basic, life-sustaining functions if you were to rest for 24 hours.</p>
                                 </div>
                             </CardContent>
                             <CardFooter>
@@ -232,35 +232,53 @@ export default function BmrCalculatorPage() {
                       <p className="mb-4">
                           Basal Metabolic Rate (BMR) is the number of calories your body needs to accomplish its most basic (basal) life-sustaining functions, such as breathing, circulation, nutrient processing, and cell production.
                       </p>
-                      <div className="space-y-4">
-                      <div>
-                          <h3 className="font-bold font-headline">Formula Used (Mifflin-St Jeor)</h3>
-                          <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
-                          <code>
-                              <b>For Men:</b> BMR = 10 * weight (kg) + 6.25 * height (cm) - 5 * age (years) + 5<br/><br/>
-                              <b>For Women:</b> BMR = 10 * weight (kg) + 6.25 * height (cm) - 5 * age (years) - 161
-                          </code>
-                          </pre>
-                      </div>
-                      <div>
-                          <h3 className="font-bold font-headline">FAQs</h3>
-                          <Accordion type="single" collapsible className="w-full">
+                      <Accordion type="single" collapsible className="w-full">
                           <AccordionItem value="item-1">
-                              <AccordionTrigger>How can I use my BMR?</AccordionTrigger>
+                              <AccordionTrigger>Formula Used (Mifflin-St Jeor)</AccordionTrigger>
                               <AccordionContent>
-                                Your BMR can be used as a baseline for determining your total daily calorie needs. By multiplying your BMR by an activity factor (from sedentary to very active), you can estimate your Total Daily Energy Expenditure (TDEE). To lose weight, you need to consume fewer calories than your TDEE.
+                                This calculator uses the Mifflin-St Jeor equation, which is considered one of the most accurate methods for estimating BMR. The formula is:
+                                  <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
+                                  <code>
+                                      <b>For Men:</b> 10 * weight (kg) + 6.25 * height (cm) - 5 * age (years) + 5<br/><br/>
+                                      <b>For Women:</b> 10 * weight (kg) + 6.25 * height (cm) - 5 * age (years) - 161
+                                  </code>
+                                  </pre>
                               </AccordionContent>
                           </AccordionItem>
                           <AccordionItem value="item-2">
-                              <AccordionTrigger>Is this calculator 100% accurate?</AccordionTrigger>
-                              <AccordionContent>
-                                BMR formulas provide a good estimate, but they are not perfectly accurate for every individual. Factors like body composition (muscle vs. fat ratio), genetics, and specific health conditions can influence your actual BMR.
+                              <AccordionTrigger>FAQs</AccordionTrigger>
+                              <AccordionContent className="space-y-4">
+                                  <div>
+                                    <h4 className="font-semibold">How can I use my BMR?</h4>
+                                    <p>Your BMR is the starting point for determining your total daily calorie needs. To find out how many calories you actually burn in a day, you need to multiply your BMR by an activity factor. This gives you your Total Daily Energy Expenditure (TDEE). To lose weight, you need to consume fewer calories than your TDEE.</p>
+                                  </div>
+                                  <div>
+                                    <h4 className="font-semibold">Is this calculator 100% accurate?</h4>
+                                    <p>BMR formulas provide a good estimate, but they are not perfectly accurate for every individual. Factors like body composition (a person with more muscle will have a higher BMR than a person of the same weight with more fat), genetics, and specific health conditions can influence your actual BMR.</p>
+                                  </div>
                               </AccordionContent>
                           </AccordionItem>
-                          </Accordion>
-                      </div>
-                      </div>
+                      </Accordion>
                   </CardContent>
+                </Card>
+                 <Card className="mt-8">
+                    <CardHeader>
+                    <CardTitle>Related Calculators</CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <Link href="/bmi-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">BMI Calculator</p>
+                        </Link>
+                        <Link href="/body-fat-percentage-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Body Fat Percentage</p>
+                        </Link>
+                         <Link href="/calorie-intake-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Calorie Intake</p>
+                        </Link>
+                         <Link href="/ideal-weight-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Ideal Weight</p>
+                        </Link>
+                    </CardContent>
                 </Card>
             </div>
         </main>

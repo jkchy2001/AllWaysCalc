@@ -78,11 +78,12 @@ export default function AspectRatioCalculatorPage() {
                 <Card className="shadow-lg">
                     <CardHeader>
                     <CardTitle className="font-headline text-2xl">Aspect Ratio Calculator</CardTitle>
-                    <CardDescription>Calculate new dimensions while maintaining aspect ratio.</CardDescription>
+                    <CardDescription>Calculate new dimensions while maintaining aspect ratio for images or videos.</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
                        <div className="p-4 border rounded-md space-y-4">
                             <h3 className="font-semibold text-sm">Original Dimensions (W:H)</h3>
+                             <p className="text-xs text-muted-foreground">Enter the original width and height of your media.</p>
                             <div className="flex items-center gap-4">
                                 <div className="flex-1 space-y-2">
                                     <Label htmlFor="w1">Width 1</Label>
@@ -97,6 +98,7 @@ export default function AspectRatioCalculatorPage() {
 
                          <div className="p-4 border rounded-md space-y-4">
                             <h3 className="font-semibold text-sm">New Dimensions</h3>
+                             <p className="text-xs text-muted-foreground">Change one value, and the other will be calculated automatically.</p>
                              <div className="flex items-center gap-4">
                                 <div className="flex-1 space-y-2">
                                     <Label htmlFor="w2">Width 2</Label>
@@ -125,6 +127,9 @@ export default function AspectRatioCalculatorPage() {
                         <p className="text-muted-foreground">Your new dimensions are</p>
                         <p className="text-3xl font-bold text-primary">{w2} x {h2}</p>
                     </CardContent>
+                    <CardFooter>
+                         <SharePanel resultText={`My resized dimensions are ${w2} x ${h2} to maintain a ${w1}:${h1} aspect ratio.`} />
+                    </CardFooter>
                 </Card>
             </div>
              <Card className="mt-8">
@@ -140,7 +145,9 @@ export default function AspectRatioCalculatorPage() {
                             <AccordionTrigger>How is it calculated?</AccordionTrigger>
                             <AccordionContent>
                                 The calculation is based on a simple cross-multiplication formula. If you know the original width (W1) and height (H1), and you want to find a new height (H2) for a given new width (W2), the formula is: <br /> <br />
-                                <code className="p-2 bg-muted rounded-md">H2 = (H1 / W1) * W2</code>
+                                <code className="p-2 bg-muted rounded-md">H2 = (H1 / W1) * W2</code> <br /><br />
+                                Conversely, to find a new width (W2) for a given new height (H2), the formula is: <br /> <br />
+                                <code className="p-2 bg-muted rounded-md">W2 = (W1 / H1) * H2</code>
                             </AccordionContent>
                         </AccordionItem>
                         <AccordionItem value="item-2">
@@ -151,12 +158,38 @@ export default function AspectRatioCalculatorPage() {
                                     <li><b>4:3</b> - Traditional TV and computer monitor standard.</li>
                                     <li><b>3:2</b> - Common in photography, used by many DSLR and mirrorless cameras.</li>
                                     <li><b>1:1</b> - A square, popular on social media platforms like Instagram.</li>
+                                    <li><b>9:16</b> - Vertical video, common for social media stories (e.g., Instagram Reels, TikTok).</li>
                                 </ul>
+                            </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="item-3">
+                            <AccordionTrigger>Why is maintaining aspect ratio important?</AccordionTrigger>
+                            <AccordionContent>
+                            If you resize an image or video without maintaining its aspect ratio, the content will appear stretched or squashed, leading to a distorted and unprofessional look. This tool ensures that your content scales correctly.
                             </AccordionContent>
                         </AccordionItem>
                     </Accordion>
                 </CardContent>
             </Card>
+             <Card className="mt-8">
+            <CardHeader>
+              <CardTitle>Related Calculators</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Link href="/screen-resolution-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Screen Resolution (PPI)</p>
+              </Link>
+              <Link href="/pixel-to-em-converter" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Pixel to EM Converter</p>
+              </Link>
+              <Link href="/file-size-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">File Size Calculator</p>
+              </Link>
+               <Link href="/bitrate-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Bitrate Calculator</p>
+              </Link>
+            </CardContent>
+          </Card>
         </div>
       </main>
     </div>

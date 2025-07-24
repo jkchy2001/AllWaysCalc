@@ -90,36 +90,41 @@ export default function BatteryBackupCalculatorPage() {
           <div className="grid gap-8 lg:grid-cols-2">
             <Card>
               <CardHeader>
-                <CardTitle className="font-headline text-2xl">Battery Backup Calculator</CardTitle>
-                <CardDescription>Estimate how long a battery will last under a specific load.</CardDescription>
+                <CardTitle className="font-headline text-2xl">Battery Backup & Runtime Calculator</CardTitle>
+                <CardDescription>Estimate how long a battery will last under a specific load, for UPS, inverters, or solar systems.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="batteryCapacity">Battery Capacity (Ah)</Label>
+                      <p className="text-xs text-muted-foreground">Ampere-hours of your battery.</p>
                       <Input id="batteryCapacity" type="number" {...register('batteryCapacity')} />
                       {errors.batteryCapacity && <p className="text-destructive text-sm">{errors.batteryCapacity.message}</p>}
                     </div>
                      <div className="space-y-2">
                       <Label htmlFor="batteryVoltage">Battery Voltage (V)</Label>
+                      <p className="text-xs text-muted-foreground">Nominal voltage of your battery.</p>
                       <Input id="batteryVoltage" type="number" {...register('batteryVoltage')} />
                       {errors.batteryVoltage && <p className="text-destructive text-sm">{errors.batteryVoltage.message}</p>}
                     </div>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="loadPower">Total Load (Watts)</Label>
+                    <p className="text-xs text-muted-foreground">Total power consumed by all connected devices.</p>
                     <Input id="loadPower" type="number" {...register('loadPower')} />
                     {errors.loadPower && <p className="text-destructive text-sm">{errors.loadPower.message}</p>}
                   </div>
                    <div className="grid grid-cols-2 gap-4">
                      <div className="space-y-2">
                         <Label htmlFor="usableCapacity">Usable Capacity / DoD (%)</Label>
+                        <p className="text-xs text-muted-foreground">Percentage of battery you can safely use.</p>
                         <Input id="usableCapacity" type="number" {...register('usableCapacity')} />
                         {errors.usableCapacity && <p className="text-destructive text-sm">{errors.usableCapacity.message}</p>}
                     </div>
                      <div className="space-y-2">
                         <Label htmlFor="inverterEfficiency">Inverter Efficiency (%)</Label>
+                        <p className="text-xs text-muted-foreground">Efficiency of the DC to AC converter.</p>
                         <Input id="inverterEfficiency" type="number" {...register('inverterEfficiency')} />
                         {errors.inverterEfficiency && <p className="text-destructive text-sm">{errors.inverterEfficiency.message}</p>}
                     </div>
@@ -141,6 +146,7 @@ export default function BatteryBackupCalculatorPage() {
                     <div className="text-4xl font-bold text-primary">
                         {formatHours(result.backupTimeHours)}
                     </div>
+                    <p className="text-muted-foreground">This is the estimated time the battery can power the specified load.</p>
                 </CardContent>
                 <CardFooter>
                   <SharePanel resultText={`My estimated battery backup time is ${formatHours(result.backupTimeHours)}.`} />
@@ -158,19 +164,49 @@ export default function BatteryBackupCalculatorPage() {
                 </p>
                  <Accordion type="single" collapsible className="w-full">
                     <AccordionItem value="item-1">
-                      <AccordionTrigger>Key Terms</AccordionTrigger>
+                      <AccordionTrigger>Key Terms Explained</AccordionTrigger>
                       <AccordionContent>
                         <ul className="list-disc list-inside space-y-2">
-                            <li><b>Battery Capacity (Ah):</b> Ampere-hours measure the charge capacity of a battery.</li>
-                            <li><b>Load (Watts):</b> The total power consumed by the devices connected to the battery.</li>
-                            <li><b>Depth of Discharge (DoD):</b> The percentage of the battery that can be safely drained. You should not fully drain most batteries; 80% is a safe value for many lithium-ion types, while 50% is common for lead-acid.</li>
-                            <li><b>Inverter Efficiency:</b> Inverters, which convert DC battery power to AC for your appliances, are not 100% efficient. Some energy is lost as heat. 90% is a typical efficiency for good quality inverters.</li>
+                            <li><b>Battery Capacity (Ah):</b> Ampere-hours measure the charge capacity of a battery. A higher Ah means a longer runtime.</li>
+                            <li><b>Load (Watts):</b> The total power consumed by the devices connected to the battery. You can usually find this on the device's label.</li>
+                            <li><b>Usable Capacity / Depth of Discharge (DoD):</b> The percentage of the battery that can be safely drained. You should not fully drain most batteries to prolong their life; 80% is a safe value for many lithium-ion types, while 50% is common for lead-acid.</li>
+                            <li><b>Inverter Efficiency:</b> Inverters, which convert DC battery power to AC for your appliances, are not 100% efficient. Some energy is lost as heat during this conversion. 90% is a typical efficiency for good quality inverters.</li>
                         </ul>
                       </AccordionContent>
                     </AccordionItem>
+                     <AccordionItem value="item-2">
+                        <AccordionTrigger>Calculation Formula</AccordionTrigger>
+                        <AccordionContent>
+                          <ol className="list-decimal list-inside space-y-2">
+                            <li><b>Total Energy (Wh):</b> `Capacity (Ah) × Voltage (V)`</li>
+                            <li><b>Usable Energy (Wh):</b> `Total Energy × (Usable Capacity % / 100)`</li>
+                            <li><b>Adjusted Load (W):</b> `Load (W) / (Inverter Efficiency % / 100)`</li>
+                            <li><b>Backup Time (Hours):</b> `Usable Energy / Adjusted Load`</li>
+                          </ol>
+                        </AccordionContent>
+                    </AccordionItem>
                 </Accordion>
             </CardContent>
-            </Card>
+          </Card>
+           <Card className="mt-8">
+            <CardHeader>
+              <CardTitle>Related Calculators</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Link href="/ohms-law-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Ohm's Law</p>
+              </Link>
+              <Link href="/voltage-drop-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Voltage Drop</p>
+              </Link>
+              <Link href="/electrical-load-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Electrical Load</p>
+              </Link>
+               <Link href="/solar-panel-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Solar Panel</p>
+              </Link>
+            </CardContent>
+          </Card>
         </div>
       </main>
     </div>

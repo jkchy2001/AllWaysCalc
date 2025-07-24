@@ -117,12 +117,13 @@ export default function BabyNameNumerologyCalculatorPage() {
                     <Card>
                         <CardHeader>
                             <CardTitle className="font-headline text-2xl">Baby Name Numerology Calculator</CardTitle>
-                            <CardDescription>Discover the Destiny Number hidden in a name.</CardDescription>
+                            <CardDescription>Discover the Destiny Number hidden in a name based on numerological principles.</CardDescription>
                         </CardHeader>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <CardContent className="space-y-4">
                                 <div className="space-y-2">
                                     <Label htmlFor="name">Full Name</Label>
+                                    <p className="text-xs text-muted-foreground">Enter the full name as it would appear on a birth certificate for the most accurate reading.</p>
                                     <Input id="name" placeholder="e.g., John Appleseed" {...register('name')} />
                                     {errors.name && <p className="text-destructive text-sm">{errors.name.message}</p>}
                                 </div>
@@ -158,17 +159,42 @@ export default function BabyNameNumerologyCalculatorPage() {
                   </CardHeader>
                   <CardContent>
                       <p className="mb-4">
-                        In numerology, the Destiny Number (or Expression Number) is calculated from the letters of your full birth name. It's said to reveal your natural talents, abilities, and the general direction of your life.
+                        In numerology, the Destiny Number (or Expression Number) is calculated from the letters of your full birth name. It's said to reveal your natural talents, abilities, and the general direction of your life. This calculator is a fun tool to explore this concept for baby names or your own name.
                       </p>
                        <Accordion type="single" collapsible className="w-full">
                           <AccordionItem value="item-1">
                               <AccordionTrigger>How is it calculated?</AccordionTrigger>
                               <AccordionContent>
-                               Each letter is assigned a number (A=1, B=2, etc.). The numbers for all letters in your name are added together and then reduced to a single digit or a Master Number (11, 22). This final number is your Destiny Number.
+                               <p>Each letter is assigned a number from 1 to 9 based on the Chaldean numerology system. The numbers corresponding to all letters in the full name are added together. This sum is then repeatedly reduced by adding its digits until a single-digit number, or a Master Number (11 or 22), is reached. This final number is the Destiny Number.</p>
+                              </AccordionContent>
+                          </AccordionItem>
+                          <AccordionItem value="item-2">
+                              <AccordionTrigger>Disclaimer</AccordionTrigger>
+                              <AccordionContent>
+                               <p>This calculator is for entertainment purposes only. Numerology is a belief system and is not based on scientific evidence. Enjoy the insights as a fun way to think about names and personality traits.</p>
                               </AccordionContent>
                           </AccordionItem>
                       </Accordion>
                   </CardContent>
+                </Card>
+                <Card className="mt-8">
+                    <CardHeader>
+                    <CardTitle>Related Calculators</CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <Link href="/numerology-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Numerology Calculator</p>
+                        </Link>
+                        <Link href="/love-compatibility-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Love Compatibility</p>
+                        </Link>
+                        <Link href="/zodiac-sign-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Zodiac Sign</p>
+                        </Link>
+                        <Link href="/lucky-number-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Lucky Number</p>
+                        </Link>
+                    </CardContent>
                 </Card>
             </div>
         </main>

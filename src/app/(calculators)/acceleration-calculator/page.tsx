@@ -126,13 +126,14 @@ export default function AccelerationCalculatorPage({
           <div className="grid gap-8 lg:grid-cols-2">
             <Card>
               <CardHeader>
-                <CardTitle className="font-headline text-2xl">Acceleration Calculator</CardTitle>
-                <CardDescription>Solve for any variable in the uniform acceleration equation (a = Δv / t).</CardDescription>
+                <CardTitle className="font-headline text-2xl">Online Acceleration Calculator</CardTitle>
+                <CardDescription>Solve for acceleration, initial velocity, final velocity, or time using the constant acceleration formula (a = Δv / t).</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
                     <div className="space-y-2">
-                        <Label>Calculate</Label>
+                        <Label>Variable to Calculate</Label>
+                        <p className="text-xs text-muted-foreground">Select which variable you want to solve for.</p>
                         <Controller
                             name="solveFor"
                             control={control}
@@ -140,10 +141,10 @@ export default function AccelerationCalculatorPage({
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <SelectTrigger><SelectValue /></SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="acceleration">Acceleration</SelectItem>
-                                        <SelectItem value="final_velocity">Final Velocity</SelectItem>
-                                        <SelectItem value="initial_velocity">Initial Velocity</SelectItem>
-                                        <SelectItem value="time">Time</SelectItem>
+                                        <SelectItem value="acceleration">Acceleration (a)</SelectItem>
+                                        <SelectItem value="final_velocity">Final Velocity (v)</SelectItem>
+                                        <SelectItem value="initial_velocity">Initial Velocity (u)</SelectItem>
+                                        <SelectItem value="time">Time (t)</SelectItem>
                                     </SelectContent>
                                 </Select>
                             )}
@@ -151,6 +152,7 @@ export default function AccelerationCalculatorPage({
                     </div>
                   
                    <div className="space-y-4 p-4 border rounded-md">
+                    <p className="text-sm font-medium text-muted-foreground">Enter the known values:</p>
                     {Object.entries(variableMap).map(([key, {label, unit}]) => {
                         if (key !== solveFor) {
                             return (
@@ -160,7 +162,7 @@ export default function AccelerationCalculatorPage({
                                         id={key}
                                         type="number"
                                         step="any"
-                                        placeholder={unit}
+                                        placeholder={`Enter value in ${unit}`}
                                         {...register(key as keyof FormValues)}
                                     />
                                 </div>
@@ -180,7 +182,7 @@ export default function AccelerationCalculatorPage({
             {result && (
               <Card className="w-full bg-primary/5">
                 <CardHeader>
-                  <CardTitle className="font-headline">Result</CardTitle>
+                  <CardTitle className="font-headline">Calculation Result</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4 text-center">
                     <TrendingUp className="mx-auto size-12 text-primary" />
@@ -222,7 +224,7 @@ export default function AccelerationCalculatorPage({
                             <li><b>u</b> = Initial Velocity (in meters per second, m/s)</li>
                             <li><b>t</b> = Time elapsed (in seconds, s)</li>
                         </ul>
-                        <p className='mt-2'>This formula can be algebraically rearranged to solve for any of the other variables.</p>
+                        <p className='mt-2'>This formula can be algebraically rearranged to solve for any of the other variables, which is how this calculator works.</p>
                       </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="item-2">
@@ -230,7 +232,7 @@ export default function AccelerationCalculatorPage({
                     <AccordionContent className="space-y-4">
                         <div>
                             <h4 className="font-semibold">What is negative acceleration?</h4>
-                            <p>Negative acceleration, also known as deceleration or retardation, occurs when an object slows down. In the formula, this would mean the final velocity (v) is less than the initial velocity (u).</p>
+                            <p>Negative acceleration, also known as deceleration or retardation, occurs when an object slows down. In the formula, this would mean the final velocity (v) is less than the initial velocity (u), resulting in a negative value for acceleration.</p>
                         </div>
                         <div>
                             <h4 className="font-semibold">What if acceleration is zero?</h4>
@@ -238,7 +240,7 @@ export default function AccelerationCalculatorPage({
                         </div>
                         <div>
                             <h4 className="font-semibold">What are the units used?</h4>
-                            <p>This calculator uses standard SI units for consistency: meters per second (m/s) for velocity, seconds (s) for time, and meters per second squared (m/s²) for acceleration.</p>
+                            <p>This calculator uses standard SI units for consistency: meters per second (m/s) for velocity, seconds (s) for time, and meters per second squared (m/s²) for acceleration. Ensure your inputs are in these units for an accurate result.</p>
                         </div>
                     </AccordionContent>
                   </AccordionItem>

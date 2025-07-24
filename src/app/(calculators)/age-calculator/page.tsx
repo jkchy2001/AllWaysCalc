@@ -121,6 +121,7 @@ export default function AgeCalculatorPage({
                             <CardContent className="space-y-4">
                                 <div className="space-y-2">
                                     <Label htmlFor="birthDate">Your Date of Birth</Label>
+                                    <p className="text-xs text-muted-foreground">Enter your birth date to calculate your current age.</p>
                                     <Input id="birthDate" type="date" {...register('birthDate')} />
                                     {errors.birthDate && <p className="text-destructive text-sm">{errors.birthDate.message}</p>}
                                 </div>

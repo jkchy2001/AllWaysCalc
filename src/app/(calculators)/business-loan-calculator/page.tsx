@@ -98,23 +98,26 @@ export default function BusinessLoanCalculatorPage() {
                 <div className="grid gap-8 lg:grid-cols-2">
                     <Card>
                         <CardHeader>
-                            <CardTitle className="font-headline text-2xl">Business Loan Calculator</CardTitle>
-                            <CardDescription>Estimate your monthly business loan payments (EMI).</CardDescription>
+                            <CardTitle className="font-headline text-2xl">Business Loan EMI Calculator</CardTitle>
+                            <CardDescription>Estimate your monthly business loan payments (EMI) to plan your finances effectively.</CardDescription>
                         </CardHeader>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <CardContent className="space-y-4">
                                 <div className="space-y-2">
                                     <Label htmlFor="loanAmount">Loan Amount (₹)</Label>
+                                    <p className="text-xs text-muted-foreground">The total amount of the loan you wish to take.</p>
                                     <Input id="loanAmount" type="number" placeholder="e.g., 1000000" {...register('loanAmount')} />
                                     {errors.loanAmount && <p className="text-destructive text-sm">{errors.loanAmount.message}</p>}
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="interestRate">Annual Interest Rate (%)</Label>
+                                    <p className="text-xs text-muted-foreground">The yearly interest rate offered by the lender.</p>
                                     <Input id="interestRate" type="number" step="0.01" placeholder="e.g., 14" {...register('interestRate')} />
                                     {errors.interestRate && <p className="text-destructive text-sm">{errors.interestRate.message}</p>}
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="loanTerm">Loan Term (Years)</Label>
+                                    <p className="text-xs text-muted-foreground">The duration over which you will repay the loan.</p>
                                     <Input id="loanTerm" type="number" placeholder="e.g., 5" {...register('loanTerm')} />
                                     {errors.loanTerm && <p className="text-destructive text-sm">{errors.loanTerm.message}</p>}
                                 </div>
@@ -164,38 +167,59 @@ export default function BusinessLoanCalculatorPage() {
                       <p className="mb-4">
                           This calculator helps you estimate the Equated Monthly Installment (EMI) for a business loan, which can be used for working capital, expansion, or purchasing equipment.
                       </p>
-                      <div className="space-y-4">
-                      <div>
-                          <h3 className="font-bold font-headline">Formula Used</h3>
-                          <p>The calculation is based on the standard amortization formula:</p>
-                          <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
-                          <code>
-                              EMI = P × r × (1 + r)^n / ((1 + r)^n - 1)<br/><br/>
-                              <b>P</b> = Principal Loan Amount<br/>
-                              <b>r</b> = Monthly Interest Rate<br/>
-                              <b>n</b> = Number of Months (Loan Tenure)
-                          </code>
-                          </pre>
-                      </div>
-                      <div>
-                          <h3 className="font-bold font-headline">FAQs</h3>
-                          <Accordion type="single" collapsible className="w-full">
+                      <Accordion type="single" collapsible className="w-full">
                           <AccordionItem value="item-1">
-                              <AccordionTrigger>What documents are typically required for a business loan?</AccordionTrigger>
+                              <AccordionTrigger>Formula Used</AccordionTrigger>
                               <AccordionContent>
-                              Lenders usually require documents like business registration proof, financial statements (balance sheet, profit & loss statement) for the last 2-3 years, income tax returns, and bank statements.
+                                  <p>The calculation is based on the standard amortization formula:</p>
+                                  <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
+                                  <code>
+                                      EMI = P × r × (1 + r)^n / ((1 + r)^n - 1)<br/><br/>
+                                      <b>P</b> = Principal Loan Amount<br/>
+                                      <b>r</b> = Monthly Interest Rate (Annual Rate / 12)<br/>
+                                      <b>n</b> = Number of Months (Loan Term in years * 12)
+                                  </code>
+                                  </pre>
                               </AccordionContent>
                           </AccordionItem>
                           <AccordionItem value="item-2">
-                              <AccordionTrigger>What is the difference between a secured and unsecured business loan?</AccordionTrigger>
-                              <AccordionContent>
-                              A secured loan requires you to pledge collateral (like property or equipment), which typically results in a lower interest rate. An unsecured loan does not require collateral but often comes with a higher interest rate due to the increased risk for the lender.
+                              <AccordionTrigger>FAQs</AccordionTrigger>
+                              <AccordionContent className="space-y-4">
+                                  <div>
+                                    <h4 className="font-semibold">What documents are typically required for a business loan?</h4>
+                                    <p>Lenders usually require documents like business registration proof, financial statements (balance sheet, profit & loss statement) for the last 2-3 years, income tax returns, and bank statements.</p>
+                                  </div>
+                                  <div>
+                                    <h4 className="font-semibold">What is the difference between a secured and unsecured business loan?</h4>
+                                    <p>A secured loan requires you to pledge collateral (like property or equipment), which typically results in a lower interest rate. An unsecured loan does not require collateral but often comes with a higher interest rate due to the increased risk for the lender.</p>
+                                  </div>
+                                   <div>
+                                    <h4 className="font-semibold">What other costs should I consider?</h4>
+                                    <p>Besides the interest, be aware of other potential costs like processing fees, pre-payment penalties, and late payment charges. Always read the loan agreement carefully.</p>
+                                  </div>
                               </AccordionContent>
                           </AccordionItem>
-                          </Accordion>
-                      </div>
-                      </div>
+                      </Accordion>
                   </CardContent>
+                </Card>
+                <Card className="mt-8">
+                    <CardHeader>
+                    <CardTitle>Related Calculators</CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <Link href="/loan-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Loan / EMI Calculator</p>
+                        </Link>
+                        <Link href="/home-loan-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Home Loan Calculator</p>
+                        </Link>
+                        <Link href="/car-loan-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Car Loan Calculator</p>
+                        </Link>
+                         <Link href="/loan-eligibility-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Loan Eligibility</p>
+                        </Link>
+                    </CardContent>
                 </Card>
             </div>
         </main>

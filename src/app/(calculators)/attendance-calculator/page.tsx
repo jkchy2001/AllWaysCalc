@@ -100,23 +100,26 @@ export default function AttendanceCalculatorPage() {
                 <div className="grid gap-8 lg:grid-cols-2">
                     <Card>
                         <CardHeader>
-                            <CardTitle className="font-headline text-2xl">Attendance Calculator</CardTitle>
-                            <CardDescription>Track your attendance and see how many classes you can miss.</CardDescription>
+                            <CardTitle className="font-headline text-2xl">Attendance Percentage Calculator</CardTitle>
+                            <CardDescription>Track your attendance status and determine how many classes you can afford to miss.</CardDescription>
                         </CardHeader>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <CardContent className="space-y-4">
                                 <div className="space-y-2">
                                     <Label htmlFor="totalClasses">Total Number of Classes</Label>
+                                    <p className="text-xs text-muted-foreground">Enter the total number of classes scheduled for the entire semester or year.</p>
                                     <Input id="totalClasses" type="number" placeholder="e.g., 80" {...register('totalClasses')} />
                                     {errors.totalClasses && <p className="text-destructive text-sm">{errors.totalClasses.message}</p>}
                                 </div>
                                  <div className="space-y-2">
                                     <Label htmlFor="missedClasses">Classes Missed So Far</Label>
+                                     <p className="text-xs text-muted-foreground">Enter the number of classes you have already been absent for.</p>
                                     <Input id="missedClasses" type="number" placeholder="e.g., 5" {...register('missedClasses')} />
                                     {errors.missedClasses && <p className="text-destructive text-sm">{errors.missedClasses.message}</p>}
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="requiredPercentage">Required Attendance (%)</Label>
+                                    <p className="text-xs text-muted-foreground">Enter the minimum attendance percentage required by your institution.</p>
                                     <Input id="requiredPercentage" type="number" placeholder="e.g., 75" {...register('requiredPercentage')} />
                                     {errors.requiredPercentage && <p className="text-destructive text-sm">{errors.requiredPercentage.message}</p>}
                                 </div>
@@ -177,37 +180,59 @@ export default function AttendanceCalculatorPage() {
                       <p className="mb-4">
                         This calculator helps you stay on top of your attendance requirements. By knowing exactly how many classes you can afford to miss, you can make informed decisions and avoid falling below the minimum percentage required by your school or university.
                       </p>
-                      <div className="space-y-4">
-                      <div>
-                          <h3 className="font-bold font-headline">Formula Used</h3>
-                          <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
-                          <code>
-                              Max Missable = floor(Total Classes * (1 - Required % / 100))<br/>
-                              Remaining = Max Missable - Already Missed
-                          </code>
-                          </pre>
-                      </div>
-                      <div>
-                          <h3 className="font-bold font-headline">FAQs</h3>
-                          <Accordion type="single" collapsible className="w-full">
-                          <AccordionItem value="item-1">
-                              <AccordionTrigger>What does the status color mean?</AccordionTrigger>
-                              <AccordionContent>
+                      <Accordion type="single" collapsible className="w-full">
+                        <AccordionItem value="item-1">
+                          <AccordionTrigger>Formula Used</AccordionTrigger>
+                          <AccordionContent>
+                          <p>The calculator uses the following logic:</p>
+                           <ol className="list-decimal list-inside my-2 space-y-1">
+                              <li><b>Maximum Missable Classes:</b> First, it calculates the total number of classes you are allowed to miss for the whole semester.
+                                <pre className="p-2 mt-1 rounded-md bg-muted font-code text-xs">Max Missable = floor(Total Classes * (1 - Required % / 100))</pre>
+                              </li>
+                              <li><b>Remaining Buffer:</b> Then, it subtracts the classes you've already missed from the maximum allowed.
+                                <pre className="p-2 mt-1 rounded-md bg-muted font-code text-xs">Classes you can miss = Max Missable - Already Missed</pre>
+                              </li>
+                            </ol>
+                          </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="item-2">
+                          <AccordionTrigger>FAQs</AccordionTrigger>
+                          <AccordionContent className="space-y-4">
+                              <div>
+                                <h4 className="font-semibold">What does the status color mean?</h4>
+                                <p>
                                 <b>Green (Safe):</b> You have a comfortable buffer of classes you can miss.<br/>
                                 <b>Amber (Critical):</b> You are close to the limit. Be careful not to miss any more classes unnecessarily.<br/>
                                 <b>Red (Danger):</b> You have already missed more classes than allowed. You may need to speak with your instructor.
-                              </AccordionContent>
-                          </AccordionItem>
-                          <AccordionItem value="item-2">
-                              <AccordionTrigger>What if I have more classes in the future?</AccordionTrigger>
-                              <AccordionContent>
-                              The "Total Number of Classes" should be the total for the entire course or semester. The calculator works by figuring out the total number of absences you're allowed for the whole term.
-                              </AccordionContent>
-                          </AccordionItem>
-                          </Accordion>
-                      </div>
-                      </div>
+                                </p>
+                              </div>
+                              <div>
+                                <h4 className="font-semibold">What if I have more classes in the future?</h4>
+                                <p>The "Total Number of Classes" should be the total for the entire course or semester. The calculator works by figuring out the total number of absences you're allowed for the whole term.</p>
+                              </div>
+                          </AccordionContent>
+                        </AccordionItem>
+                      </Accordion>
                   </CardContent>
+                </Card>
+                <Card className="mt-8">
+                    <CardHeader>
+                    <CardTitle>Related Calculators</CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <Link href="/gpa-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">GPA Calculator</p>
+                        </Link>
+                        <Link href="/semester-grade-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Semester Grade</p>
+                        </Link>
+                        <Link href="/exam-marks-needed-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Exam Marks Needed</p>
+                        </Link>
+                        <Link href="/time-management-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Time Management</p>
+                        </Link>
+                    </CardContent>
                 </Card>
             </div>
         </main>

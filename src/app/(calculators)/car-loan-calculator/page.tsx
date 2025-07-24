@@ -98,23 +98,26 @@ export default function CarLoanCalculatorPage() {
                 <div className="grid gap-8 lg:grid-cols-2">
                     <Card>
                         <CardHeader>
-                            <CardTitle className="font-headline text-2xl">Car Loan Calculator</CardTitle>
-                            <CardDescription>Estimate your monthly car loan payments (EMI).</CardDescription>
+                            <CardTitle className="font-headline text-2xl">Car Loan EMI Calculator</CardTitle>
+                            <CardDescription>Estimate your monthly car loan payments (EMI) and total interest cost.</CardDescription>
                         </CardHeader>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <CardContent className="space-y-4">
                                 <div className="space-y-2">
                                     <Label htmlFor="loanAmount">Loan Amount (₹)</Label>
+                                    <p className="text-xs text-muted-foreground">The amount you are borrowing after your down payment.</p>
                                     <Input id="loanAmount" type="number" placeholder="e.g., 800000" {...register('loanAmount')} />
                                     {errors.loanAmount && <p className="text-destructive text-sm">{errors.loanAmount.message}</p>}
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="interestRate">Annual Interest Rate (%)</Label>
+                                    <p className="text-xs text-muted-foreground">The yearly interest rate for the loan.</p>
                                     <Input id="interestRate" type="number" step="0.01" placeholder="e.g., 9.5" {...register('interestRate')} />
                                     {errors.interestRate && <p className="text-destructive text-sm">{errors.interestRate.message}</p>}
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="loanTerm">Loan Term (Years)</Label>
+                                    <p className="text-xs text-muted-foreground">The duration over which you will repay the loan.</p>
                                     <Input id="loanTerm" type="number" placeholder="e.g., 5" {...register('loanTerm')} />
                                     {errors.loanTerm && <p className="text-destructive text-sm">{errors.loanTerm.message}</p>}
                                 </div>
@@ -164,38 +167,55 @@ export default function CarLoanCalculatorPage() {
                       <p className="mb-4">
                           This car loan calculator helps you estimate the Equated Monthly Installment (EMI) for your vehicle loan. Enter the loan amount, interest rate, and tenure to see your potential monthly payment.
                       </p>
-                      <div className="space-y-4">
-                      <div>
-                          <h3 className="font-bold font-headline">Formula Used</h3>
-                          <p>The calculation is based on the standard amortization formula:</p>
-                          <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
-                          <code>
-                              EMI = P × r × (1 + r)^n / ((1 + r)^n - 1)<br/><br/>
-                              <b>P</b> = Principal Loan Amount<br/>
-                              <b>r</b> = Monthly Interest Rate<br/>
-                              <b>n</b> = Number of Months (Loan Tenure)
-                          </code>
-                          </pre>
-                      </div>
-                      <div>
-                          <h3 className="font-bold font-headline">FAQs</h3>
-                          <Accordion type="single" collapsible className="w-full">
+                      <Accordion type="single" collapsible className="w-full">
                           <AccordionItem value="item-1">
-                              <AccordionTrigger>What is a down payment?</AccordionTrigger>
+                              <AccordionTrigger>Formula Used</AccordionTrigger>
                               <AccordionContent>
-                              A down payment is an initial, upfront partial payment for the purchase of a car. A larger down payment reduces your loan amount, which in turn lowers your monthly EMI.
+                                  <p>The calculation is based on the standard amortization formula:</p>
+                                  <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
+                                  <code>
+                                      EMI = P × r × (1 + r)^n / ((1 + r)^n - 1)<br/><br/>
+                                      <b>P</b> = Principal Loan Amount<br/>
+                                      <b>r</b> = Monthly Interest Rate (Annual Rate / 12)<br/>
+                                      <b>n</b> = Number of Months (Loan Term in years * 12)
+                                  </code>
+                                  </pre>
                               </AccordionContent>
                           </AccordionItem>
                           <AccordionItem value="item-2">
-                              <AccordionTrigger>Does my credit score affect the interest rate?</AccordionTrigger>
-                              <AccordionContent>
-                              Yes, a higher credit score generally makes you eligible for lower interest rates from lenders, as it indicates a lower risk of default. It's a good idea to check your credit score before applying for a car loan.
+                              <AccordionTrigger>FAQs</AccordionTrigger>
+                              <AccordionContent className="space-y-4">
+                                  <div>
+                                    <h4 className="font-semibold">What is a down payment?</h4>
+                                    <p>A down payment is an initial, upfront partial payment for the purchase of a car. A larger down payment reduces your loan amount, which in turn lowers your monthly EMI and total interest paid.</p>
+                                  </div>
+                                  <div>
+                                    <h4 className="font-semibold">Does my credit score affect the interest rate?</h4>
+                                    <p>Yes, a higher credit score (like a CIBIL score in India) generally makes you eligible for lower interest rates from lenders, as it indicates a lower risk of default. It's a good idea to check your credit score before applying for a car loan.</p>
+                                  </div>
                               </AccordionContent>
                           </AccordionItem>
-                          </Accordion>
-                      </div>
-                      </div>
+                      </Accordion>
                   </CardContent>
+                </Card>
+                <Card className="mt-8">
+                    <CardHeader>
+                    <CardTitle>Related Calculators</CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <Link href="/loan-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Loan / EMI Calculator</p>
+                        </Link>
+                        <Link href="/home-loan-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Home Loan Calculator</p>
+                        </Link>
+                        <Link href="/personal-loan-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Personal Loan</p>
+                        </Link>
+                         <Link href="/loan-eligibility-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Loan Eligibility</p>
+                        </Link>
+                    </CardContent>
                 </Card>
             </div>
         </main>

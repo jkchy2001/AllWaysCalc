@@ -101,17 +101,19 @@ export default function BandwidthCalculatorPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">Bandwidth Calculator</CardTitle>
-                <CardDescription>Calculate bandwidth from data amount and time.</CardDescription>
+                <CardDescription>Calculate the required network bandwidth based on the amount of data and the time to transfer it.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
                   <div className="flex gap-4">
                       <div className="space-y-2 w-2/3">
                           <Label htmlFor="dataSize">Amount of Data</Label>
+                           <p className="text-xs text-muted-foreground">The total size of the data to be transferred.</p>
                           <Input id="dataSize" type="number" {...register('dataSize')} />
                       </div>
                       <div className="space-y-2 w-1/3">
                          <Label>Unit</Label>
+                         <p className="text-xs text-transparent select-none">.</p>
                           <Controller
                               name="dataSizeUnit"
                               control={control}
@@ -132,10 +134,12 @@ export default function BandwidthCalculatorPage() {
                   <div className="flex gap-4">
                       <div className="space-y-2 w-2/3">
                           <Label htmlFor="time">Time Taken</Label>
+                          <p className="text-xs text-muted-foreground">The time required to complete the transfer.</p>
                           <Input id="time" type="number" {...register('time')} />
                       </div>
                       <div className="space-y-2 w-1/3">
                           <Label>Unit</Label>
+                           <p className="text-xs text-transparent select-none">.</p>
                           <Controller
                               name="timeUnit"
                               control={control}
@@ -186,30 +190,52 @@ export default function BandwidthCalculatorPage() {
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-                This calculator helps you determine the data transfer rate (bandwidth) required to move a certain amount of data in a specific time.
+                This calculator helps you determine the data transfer rate (bandwidth) required to move a certain amount of data in a specific time. This is useful for network planning, estimating download/upload times, and understanding data transfer needs.
               </p>
-              <div className="space-y-4">
-                <div>
-                  <h3 className="font-bold font-headline">Methodology</h3>
-                  <ol className="list-decimal list-inside space-y-2 mt-2 p-4 rounded-md bg-muted">
-                    <li>We convert the total data size to megabits (1 byte = 8 bits).</li>
-                    <li>We convert the total time to seconds.</li>
-                    <li>We divide the data size in megabits by the time in seconds to find the required bandwidth in megabits per second (Mbps).</li>
-                  </ol>
-                  <p className="text-sm font-semibold mt-4 text-destructive">Disclaimer: This is a theoretical calculation. Real-world speeds can be affected by factors like network overhead, latency, and protocol efficiency.</p>
-                </div>
-                 <div>
-                    <h3 className="font-bold font-headline">FAQs</h3>
-                    <Accordion type="single" collapsible className="w-full">
-                        <AccordionItem value="item-1">
-                            <AccordionTrigger>What's the difference between Megabits (Mb) and Megabytes (MB)?</AccordionTrigger>
-                            <AccordionContent>
-                            A Megabyte (MB) is a unit of data size, while a Megabit (Mb) is a unit of data transfer rate. There are 8 bits in a byte, so 1 MB/s is equal to 8 Mbps. Internet service providers almost always advertise speeds in Mbps.
-                            </AccordionContent>
-                        </AccordionItem>
-                    </Accordion>
-                </div>
-              </div>
+              <Accordion type="single" collapsible className="w-full">
+                 <AccordionItem value="item-1">
+                    <AccordionTrigger>Methodology</AccordionTrigger>
+                    <AccordionContent>
+                      <ol className="list-decimal list-inside space-y-2 mt-2">
+                        <li>We convert the total data size to megabits (1 byte = 8 bits). For example, 1 GB is 1000 MB, which is 8000 megabits.</li>
+                        <li>We convert the total time to seconds. For example, 1 hour is 3600 seconds.</li>
+                        <li>We divide the data size in megabits by the time in seconds to find the required bandwidth in megabits per second (Mbps).</li>
+                      </ol>
+                    </AccordionContent>
+                  </AccordionItem>
+                <AccordionItem value="item-2">
+                    <AccordionTrigger>FAQs</AccordionTrigger>
+                    <AccordionContent className="space-y-4">
+                        <div>
+                            <h4 className="font-semibold">What's the difference between Megabits (Mb) and Megabytes (MB)?</h4>
+                            <p>A Megabyte (MB) is a unit of data size, typically used for file sizes. A Megabit (Mb) is a unit of data transfer rate. There are 8 bits in a byte, so 1 MB/s (Megabyte per second) is equal to 8 Mbps (megabits per second). Internet service providers almost always advertise speeds in Mbps.</p>
+                        </div>
+                        <div>
+                            <h4 className="font-semibold">Why is this a theoretical calculation?</h4>
+                            <p>Real-world transfer speeds can be affected by factors like network overhead (the extra data needed to manage the transfer), latency (delay), protocol efficiency, and congestion on the network. This calculator gives you the raw data rate needed, not accounting for these real-world factors.</p>
+                        </div>
+                    </AccordionContent>
+                  </AccordionItem>
+              </Accordion>
+            </CardContent>
+          </Card>
+           <Card className="mt-8">
+            <CardHeader>
+              <CardTitle>Related Calculators</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Link href="/download-time-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Download Time Calculator</p>
+              </Link>
+              <Link href="/file-size-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">File Size Calculator</p>
+              </Link>
+              <Link href="/bitrate-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Bitrate Calculator</p>
+              </Link>
+               <Link href="/ip-subnet-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">IP Subnet Calculator</p>
+              </Link>
             </CardContent>
           </Card>
         </div>

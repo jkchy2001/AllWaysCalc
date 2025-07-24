@@ -125,6 +125,7 @@ export default function AnniversaryCalculatorPage({
                             <CardContent className="space-y-4">
                                 <div className="space-y-2">
                                     <Label htmlFor="anniversaryDate">Your Anniversary Date</Label>
+                                    <p className="text-xs text-muted-foreground">Enter the date your anniversary is celebrated on.</p>
                                     <Input id="anniversaryDate" type="date" {...register('anniversaryDate')} />
                                     {errors.anniversaryDate && <p className="text-destructive text-sm">{errors.anniversaryDate.message}</p>}
                                 </div>
@@ -193,6 +194,12 @@ export default function AnniversaryCalculatorPage({
                                 <AccordionTrigger>What are milestones?</AccordionTrigger>
                                 <AccordionContent>
                                     Milestones are significant markers of time, like the 1st, 5th, 10th, 25th, and 50th anniversaries. This calculator projects forward to find the dates of your next 5 major milestones, helping you plan ahead for celebrations.
+                                </AccordionContent>
+                            </AccordionItem>
+                             <AccordionItem value="item-3">
+                                <AccordionTrigger>Can I use this for work anniversaries?</AccordionTrigger>
+                                <AccordionContent>
+                                Absolutely! This calculator is versatile and can be used to track the duration of any significant event, including your tenure at a company.
                                 </AccordionContent>
                             </AccordionItem>
                         </Accordion>

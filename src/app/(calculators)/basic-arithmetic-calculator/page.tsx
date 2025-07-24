@@ -140,7 +140,7 @@ export default function BasicArithmeticCalculatorPage() {
           </div>
           <Card className="shadow-2xl bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60 border border-border/20">
             <CardHeader>
-              <CardTitle className="font-headline text-2xl text-center">Basic Calculator</CardTitle>
+              <CardTitle className="font-headline text-2xl text-center">Basic Arithmetic Calculator</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="bg-foreground/10 text-right rounded-lg p-4 mb-6 text-5xl font-mono break-all h-24 flex items-center justify-end shadow-inner text-primary [text-shadow:0_0_8px_hsl(var(--primary))]">

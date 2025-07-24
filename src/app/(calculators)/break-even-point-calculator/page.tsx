@@ -91,22 +91,25 @@ export default function BreakEvenPointCalculatorPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">Break-Even Point Calculator</CardTitle>
-                <CardDescription>Find the point where your total costs equal total revenue.</CardDescription>
+                <CardDescription>Find the point where your total costs equal total revenue for your business.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="fixedCosts">Total Fixed Costs (₹)</Label>
+                    <p className="text-xs text-muted-foreground">Costs that do not change with production level (e.g., rent, salaries).</p>
                     <Input id="fixedCosts" type="number" step="0.01" {...register('fixedCosts')} />
                     {errors.fixedCosts && <p className="text-destructive text-sm">{errors.fixedCosts.message}</p>}
                   </div>
                    <div className="space-y-2">
                     <Label htmlFor="salesPricePerUnit">Sales Price Per Unit (₹)</Label>
+                    <p className="text-xs text-muted-foreground">The price at which you sell one unit of your product.</p>
                     <Input id="salesPricePerUnit" type="number" step="0.01" {...register('salesPricePerUnit')} />
                     {errors.salesPricePerUnit && <p className="text-destructive text-sm">{errors.salesPricePerUnit.message}</p>}
                   </div>
                    <div className="space-y-2">
                     <Label htmlFor="variableCostPerUnit">Variable Cost Per Unit (₹)</Label>
+                    <p className="text-xs text-muted-foreground">The cost to produce one unit of your product (e.g., materials).</p>
                     <Input id="variableCostPerUnit" type="number" step="0.01" {...register('variableCostPerUnit')} />
                     {errors.variableCostPerUnit && <p className="text-destructive text-sm">{errors.variableCostPerUnit.message}</p>}
                   </div>
@@ -125,7 +128,7 @@ export default function BreakEvenPointCalculatorPage() {
                 <CardContent className="space-y-4 text-center">
                     <p className="text-muted-foreground">You need to sell</p>
                     <div className="text-4xl font-bold text-primary">{Math.ceil(result.breakEvenUnits).toLocaleString()} units</div>
-                    <p className="text-muted-foreground">to break even.</p>
+                    <p className="text-muted-foreground">to cover all your costs.</p>
                      <div className="text-sm text-muted-foreground pt-4 border-t">
                       <div className="flex justify-between">
                           <span>Break-Even Revenue:</span>
@@ -147,33 +150,56 @@ export default function BreakEvenPointCalculatorPage() {
               <p className="mb-4">
                The break-even point (BEP) in economics, business—and specifically cost accounting—is the point at which total cost and total revenue are equal, i.e. "even". There is no net loss or gain, and one has "broken even", though opportunity costs have been paid and capital has received the risk-adjusted, expected return.
               </p>
-              <div className="space-y-4">
-                <div>
-                  <h3 className="font-bold font-headline">Formula Used</h3>
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="item-1">
+                  <AccordionTrigger>Formula Used</AccordionTrigger>
+                  <AccordionContent>
+                    <p>The calculation is based on the contribution margin per unit.</p>
                    <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
                     <code>
-                      Break-Even Point (Units) = Fixed Costs / (Sales Price Per Unit - Variable Cost Per Unit)
+                      Contribution Margin = Sales Price Per Unit - Variable Cost Per Unit<br/>
+                      Break-Even Point (Units) = Fixed Costs / Contribution Margin
                     </code>
                   </pre>
-                </div>
-                <div>
-                  <h3 className="font-bold font-headline">FAQs</h3>
-                  <Accordion type="single" collapsible className="w-full">
-                    <AccordionItem value="item-1">
-                      <AccordionTrigger>What are fixed vs. variable costs?</AccordionTrigger>
-                      <AccordionContent>
-                       Fixed costs do not change with the number of units produced (e.g., rent, salaries). Variable costs change with production volume (e.g., raw materials, direct labor).
-                      </AccordionContent>
-                    </AccordionItem>
-                     <AccordionItem value="item-2">
-                      <AccordionTrigger>How can I lower my break-even point?</AccordionTrigger>
-                      <AccordionContent>
-                       You can lower your break-even point by reducing fixed costs, reducing variable costs per unit, or increasing the sales price per unit.
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
-                </div>
-              </div>
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-2">
+                  <AccordionTrigger>FAQs</AccordionTrigger>
+                  <AccordionContent className="space-y-4">
+                    <div>
+                      <h4 className="font-semibold">What are fixed vs. variable costs?</h4>
+                      <p>Fixed costs do not change with the number of units produced (e.g., rent, salaries, insurance). Variable costs change directly with production volume (e.g., raw materials, direct labor, shipping).</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold">How can I lower my break-even point?</h4>
+                      <p>You can lower your break-even point by reducing fixed costs (e.g., finding cheaper rent), reducing variable costs per unit (e.g., negotiating better prices with suppliers), or increasing the sales price per unit.</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold">Why is this important for a business?</h4>
+                      <p>Understanding your break-even point is crucial for setting prices, managing costs, and making informed decisions about your business strategy. It helps you determine the sales volume needed to be profitable.</p>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </CardContent>
+          </Card>
+            <Card className="mt-8">
+            <CardHeader>
+              <CardTitle>Related Calculators</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Link href="/profit-margin-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Profit Margin Calculator</p>
+              </Link>
+              <Link href="/markup-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Markup Calculator</p>
+              </Link>
+              <Link href="/net-profit-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Net Profit Calculator</p>
+              </Link>
+              <Link href="/npv-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">NPV Calculator</p>
+              </Link>
             </CardContent>
           </Card>
         </div>
