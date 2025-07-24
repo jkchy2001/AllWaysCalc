@@ -1,6 +1,12 @@
 
+import type { Metadata } from 'next';
 import { Header } from '@/components/header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+
+export const metadata: Metadata = {
+  title: 'About AllWaysCalc - Our Mission and Vision',
+  description: 'Learn about the mission behind AllWaysCalc. We are dedicated to providing a comprehensive, intuitive, and free suite of calculators for finance, health, science, and more.',
+};
 
 export default function AboutUsPage() {
   return (
