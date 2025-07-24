@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home, Shuffle } from 'lucide-react';
+import { Home, Shuffle, FileMinus, CreditCard } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -177,25 +177,37 @@ export default function BalanceTransferCalculatorPage() {
                 </div>
                  <Card className="mt-8">
                     <CardHeader>
-                        <CardTitle>How Balance Transfer Works</CardTitle>
+                        <CardTitle>Understanding Loan Balance Transfer</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <p className="mb-4">
-                            A balance transfer involves moving your outstanding loan amount from your current lender to a new one, typically to take advantage of a lower interest rate. This can lead to significant savings over the life of the loan.
+                            A balance transfer involves moving your outstanding loan amount from your current lender to a new one, typically to take advantage of a lower interest rate. This can lead to significant savings over the life of the loan. This calculator helps you see the potential financial benefit.
                         </p>
                         <Accordion type="single" collapsible className="w-full">
                             <AccordionItem value="item-1">
-                                <AccordionTrigger>Is a balance transfer always a good idea?</AccordionTrigger>
+                                <AccordionTrigger>When is a balance transfer a good idea?</AccordionTrigger>
                                 <AccordionContent>
-                                    Not necessarily. It's important to consider the processing fees charged by the new lender. This calculator helps you by showing the "Net Savings" after accounting for those fees. If the net savings are positive and substantial, it's generally a good move.
+                                    A balance transfer makes sense if the interest rate offered by the new lender is significantly lower than your current rate. It's crucial to factor in any processing fees or other charges associated with the transfer. This calculator helps you by showing the "Net Savings" after accounting for those fees. If the net savings are positive and substantial, it's generally a good move.
                                 </AccordionContent>
                             </AccordionItem>
                             <AccordionItem value="item-2">
                                 <AccordionTrigger>What should I look for when considering a balance transfer?</AccordionTrigger>
                                 <AccordionContent>
-                                    Beyond the interest rate and processing fee, check for other hidden charges, the reputation of the new lender, and any conditions attached to the new loan. Ensure the long-term benefits outweigh the short-term costs and effort.
+                                    <ul className="list-disc pl-5 space-y-2">
+                                        <li><strong>Interest Rate:</strong> The most important factor. Ensure the new rate is low enough to make a real difference.</li>
+                                        <li><strong>Processing Fee:</strong> This is a one-time cost that can eat into your savings.</li>
+                                        <li><strong>Other Charges:</strong> Check for hidden costs like legal fees, stamp duty, or prepayment penalties on the new loan.</li>
+                                        <li><strong>Lender Reputation:</strong> Ensure the new lender is reputable and provides good customer service.</li>
+                                        <li><strong>Eligibility:</strong> You will need a good credit history and stable income to be approved for a balance transfer.</li>
+                                    </ul>
                                 </AccordionContent>
                             </AccordionItem>
+                            <AccordionItem value="item-3">
+                              <AccordionTrigger>What are the risks?</AccordionTrigger>
+                              <AccordionContent>
+                               The main risk is that the costs of the transfer (processing fees) could outweigh the interest savings, especially if the rate difference is small or your remaining tenure is short. Additionally, the process requires paperwork and can take time.
+                              </AccordionContent>
+                          </AccordionItem>
                         </Accordion>
                     </CardContent>
                 </Card>
@@ -208,12 +220,15 @@ export default function BalanceTransferCalculatorPage() {
                             <p className="font-semibold">Loan / EMI Calculator</p>
                         </Link>
                         <Link href="/prepayment-vs-tenure-reduction-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <FileMinus className="mx-auto mb-2 size-6" />
                             <p className="font-semibold">Prepayment vs Tenure Reduction</p>
                         </Link>
                         <Link href="/mortgage-refinance-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <Home className="mx-auto mb-2 size-6" />
                             <p className="font-semibold">Mortgage Refinance</p>
                         </Link>
                          <Link href="/credit-card-interest-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <CreditCard className="mx-auto mb-2 size-6" />
                             <p className="font-semibold">Credit Card Interest</p>
                         </Link>
                     </CardContent>

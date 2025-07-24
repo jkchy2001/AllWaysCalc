@@ -107,29 +107,32 @@ export default function CreditCardInterestCalculatorPage() {
                 <div className="grid gap-8 lg:grid-cols-2">
                     <Card>
                         <CardHeader>
-                            <CardTitle className="font-headline text-2xl">Credit Card Interest Calculator</CardTitle>
-                            <CardDescription>Estimate how long it will take to pay off your credit card balance.</CardDescription>
+                            <CardTitle className="font-headline text-2xl">Credit Card Payoff Calculator</CardTitle>
+                            <CardDescription>Estimate how long it will take to pay off your credit card balance and the total interest you'll pay.</CardDescription>
                         </CardHeader>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <CardContent className="space-y-4">
                                 <div className="space-y-2">
                                     <Label htmlFor="balance">Outstanding Balance (₹)</Label>
+                                    <p className="text-xs text-muted-foreground">The total amount you currently owe on your credit card.</p>
                                     <Input id="balance" type="number" {...register('balance')} />
                                     {errors.balance && <p className="text-destructive text-sm">{errors.balance.message}</p>}
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="apr">Annual Percentage Rate (APR) (%)</Label>
+                                     <p className="text-xs text-muted-foreground">The yearly interest rate charged on your card. This can be as high as 40-48% in India.</p>
                                     <Input id="apr" type="number" step="0.1" {...register('apr')} />
                                     {errors.apr && <p className="text-destructive text-sm">{errors.apr.message}</p>}
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="monthlyPayment">Fixed Monthly Payment (₹)</Label>
+                                    <p className="text-xs text-muted-foreground">The fixed amount you plan to pay each month. Paying more than the minimum due will save you significant interest.</p>
                                     <Input id="monthlyPayment" type="number" {...register('monthlyPayment')} />
                                     {errors.monthlyPayment && <p className="text-destructive text-sm">{errors.monthlyPayment.message}</p>}
                                 </div>
                             </CardContent>
                             <CardFooter>
-                                <Button type="submit" className="w-full">Calculate</Button>
+                                <Button type="submit" className="w-full">Calculate Payoff</Button>
                             </CardFooter>
                         </form>
                     </Card>
@@ -151,8 +154,8 @@ export default function CreditCardInterestCalculatorPage() {
                                         <span className="font-medium text-foreground">{formatCurrency(form.getValues('balance'))}</span>
                                     </div>
                                     <div className="flex justify-between">
-                                        <span>Total Interest Paid:</span>
-                                        <span className="font-medium text-foreground">{formatCurrency(result.totalInterest)}</span>
+                                        <span className="text-destructive font-semibold">Total Interest Paid:</span>
+                                        <span className="font-medium text-foreground text-destructive font-semibold">{formatCurrency(result.totalInterest)}</span>
                                     </div>
                                     <div className="flex justify-between">
                                         <span>Total Amount Paid:</span>
@@ -172,13 +175,30 @@ export default function CreditCardInterestCalculatorPage() {
                   </CardHeader>
                   <CardContent>
                       <p className="mb-4">
-                          Credit card interest can be a significant financial burden if not managed correctly. This calculator shows how your monthly payments affect the total interest you'll pay and the time it takes to become debt-free.
+                          Credit card interest can be a significant financial burden if not managed correctly. Due to high APRs and daily compounding, balances can grow quickly if you only pay the minimum amount due. This calculator shows how your monthly payments affect the total interest you'll pay and the time it takes to become debt-free.
                       </p>
                       <Accordion type="single" collapsible className="w-full">
                           <AccordionItem value="item-1">
-                              <AccordionTrigger>How is interest calculated?</AccordionTrigger>
+                              <AccordionTrigger>How is credit card interest calculated?</AccordionTrigger>
                               <AccordionContent>
-                                Credit card interest is typically compounded daily. This calculator uses a standard formula to estimate the payoff time based on a fixed monthly payment. The actual amount can vary slightly based on the bank's specific calculation method.
+                                Credit card interest is typically compounded daily. This means interest is calculated on your closing balance each day and added to the principal. This calculator uses a standard formula to estimate the payoff time based on a fixed monthly payment, which provides a very close approximation of the total cost.
+                              </AccordionContent>
+                          </AccordionItem>
+                          <AccordionItem value="item-2">
+                              <AccordionTrigger>What's the danger of paying only the minimum?</AccordionTrigger>
+                              <AccordionContent>
+                                Paying only the minimum amount due is the most expensive way to pay off credit card debt. A large portion of the minimum payment goes towards interest, with very little reducing the principal balance. This can extend your repayment period by many years and cause you to pay several times the original amount in interest.
+                              </AccordionContent>
+                          </AccordionItem>
+                          <AccordionItem value="item-3">
+                              <AccordionTrigger>What are some strategies to pay debt faster?</AccordionTrigger>
+                              <AccordionContent>
+                                <ul className="list-disc pl-5 space-y-2">
+                                    <li><strong>Pay more than the minimum:</strong> Always try to pay more than the minimum due. Even a small extra amount can make a big difference.</li>
+                                    <li><strong>Debt Avalanche:</strong> Focus on paying off the card with the highest interest rate first, while making minimum payments on others.</li>
+                                    <li><strong>Debt Snowball:</strong> Focus on paying off the card with the smallest balance first for a psychological win, then roll that payment into the next smallest balance.</li>
+                                    <li><strong>Balance Transfer:</strong> Consider transferring your balance to a card with a lower promotional interest rate. Use our Balance Transfer Calculator to see the potential savings.</li>
+                                </ul>
                               </AccordionContent>
                           </AccordionItem>
                       </Accordion>
