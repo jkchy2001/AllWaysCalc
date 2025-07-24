@@ -68,7 +68,7 @@ export default function VolumeConverterPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-secondary/30">
+    <div className="flex flex-col min-h-screen bg-background">
       <Header />
       <main className="flex-1 p-4 md:p-8">
         <div className="max-w-4xl mx-auto">
@@ -78,10 +78,10 @@ export default function VolumeConverterPage() {
                 </Link>
             </div>
             <div className="grid gap-8 lg:grid-cols-2">
-                <Card className="shadow-lg">
+                <Card className="w-full bg-card/50 border-border/50 backdrop-blur-sm">
                     <CardHeader>
-                    <CardTitle className="font-headline text-2xl">Volume Converter</CardTitle>
-                    <CardDescription>Convert between different units of volume.</CardDescription>
+                    <CardTitle className="font-headline text-2xl">Online Volume Converter</CardTitle>
+                    <CardDescription>Quickly convert between liters, gallons, milliliters, and other common units of volume.</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
                         <div className="flex items-center gap-4">
@@ -118,9 +118,10 @@ export default function VolumeConverterPage() {
                     </CardContent>
                 </Card>
 
-                <Card className="w-full bg-primary/5">
+                <Card className="w-full bg-card/50 border-border/50 backdrop-blur-sm">
                     <CardHeader>
                         <CardTitle className="font-headline">Conversion Details</CardTitle>
+                         <CardDescription>The converted volume based on your input.</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
                         <div className="text-center">
@@ -130,7 +131,7 @@ export default function VolumeConverterPage() {
                     </CardContent>
                 </Card>
             </div>
-             <Card className="mt-8">
+             <Card className="mt-8 w-full bg-card/50 border-border/50 backdrop-blur-sm">
                 <CardHeader>
                     <CardTitle className="font-headline">About Volume Conversion</CardTitle>
                 </CardHeader>
@@ -145,8 +146,34 @@ export default function VolumeConverterPage() {
                             The US liquid gallon is defined as 231 cubic inches, which is exactly 3.78541 liters. It's different from the imperial gallon used in the United Kingdom.
                             </AccordionContent>
                         </AccordionItem>
+                        <AccordionItem value="item-2">
+                            <AccordionTrigger>How does the conversion work?</AccordionTrigger>
+                            <AccordionContent>
+                            To ensure accuracy, all input values are first converted to a base unit (liters). From there, the value is converted to the desired output unit. This two-step process ensures that direct conversion factors between all units are not required.
+                            </AccordionContent>
+                        </AccordionItem>
                     </Accordion>
                 </CardContent>
+            </Card>
+
+             <Card className="mt-8">
+              <CardHeader>
+                <CardTitle>Related Calculators</CardTitle>
+              </CardHeader>
+              <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <Link href="/length-converter" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <p className="font-semibold">Length Converter</p>
+                </Link>
+                <Link href="/mass-converter" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <p className="font-semibold">Mass Converter</p>
+                </Link>
+                 <Link href="/temperature-converter" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <p className="font-semibold">Temperature Converter</p>
+                </Link>
+                 <Link href="/speed-converter" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <p className="font-semibold">Speed Converter</p>
+                </Link>
+              </CardContent>
             </Card>
         </div>
       </main>

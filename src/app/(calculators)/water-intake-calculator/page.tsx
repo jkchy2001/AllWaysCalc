@@ -86,7 +86,7 @@ export default function WaterIntakeCalculatorPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-secondary/30">
+    <div className="flex flex-col min-h-screen bg-background">
         <Header />
         <main className="flex-1 p-4 md:p-8">
             <div className="max-w-4xl mx-auto">
@@ -96,10 +96,10 @@ export default function WaterIntakeCalculatorPage() {
                     </Link>
                 </div>
                 <div className="grid gap-8 lg:grid-cols-2">
-                    <Card>
+                    <Card className="w-full bg-card/50 border-border/50 backdrop-blur-sm">
                         <CardHeader>
                             <CardTitle className="font-headline text-2xl">Daily Water Intake Calculator</CardTitle>
-                            <CardDescription>Estimate your recommended daily water consumption.</CardDescription>
+                            <CardDescription>Get a personalized estimate of your daily water needs based on weight, exercise, and climate.</CardDescription>
                         </CardHeader>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <CardContent className="space-y-4">
@@ -130,11 +130,13 @@ export default function WaterIntakeCalculatorPage() {
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="exerciseDuration">Daily Exercise (minutes)</Label>
+                                     <p className="text-xs text-muted-foreground">Enter the total time you spend exercising per day.</p>
                                     <Input id="exerciseDuration" type="number" {...register('exerciseDuration')} />
                                     {errors.exerciseDuration && <p className="text-destructive text-sm">{errors.exerciseDuration.message}</p>}
                                 </div>
                                 <div className="space-y-2">
                                     <Label>Primary Climate</Label>
+                                     <p className="text-xs text-muted-foreground">Your body needs more water in hot and humid conditions.</p>
                                     <Select onValueChange={(val) => form.setValue('climate', val as 'temperate' | 'hot')} defaultValue={watch('climate')}>
                                         <SelectTrigger>
                                             <SelectValue placeholder="Select climate" />
@@ -147,15 +149,16 @@ export default function WaterIntakeCalculatorPage() {
                                 </div>
                             </CardContent>
                             <CardFooter>
-                                <Button type="submit" className="w-full bg-accent hover:bg-accent/90">Calculate Intake</Button>
+                                <Button type="submit" className="w-full">Calculate Intake</Button>
                             </CardFooter>
                         </form>
                     </Card>
 
                     {result && (
-                        <Card className="w-full bg-primary/5">
+                        <Card className="w-full bg-card/50 border-border/50 backdrop-blur-sm">
                             <CardHeader>
                                 <CardTitle className="font-headline">Your Recommended Daily Water Intake</CardTitle>
+                                 <CardDescription>This is your estimated daily goal for optimal hydration.</CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-4 text-center">
                                 <Droplet className="mx-auto size-12 text-primary" />
@@ -172,7 +175,7 @@ export default function WaterIntakeCalculatorPage() {
                         </Card>
                     )}
                 </div>
-                 <Card className="mt-8">
+                 <Card className="mt-8 w-full bg-card/50 border-border/50 backdrop-blur-sm">
                   <CardHeader>
                       <CardTitle className="font-headline">The Importance of Hydration</CardTitle>
                   </CardHeader>
@@ -180,34 +183,50 @@ export default function WaterIntakeCalculatorPage() {
                       <p className="mb-4">
                           Staying hydrated is crucial for your health. Water regulates body temperature, keeps joints lubricated, prevents infections, delivers nutrients to cells, and keeps organs functioning properly. Being well-hydrated also improves sleep quality, cognition, and mood.
                       </p>
-                      <div className="space-y-4">
-                      <div>
-                          <h3 className="font-bold font-headline">How is this calculated?</h3>
-                          <p>This calculator provides an estimate based on common recommendations:</p>
-                          <ul className="list-disc list-inside mt-2 space-y-1 bg-muted p-4 rounded-md">
-                            <li>A baseline intake is determined by your weight.</li>
-                            <li>Additional water is added to compensate for fluid loss during exercise.</li>
-                            <li>A final adjustment is made for living in a hotter climate, which increases fluid loss through sweat.</li>
-                          </ul>
-                      </div>
-                      <div>
-                          <h3 className="font-bold font-headline">FAQs</h3>
-                          <Accordion type="single" collapsible className="w-full">
+                      <Accordion type="single" collapsible className="w-full">
                           <AccordionItem value="item-1">
-                              <AccordionTrigger>Is this an exact number?</AccordionTrigger>
+                              <AccordionTrigger>How is this calculated?</AccordionTrigger>
                               <AccordionContent>
-                               No, this is an estimate. Individual needs can vary based on factors like overall health, diet, and medications. It's a great starting point, but the best advice is to drink when you feel thirsty.
+                              This calculator provides an estimate based on common recommendations:
+                              <ul className="list-disc list-inside mt-2 space-y-1 pl-4">
+                                <li>A baseline intake is determined by your weight (approximately 2/3 of your body weight in pounds, converted to ounces).</li>
+                                <li>Additional water (12 oz) is added for every 30 minutes of exercise to compensate for fluid loss.</li>
+                                <li>A final adjustment (15% increase) is made for living in a hotter climate, which increases fluid loss through sweat.</li>
+                              </ul>
                               </AccordionContent>
                           </AccordionItem>
                           <AccordionItem value="item-2">
-                              <AccordionTrigger>Do other drinks count towards this total?</AccordionTrigger>
+                              <AccordionTrigger>Is this an exact number?</AccordionTrigger>
                               <AccordionContent>
-                               Yes, fluids from other beverages like tea, coffee, and juice, as well as from water-rich foods like fruits and vegetables, contribute to your total hydration. However, plain water is the best source of hydration.
+                               No, this is an estimate. Individual needs can vary based on factors like overall health, diet, and medications. It's a great starting point, but the best advice is to listen to your body and drink when you feel thirsty. Your urine color is also a good indicator: pale yellow is ideal, while dark yellow can be a sign of dehydration.
                               </AccordionContent>
                           </AccordionItem>
-                          </Accordion>
-                      </div>
-                      </div>
+                           <AccordionItem value="item-3">
+                              <AccordionTrigger>Do other drinks count towards this total?</AccordionTrigger>
+                              <AccordionContent>
+                               Yes, fluids from other beverages like tea, coffee, and juice, as well as from water-rich foods like fruits and vegetables, contribute to your total hydration. However, plain water is the best and purest source of hydration, without added sugars or calories.
+                              </AccordionContent>
+                          </AccordionItem>
+                      </Accordion>
+                  </CardContent>
+                </Card>
+                 <Card className="mt-8">
+                  <CardHeader>
+                    <CardTitle>Related Calculators</CardTitle>
+                  </CardHeader>
+                  <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <Link href="/bmi-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                      <p className="font-semibold">BMI Calculator</p>
+                    </Link>
+                    <Link href="/bmr-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                      <p className="font-semibold">BMR Calculator</p>
+                    </Link>
+                     <Link href="/calorie-intake-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                      <p className="font-semibold">Calorie Intake</p>
+                    </Link>
+                     <Link href="/heart-rate-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                      <p className="font-semibold">Heart Rate Calculator</p>
+                    </Link>
                   </CardContent>
                 </Card>
             </div>

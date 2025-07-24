@@ -91,7 +91,7 @@ export default function VoltageDropCalculatorPage({
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-secondary/30">
+    <div className="flex flex-col min-h-screen bg-background">
       <Header />
       <main className="flex-1 p-4 md:p-8">
         <div className="max-w-4xl mx-auto">
@@ -101,10 +101,10 @@ export default function VoltageDropCalculatorPage({
             </Link>
           </div>
           <div className="grid gap-8 lg:grid-cols-2">
-            <Card>
+            <Card className="w-full bg-card/50 border-border/50 backdrop-blur-sm">
               <CardHeader>
-                <CardTitle className="font-headline text-2xl">Voltage Drop Calculator</CardTitle>
-                <CardDescription>Estimate voltage drop across a length of wire.</CardDescription>
+                <CardTitle className="font-headline text-2xl">Online Voltage Drop Calculator</CardTitle>
+                <CardDescription>Estimate the voltage loss across a length of copper or aluminum wire for safe electrical installations.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
@@ -146,15 +146,16 @@ export default function VoltageDropCalculatorPage({
                   </div>
                 </CardContent>
                 <CardFooter>
-                  <Button type="submit" className="w-full bg-accent hover:bg-accent/90">Calculate Voltage Drop</Button>
+                  <Button type="submit" className="w-full">Calculate Voltage Drop</Button>
                 </CardFooter>
               </form>
             </Card>
 
             {result && (
-              <Card className="w-full bg-primary/5">
+              <Card className="w-full bg-card/50 border-border/50 backdrop-blur-sm">
                 <CardHeader>
                   <CardTitle className="font-headline">Calculation Result</CardTitle>
+                   <CardDescription>Results of the voltage drop calculation.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <Table>
@@ -180,15 +181,60 @@ export default function VoltageDropCalculatorPage({
               </Card>
             )}
           </div>
-          <Card className="mt-8">
+          <Card className="mt-8 w-full bg-card/50 border-border/50 backdrop-blur-sm">
             <CardHeader>
-                <CardTitle className="font-headline text-destructive">Important Disclaimer</CardTitle>
+              <CardTitle className="font-headline">Understanding Voltage Drop</CardTitle>
             </CardHeader>
             <CardContent>
-                <p className="text-sm font-semibold text-destructive/90">
-                 This calculator provides a simplified estimate for educational purposes only. It is NOT a substitute for professional electrical engineering advice. Actual voltage drop can be affected by factors like temperature, AC power factor, skin effect, and specific wire manufacturing tolerances. For any real-world electrical installations, you MUST consult a licensed electrician or engineer to ensure safety and compliance with local electrical codes.
-                </p>
+              <p className="mb-4">
+                Voltage drop describes how the energy supplied by a voltage source is reduced as electric current moves through the passive elements (conductors) of an electrical circuit. It's a critical factor in designing safe and efficient electrical systems.
+              </p>
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="item-1">
+                  <AccordionTrigger>Why is calculating voltage drop important?</AccordionTrigger>
+                  <AccordionContent>
+                    Excessive voltage drop can cause lights to flicker or burn dimly, heaters to heat poorly, and motors to run hotter than normal and burn out. It's a major cause of energy waste and can pose a safety hazard. Most electrical codes recommend a voltage drop of 3-5% or less.
+                  </AccordionContent>
+                </AccordionItem>
+                 <AccordionItem value="item-2">
+                  <AccordionTrigger>What factors affect voltage drop?</AccordionTrigger>
+                  <AccordionContent>
+                   The main factors are:
+                    <ul className="list-disc list-inside mt-2 pl-4">
+                      <li><b>Wire Material:</b> Copper has lower resistivity than aluminum, resulting in less voltage drop.</li>
+                      <li><b>Wire Length:</b> The longer the wire, the greater the resistance and voltage drop.</li>
+                      <li><b>Wire Size:</b> A thicker wire (larger cross-sectional area) has less resistance and thus less voltage drop.</li>
+                      <li><b>Current:</b> Higher current flowing through the wire will result in a larger voltage drop.</li>
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-3">
+                  <AccordionTrigger>Disclaimer</AccordionTrigger>
+                  <AccordionContent>
+                    This calculator provides a simplified estimate for educational purposes only. It is NOT a substitute for professional electrical engineering advice. Actual voltage drop can be affected by factors like temperature, AC power factor, and specific wire manufacturing tolerances. For any real-world electrical installations, you MUST consult a licensed electrician or engineer to ensure safety and compliance with local electrical codes.
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
             </CardContent>
+          </Card>
+           <Card className="mt-8">
+              <CardHeader>
+                <CardTitle>Related Calculators</CardTitle>
+              </CardHeader>
+              <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <Link href="/ohms-law-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <p className="font-semibold">Ohm's Law</p>
+                </Link>
+                <Link href="/electrical-load-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <p className="font-semibold">Electrical Load</p>
+                </Link>
+                <Link href="/transformer-efficiency-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <p className="font-semibold">Transformer Efficiency</p>
+                </Link>
+                <Link href="/battery-backup-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <p className="font-semibold">Battery Backup</p>
+                </Link>
+              </CardContent>
             </Card>
         </div>
       </main>

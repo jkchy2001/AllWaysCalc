@@ -95,7 +95,7 @@ export default function ZodiacSignCalculatorPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-secondary/30">
+    <div className="flex flex-col min-h-screen bg-background">
         <Header />
         <main className="flex-1 p-4 md:p-8">
             <div className="max-w-4xl mx-auto">
@@ -105,29 +105,31 @@ export default function ZodiacSignCalculatorPage() {
                     </Link>
                 </div>
                 <div className="grid gap-8 lg:grid-cols-2">
-                    <Card>
+                    <Card className="w-full bg-card/50 border-border/50 backdrop-blur-sm">
                         <CardHeader>
-                            <CardTitle className="font-headline text-2xl">Zodiac Sign Calculator</CardTitle>
-                            <CardDescription>Find your astrological sign based on your birth date.</CardDescription>
+                            <CardTitle className="font-headline text-2xl">Western Zodiac Sign Calculator</CardTitle>
+                            <CardDescription>Discover your astrological sun sign based on your date of birth.</CardDescription>
                         </CardHeader>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <CardContent className="space-y-4">
                                 <div className="space-y-2">
                                     <Label htmlFor="birthDate">Your Date of Birth</Label>
+                                    <p className="text-xs text-muted-foreground">Enter the date you were born on.</p>
                                     <Input id="birthDate" type="date" {...register('birthDate')} />
                                     {errors.birthDate && <p className="text-destructive text-sm">{errors.birthDate.message}</p>}
                                 </div>
                             </CardContent>
                             <CardFooter>
-                                <Button type="submit" className="w-full bg-accent hover:bg-accent/90">Find My Sign</Button>
+                                <Button type="submit" className="w-full">Find My Sign</Button>
                             </CardFooter>
                         </form>
                     </Card>
 
                     {result && (
-                       <Card className="w-full bg-primary/5">
+                       <Card className="w-full bg-card/50 border-border/50 backdrop-blur-sm">
                             <CardHeader>
                                 <CardTitle className="font-headline text-center">Your Zodiac Sign</CardTitle>
+                                <CardDescription className="text-center">Based on the tropical zodiac.</CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-4 text-center">
                                 <div className="text-6xl mx-auto">{result.symbol}</div>
@@ -140,7 +142,7 @@ export default function ZodiacSignCalculatorPage() {
                         </Card>
                     )}
                 </div>
-                <Card className="mt-8">
+                <Card className="mt-8 w-full bg-card/50 border-border/50 backdrop-blur-sm">
                   <CardHeader>
                       <CardTitle className="font-headline">Understanding Zodiac Signs</CardTitle>
                   </CardHeader>
@@ -155,7 +157,38 @@ export default function ZodiacSignCalculatorPage() {
                                No, this is based on Western astrology. The Chinese zodiac is based on a 12-year cycle, with each year represented by an animal.
                               </AccordionContent>
                           </AccordionItem>
+                          <AccordionItem value="item-2">
+                              <AccordionTrigger>What about the 13th sign, Ophiuchus?</AccordionTrigger>
+                              <AccordionContent>
+                               Ophiuchus is a constellation, but it is not part of the traditional tropical zodiac used by most Western astrologers. This calculator uses the 12 traditional signs.
+                              </AccordionContent>
+                          </AccordionItem>
+                          <AccordionItem value="item-3">
+                              <AccordionTrigger>Disclaimer</AccordionTrigger>
+                              <AccordionContent>
+                               Astrology is a belief system and is not based on scientific evidence. This calculator is provided for entertainment purposes only.
+                              </AccordionContent>
+                          </AccordionItem>
                       </Accordion>
+                  </CardContent>
+                </Card>
+                 <Card className="mt-8">
+                  <CardHeader>
+                    <CardTitle>Related Calculators</CardTitle>
+                  </CardHeader>
+                  <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <Link href="/love-compatibility-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                      <p className="font-semibold">Love Compatibility</p>
+                    </Link>
+                    <Link href="/numerology-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                      <p className="font-semibold">Numerology Calculator</p>
+                    </Link>
+                     <Link href="/marriage-date-compatibility-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                      <p className="font-semibold">Marriage Compatibility</p>
+                    </Link>
+                     <Link href="/lucky-number-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                      <p className="font-semibold">Lucky Number</p>
+                    </Link>
                   </CardContent>
                 </Card>
             </div>

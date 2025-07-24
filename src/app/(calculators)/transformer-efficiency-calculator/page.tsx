@@ -20,12 +20,7 @@ import { Header } from '@/components/header';
 import Link from 'next/link';
 import { Home, Activity } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 
 const formSchema = z.object({
@@ -81,7 +76,7 @@ export default function TransformerEfficiencyCalculatorPage({
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-secondary/30">
+    <div className="flex flex-col min-h-screen bg-background">
       <Header />
       <main className="flex-1 p-4 md:p-8">
         <div className="max-w-4xl mx-auto">
@@ -91,39 +86,43 @@ export default function TransformerEfficiencyCalculatorPage({
             </Link>
           </div>
           <div className="grid gap-8 lg:grid-cols-2">
-            <Card>
+            <Card className="w-full bg-card/50 border-border/50 backdrop-blur-sm">
               <CardHeader>
-                <CardTitle className="font-headline text-2xl">Transformer Efficiency Calculator</CardTitle>
-                <CardDescription>Calculate the efficiency of a transformer based on its losses.</CardDescription>
+                <CardTitle className="font-headline text-2xl">Online Transformer Efficiency Calculator</CardTitle>
+                <CardDescription>Calculate the efficiency of an electrical transformer based on its output power and losses.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="outputPower">Output Power (Watts)</Label>
+                    <p className="text-xs text-muted-foreground">The power delivered to the load.</p>
                     <Input id="outputPower" type="number" {...register('outputPower')} />
                     {errors.outputPower && <p className="text-destructive text-sm">{errors.outputPower.message}</p>}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="copperLosses">Copper Losses (I²R Losses) (Watts)</Label>
+                     <p className="text-xs text-muted-foreground">Losses in the windings, which vary with the load.</p>
                     <Input id="copperLosses" type="number" {...register('copperLosses')} />
                     {errors.copperLosses && <p className="text-destructive text-sm">{errors.copperLosses.message}</p>}
                   </div>
                    <div className="space-y-2">
                     <Label htmlFor="ironLosses">Iron Losses (Core Losses) (Watts)</Label>
+                    <p className="text-xs text-muted-foreground">Constant losses in the core, regardless of load.</p>
                     <Input id="ironLosses" type="number" {...register('ironLosses')} />
                     {errors.ironLosses && <p className="text-destructive text-sm">{errors.ironLosses.message}</p>}
                   </div>
                 </CardContent>
                 <CardFooter>
-                  <Button type="submit" className="w-full bg-accent hover:bg-accent/90">Calculate Efficiency</Button>
+                  <Button type="submit" className="w-full">Calculate Efficiency</Button>
                 </CardFooter>
               </form>
             </Card>
 
             {result && (
-              <Card className="w-full bg-primary/5">
+              <Card className="w-full bg-card/50 border-border/50 backdrop-blur-sm">
                 <CardHeader>
                   <CardTitle className="font-headline">Efficiency Result</CardTitle>
+                  <CardDescription>Based on your inputs, here is the calculated efficiency.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <div className="text-center border-b pb-4">
@@ -149,7 +148,7 @@ export default function TransformerEfficiencyCalculatorPage({
               </Card>
             )}
           </div>
-           <Card className="mt-8">
+           <Card className="mt-8 w-full bg-card/50 border-border/50 backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="font-headline">Understanding Transformer Efficiency</CardTitle>
             </CardHeader>
@@ -177,9 +176,36 @@ export default function TransformerEfficiencyCalculatorPage({
                   Where Input Power = Output Power + Copper Losses + Iron Losses.
                   </AccordionContent>
                 </AccordionItem>
+                <AccordionItem value="item-3">
+                    <AccordionTrigger>Why is high efficiency important?</AccordionTrigger>
+                    <AccordionContent>
+                    High efficiency is crucial for minimizing energy waste, reducing operating costs, and lowering the environmental impact. In large-scale power distribution, even a small improvement in efficiency can lead to significant energy and cost savings.
+                    </AccordionContent>
+                </AccordionItem>
               </Accordion>
             </CardContent>
           </Card>
+
+            <Card className="mt-8">
+              <CardHeader>
+                <CardTitle>Related Calculators</CardTitle>
+              </CardHeader>
+              <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <Link href="/ohms-law-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <p className="font-semibold">Ohm's Law</p>
+                </Link>
+                <Link href="/voltage-drop-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <p className="font-semibold">Voltage Drop</p>
+                </Link>
+                <Link href="/electrical-load-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <p className="font-semibold">Electrical Load</p>
+                </Link>
+                <Link href="/solar-panel-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <p className="font-semibold">Solar Panel</p>
+                </Link>
+              </CardContent>
+            </Card>
+
         </div>
       </main>
     </div>

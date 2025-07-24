@@ -117,7 +117,7 @@ export default function WallpaperCalculatorPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-secondary/30">
+    <div className="flex flex-col min-h-screen bg-background">
       <Header />
       <main className="flex-1 p-4 md:p-8">
         <div className="max-w-4xl mx-auto">
@@ -127,10 +127,10 @@ export default function WallpaperCalculatorPage() {
             </Link>
           </div>
           <div className="grid gap-8 lg:grid-cols-2">
-            <Card>
+            <Card className="w-full bg-card/50 border-border/50 backdrop-blur-sm">
               <CardHeader>
-                <CardTitle className="font-headline text-2xl">Wallpaper Calculator</CardTitle>
-                <CardDescription>Estimate the number of wallpaper rolls needed for a room.</CardDescription>
+                <CardTitle className="font-headline text-2xl">Online Wallpaper Calculator</CardTitle>
+                <CardDescription>Estimate the number of wallpaper rolls needed for a room, accounting for pattern repeats.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
@@ -189,6 +189,7 @@ export default function WallpaperCalculatorPage() {
                     
                      <div className="p-4 border rounded-md space-y-4">
                         <h3 className="font-semibold text-sm">Deductions (Optional)</h3>
+                        <p className="text-xs text-muted-foreground">The calculator subtracts standard door/window areas.</p>
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
                                 <Label htmlFor="doors">Number of Doors</Label>
@@ -209,15 +210,16 @@ export default function WallpaperCalculatorPage() {
 
                 </CardContent>
                 <CardFooter>
-                  <Button type="submit" className="w-full bg-accent hover:bg-accent/90">Calculate Rolls Needed</Button>
+                  <Button type="submit" className="w-full">Calculate Rolls Needed</Button>
                 </CardFooter>
               </form>
             </Card>
 
             {result && (
-              <Card className="w-full bg-primary/5">
+              <Card className="w-full bg-card/50 border-border/50 backdrop-blur-sm">
                 <CardHeader>
                   <CardTitle className="font-headline">You will need</CardTitle>
+                  <CardDescription>This is an estimate. Always buy a little extra.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4 text-center">
                     <Layers3 className="mx-auto size-12 text-primary" />
@@ -237,7 +239,7 @@ export default function WallpaperCalculatorPage() {
               </Card>
             )}
           </div>
-          <Card className="mt-8">
+          <Card className="mt-8 w-full bg-card/50 border-border/50 backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="font-headline">How to Estimate Wallpaper</CardTitle>
             </CardHeader>
@@ -245,20 +247,47 @@ export default function WallpaperCalculatorPage() {
               <p className="mb-4">
                 This calculator helps you determine how many rolls of wallpaper you need for a room. Accounting for pattern repeats and wastage is key to an accurate estimate.
               </p>
-              <div className="space-y-4">
-                <div>
-                  <h3 className="font-bold font-headline">Methodology</h3>
-                  <ol className="list-decimal list-inside space-y-2 mt-2 p-4 rounded-md bg-muted">
-                    <li>First, we calculate the perimeter of the room.</li>
-                    <li>Then, we determine how many vertical "drops" or strips of wallpaper are needed to cover the perimeter.</li>
-                    <li>We calculate how many full drops can be cut from a single roll, accounting for the pattern repeat which adds to the required length of each drop.</li>
-                    <li>The total number of drops needed is divided by the number of drops per roll to find the minimum number of rolls.</li>
-                    <li>Finally, a wastage percentage is added to cover mistakes and offcuts.</li>
-                  </ol>
-                </div>
-              </div>
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="item-1">
+                    <AccordionTrigger>Methodology</AccordionTrigger>
+                    <AccordionContent>
+                      <ol className="list-decimal list-inside space-y-2 mt-2">
+                        <li>First, we calculate the perimeter of the room.</li>
+                        <li>Then, we determine how many vertical "drops" or strips of wallpaper are needed to cover the perimeter based on the roll width.</li>
+                        <li>We calculate how many full drops can be cut from a single roll. Crucially, this step must account for the pattern repeat, as each drop must be cut longer than the wall height to allow for pattern matching.</li>
+                        <li>The total number of drops needed is divided by the number of drops per roll to find the minimum number of rolls.</li>
+                        <li>Finally, a wastage percentage is added to cover mistakes, offcuts, and to have some spare for future repairs.</li>
+                      </ol>
+                    </AccordionContent>
+                </AccordionItem>
+                 <AccordionItem value="item-2">
+                    <AccordionTrigger>Why is the pattern repeat important?</AccordionTrigger>
+                    <AccordionContent>
+                     When wallpaper has a pattern, you can't just cut strips to the exact height of the wall. Each new strip must be shifted up or down to align with the pattern of the previous one. This means you have to cut each strip longer than the wall height, leading to more waste and requiring more wallpaper overall. A larger pattern repeat results in more waste.
+                    </AccordionContent>
+                </AccordionItem>
+              </Accordion>
             </CardContent>
           </Card>
+           <Card className="mt-8">
+              <CardHeader>
+                <CardTitle>Related Calculators</CardTitle>
+              </CardHeader>
+              <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <Link href="/paint-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <p className="font-semibold">Paint Calculator</p>
+                </Link>
+                <Link href="/tile-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <p className="font-semibold">Tile Calculator</p>
+                </Link>
+                <Link href="/flooring-cost-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <p className="font-semibold">Flooring Cost</p>
+                </Link>
+                 <Link href="/stair-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <p className="font-semibold">Stair Calculator</p>
+                </Link>
+              </CardContent>
+            </Card>
         </div>
       </main>
     </div>

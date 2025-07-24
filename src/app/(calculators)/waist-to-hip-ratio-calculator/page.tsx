@@ -31,7 +31,6 @@ import {
 const formSchema = z.object({
   unit: z.enum(['metric', 'imperial']),
   gender: z.enum(['male', 'female']),
-  height: z.coerce.number().min(1, "Height must be positive."),
   waist: z.coerce.number().min(1, "Waist must be positive."),
   hip: z.coerce.number().min(1, "Hip measurement must be positive."),
 });
@@ -67,7 +66,6 @@ export default function WaistToHipRatioCalculatorPage({
     defaultValues: {
       unit: 'metric',
       gender: 'male',
-      height: 175,
       waist: 90,
       hip: 100,
     },
@@ -88,7 +86,7 @@ export default function WaistToHipRatioCalculatorPage({
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-secondary/30">
+    <div className="flex flex-col min-h-screen bg-background">
         <Header />
         <main className="flex-1 p-4 md:p-8">
             <div className="max-w-4xl mx-auto">
@@ -98,10 +96,10 @@ export default function WaistToHipRatioCalculatorPage({
                     </Link>
                 </div>
                 <div className="grid gap-8 lg:grid-cols-2">
-                    <Card>
+                    <Card className="w-full bg-card/50 border-border/50 backdrop-blur-sm">
                         <CardHeader>
-                            <CardTitle className="font-headline text-2xl">Waist-to-Hip Ratio Calculator</CardTitle>
-                            <CardDescription>Assess your body fat distribution and potential health risks.</CardDescription>
+                            <CardTitle className="font-headline text-2xl">Online Waist-to-Hip Ratio Calculator</CardTitle>
+                            <CardDescription>Assess your body fat distribution and associated health risks using the WHR measurement.</CardDescription>
                         </CardHeader>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <CardContent className="space-y-4">
@@ -158,15 +156,16 @@ export default function WaistToHipRatioCalculatorPage({
                                 </div>
                             </CardContent>
                             <CardFooter>
-                                <Button type="submit" className="w-full bg-accent hover:bg-accent/90">Calculate Ratio</Button>
+                                <Button type="submit" className="w-full">Calculate Ratio</Button>
                             </CardFooter>
                         </form>
                     </Card>
 
                     {result && (
-                        <Card className="w-full bg-primary/5">
+                        <Card className="w-full bg-card/50 border-border/50 backdrop-blur-sm">
                             <CardHeader>
                                 <CardTitle className="font-headline">Your Result</CardTitle>
+                                <CardDescription>Your calculated WHR and its health implications.</CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-4 text-center">
                                 <div className="text-6xl font-bold text-primary">{result.ratio}</div>
@@ -181,7 +180,7 @@ export default function WaistToHipRatioCalculatorPage({
                         </Card>
                     )}
                 </div>
-                 <Card className="mt-8">
+                 <Card className="mt-8 w-full bg-card/50 border-border/50 backdrop-blur-sm">
                   <CardHeader>
                       <CardTitle className="font-headline">Understanding Waist-to-Hip Ratio (WHR)</CardTitle>
                   </CardHeader>
@@ -189,36 +188,55 @@ export default function WaistToHipRatioCalculatorPage({
                       <p className="mb-4">
                           The Waist-to-Hip Ratio (WHR) is a simple but effective measure of body fat distribution. It's used as an indicator of health risk associated with central obesity (fat around the abdomen).
                       </p>
-                      <div className="space-y-4">
-                      <div>
-                          <h3 className="font-bold font-headline">Formula Used</h3>
-                          <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
-                          <code>
-                              Ratio = Waist Circumference / Hip Circumference
-                          </code>
-                          </pre>
-                           <p className="mt-2">It is crucial that both measurements are in the same units (e.g., both in cm or both in inches).</p>
-                      </div>
-                      <div>
-                          <h3 className="font-bold font-headline">FAQs</h3>
-                          <Accordion type="single" collapsible className="w-full">
+                      <Accordion type="single" collapsible className="w-full">
                           <AccordionItem value="item-1">
-                              <AccordionTrigger>Why is WHR important?</AccordionTrigger>
+                              <AccordionTrigger>How is WHR calculated?</AccordionTrigger>
                               <AccordionContent>
-                                WHR is considered a good indicator of health because fat stored around the waist (an "apple" shape) is associated with a higher risk of conditions like heart disease and type 2 diabetes than fat stored around the hips (a "pear" shape).
+                                The formula is a simple division:
+                                <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
+                                <code>
+                                    Ratio = Waist Circumference / Hip Circumference
+                                </code>
+                                </pre>
+                                <p className="mt-2">It is crucial that both measurements are in the same units (e.g., both in cm or both in inches).</p>
                               </AccordionContent>
                           </AccordionItem>
                           <AccordionItem value="item-2">
-                              <AccordionTrigger>How do I measure my waist and hips correctly?</AccordionTrigger>
+                              <AccordionTrigger>Why is WHR important?</AccordionTrigger>
                               <AccordionContent>
-                                <b>Waist:</b> Find the point halfway between your lowest rib and the top of your hip bone (usually just above your belly button). <br/>
-                                <b>Hips:</b> Measure around the widest part of your buttocks. <br/>
-                                For both, keep the tape measure snug but not tight, and parallel to the floor.
+                                WHR is considered a good indicator of health because fat stored around the waist (an "apple" body shape) is associated with a higher risk of conditions like heart disease and type 2 diabetes than fat stored primarily around the hips (a "pear" body shape).
                               </AccordionContent>
                           </AccordionItem>
-                          </Accordion>
-                      </div>
-                      </div>
+                          <AccordionItem value="item-3">
+                              <AccordionTrigger>How do I measure my waist and hips correctly?</AccordionTrigger>
+                              <AccordionContent>
+                                <b>Waist:</b> Find the point halfway between your lowest rib and the top of your hip bone (this is usually just above your belly button).
+                                <br/><br/>
+                                <b>Hips:</b> Measure around the widest part of your buttocks.
+                                <br/><br/>
+                                For both measurements, keep the tape measure snug but not tight against the skin, and ensure it is parallel to the floor.
+                              </AccordionContent>
+                          </AccordionItem>
+                      </Accordion>
+                  </CardContent>
+                </Card>
+                <Card className="mt-8">
+                  <CardHeader>
+                    <CardTitle>Related Calculators</CardTitle>
+                  </CardHeader>
+                  <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <Link href="/bmi-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                      <p className="font-semibold">BMI Calculator</p>
+                    </Link>
+                    <Link href="/bmr-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                      <p className="font-semibold">BMR Calculator</p>
+                    </Link>
+                     <Link href="/body-fat-percentage-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                      <p className="font-semibold">Body Fat Percentage</p>
+                    </Link>
+                     <Link href="/ideal-weight-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                      <p className="font-semibold">Ideal Weight</p>
+                    </Link>
                   </CardContent>
                 </Card>
             </div>
