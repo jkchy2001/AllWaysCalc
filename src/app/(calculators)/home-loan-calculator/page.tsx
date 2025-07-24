@@ -105,16 +105,19 @@ export default function HomeLoanCalculatorPage() {
                             <CardContent className="space-y-4">
                                 <div className="space-y-2">
                                     <Label htmlFor="loanAmount">Loan Amount (₹)</Label>
+                                    <p className="text-xs text-muted-foreground">The amount you are borrowing after your down payment.</p>
                                     <Input id="loanAmount" type="number" placeholder="e.g., 5000000" {...register('loanAmount')} />
                                     {errors.loanAmount && <p className="text-destructive text-sm">{errors.loanAmount.message}</p>}
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="interestRate">Annual Interest Rate (%)</Label>
+                                    <p className="text-xs text-muted-foreground">The yearly interest rate for the loan.</p>
                                     <Input id="interestRate" type="number" step="0.01" placeholder="e.g., 8.5" {...register('interestRate')} />
                                     {errors.interestRate && <p className="text-destructive text-sm">{errors.interestRate.message}</p>}
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="loanTerm">Loan Term (Years)</Label>
+                                     <p className="text-xs text-muted-foreground">The duration over which you will repay the loan.</p>
                                     <Input id="loanTerm" type="number" placeholder="e.g., 20" {...register('loanTerm')} />
                                     {errors.loanTerm && <p className="text-destructive text-sm">{errors.loanTerm.message}</p>}
                                 </div>
@@ -158,44 +161,74 @@ export default function HomeLoanCalculatorPage() {
                 </div>
                 <Card className="mt-8">
                   <CardHeader>
-                      <CardTitle className="font-headline">How It Works</CardTitle>
+                      <CardTitle className="font-headline">Understanding Your Home Loan</CardTitle>
                   </CardHeader>
                   <CardContent>
                       <p className="mb-4">
-                          This home loan calculator helps you estimate the Equated Monthly Installment (EMI) for your housing loan. Just enter the loan amount, interest rate, and tenure to get started.
+                          This home loan calculator helps you estimate the Equated Monthly Installment (EMI) for your housing loan. Just enter the loan amount, interest rate, and tenure to get started. Understanding these numbers is the first step towards homeownership.
                       </p>
-                      <div className="space-y-4">
-                      <div>
-                          <h3 className="font-bold font-headline">Formula Used</h3>
-                          <p>The calculation is based on the standard amortization formula:</p>
-                          <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
-                          <code>
-                              EMI = P × r × (1 + r)^n / ((1 + r)^n - 1)<br/><br/>
-                              <b>P</b> = Principal Loan Amount<br/>
-                              <b>r</b> = Monthly Interest Rate<br/>
-                              <b>n</b> = Number of Months (Loan Tenure)
-                          </code>
-                          </pre>
-                      </div>
-                      <div>
-                          <h3 className="font-bold font-headline">FAQs</h3>
-                          <Accordion type="single" collapsible className="w-full">
-                          <AccordionItem value="item-1">
-                              <AccordionTrigger>What other costs are involved in a home loan?</AccordionTrigger>
+                      <Accordion type="single" collapsible className="w-full">
+                           <AccordionItem value="item-1">
+                              <AccordionTrigger>Key Terms Explained</AccordionTrigger>
                               <AccordionContent>
-                              Besides the EMI, you should also consider other charges like processing fees, legal fees, stamp duty, and registration charges. This calculator only covers the principal and interest components of the loan.
+                                  <ul className="list-disc pl-5 space-y-2">
+                                      <li><strong>Loan Amount:</strong> The total amount borrowed from the bank or financial institution. This does not include the down payment, which is the initial amount you pay from your own funds.</li>
+                                      <li><strong>Interest Rate:</strong> The rate at which the bank charges you for borrowing the money. Home loan rates can be fixed or floating.</li>
+                                      <li><strong>Loan Term (Tenure):</strong> The period over which you agree to repay the loan. Longer tenures mean lower EMIs but higher total interest paid, and vice versa.</li>
+                                  </ul>
                               </AccordionContent>
                           </AccordionItem>
                           <AccordionItem value="item-2">
-                              <AccordionTrigger>Can I make prepayments on my home loan?</AccordionTrigger>
+                              <AccordionTrigger>Benefits and Risks of a Home Loan</AccordionTrigger>
                               <AccordionContent>
-                              Yes, most banks allow you to make partial or full prepayments on your home loan. This can significantly reduce your total interest outgo and shorten the loan tenure. It's best to check with your lender about any prepayment charges.
+                                  <h4 className="font-semibold text-primary">Benefits:</h4>
+                                  <ul className="list-disc pl-5 space-y-1 mt-2">
+                                      <li><strong>Asset Creation:</strong> Allows you to purchase a valuable asset that can appreciate over time.</li>
+                                      <li><strong>Tax Benefits:</strong> You can claim tax deductions on both the principal and interest components of your home loan under different sections of the Income Tax Act.</li>
+                                      <li><strong>Forced Savings:</strong> The discipline of paying a monthly EMI instills a habit of regular savings.</li>
+                                  </ul>
+                                  <h4 className="font-semibold text-destructive mt-4">Risks:</h4>
+                                  <ul className="list-disc pl-5 space-y-1 mt-2">
+                                      <li><strong>Long-Term Commitment:</strong> A home loan is a significant financial commitment that can last for 20-30 years.</li>
+                                      <li><strong>Interest Rate Fluctuations:</strong> If you have a floating rate loan, your EMI can increase if market rates go up.</li>
+                                      <li><strong>Default Consequences:</strong> Failure to pay EMIs can lead to the lender taking possession of your property and severely damaging your credit score.</li>
+                                  </ul>
                               </AccordionContent>
                           </AccordionItem>
-                          </Accordion>
-                      </div>
-                      </div>
+                          <AccordionItem value="item-3">
+                              <AccordionTrigger>Frequently Asked Questions</AccordionTrigger>
+                              <AccordionContent className="space-y-4">
+                                  <div>
+                                    <h4 className="font-semibold">What other costs are involved in a home loan?</h4>
+                                    <p>Besides the EMI, you should also consider other charges like processing fees, legal fees, stamp duty, and registration charges. This calculator only covers the principal and interest components of the loan.</p>
+                                  </div>
+                                  <div>
+                                    <h4 className="font-semibold">Can I make prepayments on my home loan?</h4>
+                                    <p>Yes, most banks allow you to make partial or full prepayments on your home loan. This can significantly reduce your total interest outgo and shorten the loan tenure. It's best to check with your lender about any prepayment charges.</p>
+                                  </div>
+                              </AccordionContent>
+                          </AccordionItem>
+                      </Accordion>
                   </CardContent>
+                </Card>
+                 <Card className="mt-8">
+                    <CardHeader>
+                    <CardTitle>Related Calculators</CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <Link href="/loan-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Loan / EMI Calculator</p>
+                        </Link>
+                        <Link href="/personal-loan-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Personal Loan</p>
+                        </Link>
+                         <Link href="/loan-eligibility-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Loan Eligibility</p>
+                        </Link>
+                         <Link href="/mortgage-refinance-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Mortgage Refinance</p>
+                        </Link>
+                    </CardContent>
                 </Card>
             </div>
         </main>

@@ -107,6 +107,7 @@ export default function TipCalculatorPage() {
                     <CardContent className="space-y-4">
                         <div className="space-y-2">
                         <Label htmlFor="bill">Bill Amount (₹)</Label>
+                         <p className="text-xs text-muted-foreground">The cost of the meal before tip.</p>
                         <Input
                             id="bill"
                             type="number"
@@ -118,6 +119,7 @@ export default function TipCalculatorPage() {
                         </div>
                         <div className="space-y-2">
                         <Label htmlFor="tipPercentage">Tip Percentage (%)</Label>
+                         <p className="text-xs text-muted-foreground">The percentage of the bill you want to leave as a tip.</p>
                         <Input
                             id="tipPercentage"
                             type="number"
@@ -128,6 +130,7 @@ export default function TipCalculatorPage() {
                         </div>
                         <div className="space-y-2">
                         <Label htmlFor="people">Number of People</Label>
+                        <p className="text-xs text-muted-foreground">How many people are splitting the bill.</p>
                         <Input id="people" type="number" {...register('people')} />
                         {errors.people && <p className="text-destructive text-sm">{errors.people.message}</p>}
                         </div>
@@ -167,43 +170,64 @@ export default function TipCalculatorPage() {
 
                 <Card className="mt-8">
                 <CardHeader>
-                    <CardTitle className="font-headline">How It Works</CardTitle>
+                    <CardTitle className="font-headline">How Tipping Works</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <p className="mb-4">
-                    This calculator helps you determine the appropriate tip for service and split the bill among a group of people.
+                    This calculator helps you determine the appropriate tip for service and split the bill among a group of people. Tipping is a common custom to show appreciation for good service.
                     </p>
-                    <div className="space-y-4">
-                    <div>
-                        <h3 className="font-bold font-headline">Formula Used</h3>
-                        <p>The calculations are straightforward:</p>
-                        <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
-                        <code>
-                            Tip Amount = Bill Amount × (Tip Percentage / 100)<br/>
-                            Total Bill = Bill Amount + Tip Amount<br/>
-                            Amount Per Person = Total Bill / Number of People
-                        </code>
-                        </pre>
-                    </div>
-                    <div>
-                        <h3 className="font-bold font-headline">FAQs</h3>
-                        <Accordion type="single" collapsible className="w-full">
-                        <AccordionItem value="item-1">
-                            <AccordionTrigger>What's a standard tip percentage?</AccordionTrigger>
-                            <AccordionContent>
-                            In many places, a standard tip is typically between 10% and 20% of the pre-tax bill for good service.
-                            </AccordionContent>
-                        </AccordionItem>
-                        <AccordionItem value="item-2">
-                            <AccordionTrigger>Should I tip on the total bill or pre-tax amount?</AccordionTrigger>
-                            <AccordionContent>
-                            It's customary to tip on the pre-tax amount of the bill. However, some people prefer to tip on the total for simplicity.
-                            </AccordionContent>
-                        </AccordionItem>
-                        </Accordion>
-                    </div>
-                    </div>
+                    <Accordion type="single" collapsible className="w-full">
+                      <AccordionItem value="item-1">
+                          <AccordionTrigger>Formula Used</AccordionTrigger>
+                          <AccordionContent>
+                             The calculations are straightforward:
+                            <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
+                            <code>
+                                Tip Amount = Bill Amount × (Tip Percentage / 100)<br/>
+                                Total Bill = Bill Amount + Tip Amount<br/>
+                                Amount Per Person = Total Bill / Number of People
+                            </code>
+                            </pre>
+                          </AccordionContent>
+                      </AccordionItem>
+                      <AccordionItem value="item-2">
+                          <AccordionTrigger>Frequently Asked Questions</AccordionTrigger>
+                          <AccordionContent className="space-y-4">
+                            <div>
+                                <h4 className="font-semibold">What's a standard tip percentage?</h4>
+                                <p>In many places, a standard tip is typically between 10% and 20% of the pre-tax bill for good service. 15% is a common default.</p>
+                            </div>
+                            <div>
+                                <h4 className="font-semibold">Should I tip on the total bill or pre-tax amount?</h4>
+                                <p>It's customary to tip on the pre-tax amount of the bill. However, some people prefer to tip on the total for simplicity. This calculator applies the tip to the bill amount you enter.</p>
+                            </div>
+                            <div>
+                                <h4 className="font-semibold">What about service charges?</h4>
+                                <p>Some restaurants automatically add a "service charge" to the bill, especially for large groups. This is essentially a mandatory tip. In such cases, you are generally not expected to leave an additional tip unless the service was exceptional.</p>
+                            </div>
+                          </AccordionContent>
+                      </AccordionItem>
+                    </Accordion>
                 </CardContent>
+                </Card>
+                 <Card className="mt-8">
+                    <CardHeader>
+                    <CardTitle>Related Calculators</CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <Link href="/discount-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Discount Calculator</p>
+                        </Link>
+                        <Link href="/gst-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">GST Calculator</p>
+                        </Link>
+                        <Link href="/cagr-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">CAGR Calculator</p>
+                        </Link>
+                        <Link href="/compound-interest-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Compound Interest</p>
+                        </Link>
+                    </CardContent>
                 </Card>
             </div>
         </main>

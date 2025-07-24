@@ -90,22 +90,25 @@ export default function InflationCalculatorPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">Inflation Calculator</CardTitle>
-                <CardDescription>Calculate the future value of money.</CardDescription>
+                <CardDescription>Calculate the future value of money and see how inflation erodes purchasing power.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="initialValue">Initial Value (₹)</Label>
+                    <p className="text-xs text-muted-foreground">The amount of money today.</p>
                     <Input id="initialValue" type="number" step="0.01" {...register('initialValue')} />
                     {errors.initialValue && <p className="text-destructive text-sm">{errors.initialValue.message}</p>}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="inflationRate">Annual Inflation Rate (%)</Label>
+                    <p className="text-xs text-muted-foreground">The expected average annual rate of inflation.</p>
                     <Input id="inflationRate" type="number" step="0.01" {...register('inflationRate')} />
                     {errors.inflationRate && <p className="text-destructive text-sm">{errors.inflationRate.message}</p>}
                   </div>
                    <div className="space-y-2">
                     <Label htmlFor="years">Number of Years</Label>
+                    <p className="text-xs text-muted-foreground">The time period over which to calculate the effect of inflation.</p>
                     <Input id="years" type="number" {...register('years')} />
                     {errors.years && <p className="text-destructive text-sm">{errors.years.message}</p>}
                   </div>
@@ -130,7 +133,7 @@ export default function InflationCalculatorPage() {
                     <p className="text-muted-foreground">in {form.getValues('years')} years.</p>
                   </div>
                   <div className="text-sm text-center pt-4 border-t">
-                    A {(((result.futureValue/result.initialValue) - 1) * 100).toFixed(2)}% decrease in purchasing power.
+                    This represents a {(((result.futureValue/result.initialValue) - 1) * 100).toFixed(2)}% decrease in the value of your money.
                   </div>
                 </CardContent>
                 <CardFooter>
@@ -145,35 +148,52 @@ export default function InflationCalculatorPage() {
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-                Inflation is the rate at which the general level of prices for goods and services is rising, and subsequently, purchasing power is falling. This calculator helps you understand how the value of your money may change over time.
+                Inflation is the rate at which the general level of prices for goods and services is rising, and subsequently, purchasing power is falling. This calculator helps you understand how the value of your money may change over time, which is a crucial concept for long-term financial planning.
               </p>
-              <div className="space-y-4">
-                <div>
-                  <h3 className="font-bold font-headline">Formula Used</h3>
-                   <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
-                    <code>
-                      Future Value = Present Value * (1 + Inflation Rate)^Years
-                    </code>
-                  </pre>
-                </div>
-                <div>
-                  <h3 className="font-bold font-headline">FAQs</h3>
-                  <Accordion type="single" collapsible className="w-full">
-                    <AccordionItem value="item-1">
-                      <AccordionTrigger>What is a typical inflation rate?</AccordionTrigger>
-                      <AccordionContent>
-                        The inflation rate varies significantly by country and over time. In many developed economies, central banks aim for an annual inflation rate of around 2-3%.
-                      </AccordionContent>
-                    </AccordionItem>
-                     <AccordionItem value="item-2">
-                      <AccordionTrigger>How does this affect my savings?</AccordionTrigger>
-                      <AccordionContent>
-                        If the interest you earn on your savings is lower than the inflation rate, your money is losing purchasing power. It's important to invest in assets that have the potential to grow faster than inflation.
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
-                </div>
-              </div>
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="item-1">
+                  <AccordionTrigger>Key Terms Explained</AccordionTrigger>
+                  <AccordionContent>
+                      <ul className="list-disc pl-5 space-y-2">
+                          <li><strong>Initial Value:</strong> The amount of money you have today.</li>
+                          <li><strong>Inflation Rate:</strong> The annual percentage increase in the average price level of goods and services.</li>
+                          <li><strong>Future Value:</strong> The amount of money that would be needed in the future to purchase the same goods and services that the initial value can purchase today.</li>
+                          <li><strong>Purchasing Power:</strong> The value of a currency expressed in terms of the amount of goods or services that one unit of money can buy. Inflation erodes purchasing power.</li>
+                      </ul>
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-2">
+                  <AccordionTrigger>Why is this important for investments?</AccordionTrigger>
+                  <AccordionContent>
+                   For your savings to grow in real terms, your investment returns must be higher than the rate of inflation. If your investments earn 7% in a year where inflation is 4%, your real rate of return is only 3%. If your savings are in an account earning less than inflation, you are effectively losing money. Understanding inflation helps you set realistic goals for your investments to outpace rising costs.
+                  </AccordionContent>
+                </AccordionItem>
+                 <AccordionItem value="item-3">
+                  <AccordionTrigger>What is a typical inflation rate?</AccordionTrigger>
+                  <AccordionContent>
+                    The inflation rate varies significantly by country and over time. In many developed economies, central banks aim for an annual inflation rate of around 2-3%. In developing economies like India, it has historically been higher. You can look up the current Consumer Price Index (CPI) inflation rate for your country for a more accurate input.
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </CardContent>
+          </Card>
+           <Card className="mt-8">
+            <CardHeader>
+              <CardTitle>Related Calculators</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Link href="/compound-interest-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Compound Interest</p>
+              </Link>
+              <Link href="/sip-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">SIP Calculator</p>
+              </Link>
+              <Link href="/retirement-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Retirement Calculator</p>
+              </Link>
+               <Link href="/cagr-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">CAGR Calculator</p>
+              </Link>
             </CardContent>
           </Card>
         </div>

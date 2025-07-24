@@ -97,7 +97,7 @@ export default function RetirementCalculatorPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">Retirement Calculator</CardTitle>
-                <CardDescription>Estimate your retirement savings.</CardDescription>
+                <CardDescription>Estimate your retirement savings and see how your contributions can grow over time.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
@@ -115,16 +115,19 @@ export default function RetirementCalculatorPage() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="currentSavings">Current Savings (₹)</Label>
+                    <p className="text-xs text-muted-foreground">The amount you have already saved for retirement.</p>
                     <Input id="currentSavings" type="number" step="0.01" {...register('currentSavings')} />
                     {errors.currentSavings && <p className="text-destructive text-sm">{errors.currentSavings.message}</p>}
                   </div>
                    <div className="space-y-2">
                     <Label htmlFor="monthlyContribution">Monthly Contribution (₹)</Label>
+                    <p className="text-xs text-muted-foreground">The amount you plan to save each month.</p>
                     <Input id="monthlyContribution" type="number" step="0.01" {...register('monthlyContribution')} />
                     {errors.monthlyContribution && <p className="text-destructive text-sm">{errors.monthlyContribution.message}</p>}
                   </div>
                    <div className="space-y-2">
                     <Label htmlFor="interestRate">Estimated Annual Interest Rate (%)</Label>
+                    <p className="text-xs text-muted-foreground">The average annual return you expect on your investments.</p>
                     <Input id="interestRate" type="number" step="0.01" {...register('interestRate')} />
                     {errors.interestRate && <p className="text-destructive text-sm">{errors.interestRate.message}</p>}
                   </div>
@@ -142,7 +145,7 @@ export default function RetirementCalculatorPage() {
                 </CardHeader>
                 <CardContent className="space-y-4 text-center">
                     <div className="text-4xl font-bold text-primary">{formatCurrency(result.retirementNestEgg)}</div>
-                    <p className="text-muted-foreground">This is how much you could have saved for retirement.</p>
+                    <p className="text-muted-foreground">This is how much you could have saved by age {form.getValues('retirementAge')}.</p>
                 </CardContent>
                 <CardFooter>
                   <SharePanel resultText={`I could have ${formatCurrency(result.retirementNestEgg)} for retirement!`} />
@@ -152,35 +155,67 @@ export default function RetirementCalculatorPage() {
           </div>
           <Card className="mt-8">
             <CardHeader>
-              <CardTitle className="font-headline">Understanding Your Retirement</CardTitle>
+              <CardTitle className="font-headline">Understanding Your Retirement Savings</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-               This calculator provides a simple projection of your retirement savings based on your inputs. It uses compound interest to estimate how your current savings and future contributions will grow over time.
+               This calculator provides a simple projection of your retirement savings based on your inputs. It uses the power of compound interest to estimate how your current savings and future contributions will grow over time.
               </p>
-              <div className="space-y-4">
-                <div>
-                  <h3 className="font-bold font-headline">Disclaimer</h3>
-                  <p>This is a simplified model and does not account for taxes, inflation, or changes in investment strategy. It should be used for informational purposes only. Consult a financial advisor for personalized retirement planning.</p>
-                </div>
-                <div>
-                  <h3 className="font-bold font-headline">FAQs</h3>
-                  <Accordion type="single" collapsible className="w-full">
-                    <AccordionItem value="item-1">
-                      <AccordionTrigger>What is a good retirement savings goal?</AccordionTrigger>
-                      <AccordionContent>
-                       Many experts suggest aiming for a nest egg that is 10 to 12 times your final salary. Another common guideline is the 4% rule, which suggests you can safely withdraw 4% of your savings each year in retirement.
-                      </AccordionContent>
-                    </AccordionItem>
-                     <AccordionItem value="item-2">
-                      <AccordionTrigger>Why is the estimated interest rate important?</AccordionTrigger>
-                      <AccordionContent>
-                       The interest rate (or rate of return) has a massive impact on your savings due to compounding. Even small differences in the rate can lead to large differences in your final nest egg over several decades.
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
-                </div>
-              </div>
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="item-1">
+                  <AccordionTrigger>Key Factors in Your Calculation</AccordionTrigger>
+                  <AccordionContent>
+                    <ul className="list-disc pl-5 space-y-2">
+                        <li><strong>Time:</strong> The longer your money is invested, the more it can grow. Starting early is one of the biggest advantages you can have.</li>
+                        <li><strong>Contributions:</strong> The amount you save regularly has a direct impact on your final corpus.</li>
+                        <li><strong>Rate of Return:</strong> The interest rate or return on your investments significantly affects the growth of your savings due to compounding.</li>
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+                 <AccordionItem value="item-2">
+                  <AccordionTrigger>Important Disclaimers and Considerations</AccordionTrigger>
+                  <AccordionContent>
+                    <ul className="list-disc pl-5 space-y-2">
+                        <li><strong>Inflation:</strong> This calculator does not account for inflation, which will reduce the purchasing power of your nest egg in the future.</li>
+                        <li><strong>Taxes:</strong> Investment returns may be subject to taxes, which are not factored into this calculation.</li>
+                        <li><strong>Variable Returns:</strong> The interest rate is an estimate. Real-world investment returns are not guaranteed and can fluctuate.</li>
+                        <li><strong>Professional Advice:</strong> This tool is for informational purposes only. Consult a financial advisor for personalized retirement planning.</li>
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-3">
+                  <AccordionTrigger>Frequently Asked Questions</AccordionTrigger>
+                  <AccordionContent className="space-y-4">
+                    <div>
+                        <h4 className="font-semibold">What is a good retirement savings goal?</h4>
+                        <p>Many experts suggest aiming for a nest egg that is 10 to 12 times your final salary. Another common guideline is the 4% rule, which suggests you can safely withdraw 4% of your savings each year in retirement.</p>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold">Why is the estimated interest rate important?</h4>
+                        <p>The interest rate (or rate of return) has a massive impact on your savings due to compounding. Even small differences in the rate can lead to large differences in your final nest egg over several decades.</p>
+                      </div>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </CardContent>
+          </Card>
+           <Card className="mt-8">
+            <CardHeader>
+              <CardTitle>Related Calculators</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Link href="/sip-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">SIP Calculator</p>
+              </Link>
+              <Link href="/ppf-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">PPF Calculator</p>
+              </Link>
+              <Link href="/inflation-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Inflation Calculator</p>
+              </Link>
+               <Link href="/compound-interest-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Compound Interest</p>
+              </Link>
             </CardContent>
           </Card>
         </div>

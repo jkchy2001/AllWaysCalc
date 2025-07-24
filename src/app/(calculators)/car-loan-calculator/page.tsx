@@ -161,29 +161,42 @@ export default function CarLoanCalculatorPage() {
                 </div>
                 <Card className="mt-8">
                   <CardHeader>
-                      <CardTitle className="font-headline">How It Works</CardTitle>
+                      <CardTitle className="font-headline">Understanding Your Car Loan</CardTitle>
                   </CardHeader>
                   <CardContent>
                       <p className="mb-4">
                           This car loan calculator helps you estimate the Equated Monthly Installment (EMI) for your vehicle loan. Enter the loan amount, interest rate, and tenure to see your potential monthly payment.
                       </p>
                       <Accordion type="single" collapsible className="w-full">
-                          <AccordionItem value="item-1">
-                              <AccordionTrigger>Formula Used</AccordionTrigger>
+                           <AccordionItem value="item-1">
+                              <AccordionTrigger>Key Terms Explained</AccordionTrigger>
                               <AccordionContent>
-                                  <p>The calculation is based on the standard amortization formula:</p>
-                                  <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
-                                  <code>
-                                      EMI = P × r × (1 + r)^n / ((1 + r)^n - 1)<br/><br/>
-                                      <b>P</b> = Principal Loan Amount<br/>
-                                      <b>r</b> = Monthly Interest Rate (Annual Rate / 12)<br/>
-                                      <b>n</b> = Number of Months (Loan Term in years * 12)
-                                  </code>
-                                  </pre>
+                                  <ul className="list-disc pl-5 space-y-2">
+                                      <li><strong>Loan Amount:</strong> The total amount you borrow, which should be the car's on-road price minus any down payment you make.</li>
+                                      <li><strong>Interest Rate (APR):</strong> The annual percentage rate charged on the loan. A lower APR means lower costs.</li>
+                                      <li><strong>Loan Term:</strong> The duration of the loan. A shorter term means higher EMIs but less total interest paid. A longer term means lower EMIs but more total interest paid.</li>
+                                  </ul>
                               </AccordionContent>
                           </AccordionItem>
                           <AccordionItem value="item-2">
-                              <AccordionTrigger>FAQs</AccordionTrigger>
+                              <AccordionTrigger>Benefits and Risks of a Car Loan</AccordionTrigger>
+                              <AccordionContent>
+                                  <h4 className="font-semibold text-primary">Benefits:</h4>
+                                  <ul className="list-disc pl-5 space-y-1 mt-2">
+                                      <li><strong>Immediate Ownership:</strong> Allows you to own and use a car without paying the full price upfront.</li>
+                                      <li><strong>Fixed Payments:</strong> EMIs provide a predictable monthly expense, making budgeting easier.</li>
+                                      <li><strong>Credit Building:</strong> Timely repayment of a car loan can positively impact your credit score.</li>
+                                  </ul>
+                                  <h4 className="font-semibold text-destructive mt-4">Risks:</h4>
+                                  <ul className="list-disc pl-5 space-y-1 mt-2">
+                                      <li><strong>Depreciating Asset:</strong> Cars lose value over time. You may owe more on the loan than the car is worth, especially in the early years.</li>
+                                      <li><strong>Interest Costs:</strong> You will pay more than the car's sticker price over the life of the loan.</li>
+                                      <li><strong>Default Risk:</strong> If you fail to make payments, the lender can repossess the vehicle, and your credit score will be severely damaged.</li>
+                                  </ul>
+                              </AccordionContent>
+                          </AccordionItem>
+                          <AccordionItem value="item-3">
+                              <AccordionTrigger>Frequently Asked Questions</AccordionTrigger>
                               <AccordionContent className="space-y-4">
                                   <div>
                                     <h4 className="font-semibold">What is a down payment?</h4>

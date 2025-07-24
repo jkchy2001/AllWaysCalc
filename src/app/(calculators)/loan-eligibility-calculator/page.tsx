@@ -108,21 +108,25 @@ export default function LoanEligibilityCalculatorPage() {
                             <CardContent className="space-y-4">
                                 <div className="space-y-2">
                                     <Label htmlFor="monthlyIncome">Net Monthly Income (₹)</Label>
+                                    <p className="text-xs text-muted-foreground">Your take-home salary per month.</p>
                                     <Input id="monthlyIncome" type="number" {...register('monthlyIncome')} />
                                     {errors.monthlyIncome && <p className="text-destructive text-sm">{errors.monthlyIncome.message}</p>}
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="monthlyEmi">Total Current Monthly EMIs (₹)</Label>
+                                    <p className="text-xs text-muted-foreground">Sum of all existing loan EMIs you pay each month.</p>
                                     <Input id="monthlyEmi" type="number" {...register('monthlyEmi')} />
                                     {errors.monthlyEmi && <p className="text-destructive text-sm">{errors.monthlyEmi.message}</p>}
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="interestRate">Expected Annual Interest Rate (%)</Label>
+                                     <p className="text-xs text-muted-foreground">The likely interest rate for the new loan.</p>
                                     <Input id="interestRate" type="number" step="0.01" {...register('interestRate')} />
                                     {errors.interestRate && <p className="text-destructive text-sm">{errors.interestRate.message}</p>}
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="loanTerm">Loan Term (Years)</Label>
+                                     <p className="text-xs text-muted-foreground">The desired tenure for the new loan.</p>
                                     <Input id="loanTerm" type="number" {...register('loanTerm')} />
                                     {errors.loanTerm && <p className="text-destructive text-sm">{errors.loanTerm.message}</p>}
                                 </div>
@@ -158,44 +162,61 @@ export default function LoanEligibilityCalculatorPage() {
                 </div>
                 <Card className="mt-8">
                   <CardHeader>
-                      <CardTitle className="font-headline">How It Works</CardTitle>
+                      <CardTitle className="font-headline">How Loan Eligibility is Determined</CardTitle>
                   </CardHeader>
                   <CardContent>
                       <p className="mb-4">
                           This calculator estimates your loan eligibility based on your income and existing financial obligations. Lenders typically use a metric called the Fixed Obligation to Income Ratio (FOIR) to determine your repayment capacity.
                       </p>
-                      <div className="space-y-4">
-                      <div>
-                          <h3 className="font-bold font-headline">Formula Used</h3>
-                          <p>The calculation is a multi-step process:</p>
-                          <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
-                          <code>
-                              1. Max EMI = (Monthly Income * FOIR) - Existing EMIs<br/>
-                              2. Loan Amount = [Max EMI / r] * [1 - (1 / (1+r)^n)]<br/><br/>
-                              <b>r</b> = Monthly Interest Rate<br/>
-                              <b>n</b> = Loan Term in Months
-                          </code>
-                          </pre>
-                      </div>
-                      <div>
-                          <h3 className="font-bold font-headline">FAQs</h3>
-                          <Accordion type="single" collapsible className="w-full">
-                          <AccordionItem value="item-1">
-                              <AccordionTrigger>What is FOIR?</AccordionTrigger>
+                      <Accordion type="single" collapsible className="w-full">
+                           <AccordionItem value="item-1">
+                              <AccordionTrigger>Key Terms Explained</AccordionTrigger>
                               <AccordionContent>
-                              Fixed Obligation to Income Ratio (FOIR) is the percentage of your income that goes towards fixed obligations like EMIs. Lenders usually prefer this to be around 40-50%. Our calculator assumes a 50% FOIR.
+                                  <ul className="list-disc pl-5 space-y-2">
+                                      <li><strong>Net Monthly Income:</strong> Your in-hand salary after all deductions like PF, professional tax, etc.</li>
+                                      <li><strong>Current EMIs:</strong> The total of all monthly payments you are currently making for other loans.</li>
+                                      <li><strong>FOIR (Fixed Obligation to Income Ratio):</strong> The percentage of your income that goes towards fixed obligations like EMIs. Lenders use this to assess how much more debt you can handle. This calculator assumes a standard FOIR of 50%.</li>
+                                  </ul>
                               </AccordionContent>
                           </AccordionItem>
                           <AccordionItem value="item-2">
-                              <AccordionTrigger>Is this amount guaranteed?</AccordionTrigger>
+                              <AccordionTrigger>How can I improve my eligibility?</AccordionTrigger>
                               <AccordionContent>
-                              No, this is only an estimate. The actual loan amount depends on the lender's policies, your credit score, employment history, and other factors.
+                                  <ul className="list-disc pl-5 space-y-1 mt-2">
+                                    <li><strong>Increase Income:</strong> A higher income directly increases your repayment capacity.</li>
+                                    <li><strong>Reduce Existing Debt:</strong> Paying off existing loans frees up your income and lowers your FOIR.</li>
+                                    <li><strong>Improve Credit Score:</strong> A high credit score signals to lenders that you are a responsible borrower, often leading to better terms and higher eligibility.</li>
+                                    <li><strong>Opt for a Longer Tenure:</strong> A longer loan term reduces the monthly EMI, which can help you fit a larger loan amount into your budget, although you will pay more interest over time.</li>
+                                  </ul>
                               </AccordionContent>
                           </AccordionItem>
-                          </Accordion>
-                      </div>
-                      </div>
+                          <AccordionItem value="item-3">
+                              <AccordionTrigger>Is this amount guaranteed?</AccordionTrigger>
+                              <AccordionContent>
+                              No, this is only an estimate based on common lending criteria. The actual loan amount you are offered depends entirely on the lender's policies, your credit score, employment history, and other individual factors. This tool should be used for guidance only.
+                              </AccordionContent>
+                          </AccordionItem>
+                      </Accordion>
                   </CardContent>
+                </Card>
+                 <Card className="mt-8">
+                    <CardHeader>
+                    <CardTitle>Related Calculators</CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <Link href="/loan-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Loan / EMI Calculator</p>
+                        </Link>
+                        <Link href="/debt-to-income-ratio-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Debt-to-Income Ratio</p>
+                        </Link>
+                        <Link href="/home-loan-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Home Loan Calculator</p>
+                        </Link>
+                         <Link href="/credit-card-interest-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Credit Card Interest</p>
+                        </Link>
+                    </CardContent>
                 </Card>
             </div>
         </main>

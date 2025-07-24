@@ -98,11 +98,13 @@ export default function DebtToIncomeRatioCalculatorPage() {
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="monthlyIncome">Gross Monthly Income (₹)</Label>
+                    <p className="text-xs text-muted-foreground">Your total monthly income before any taxes or deductions.</p>
                     <Input id="monthlyIncome" type="number" {...register('monthlyIncome')} />
                     {errors.monthlyIncome && <p className="text-destructive text-sm">{errors.monthlyIncome.message}</p>}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="monthlyDebt">Total Monthly Debt Payments (₹)</Label>
+                    <p className="text-xs text-muted-foreground">The sum of all your monthly debt payments (e.g., loan EMIs, credit card minimums).</p>
                     <Input id="monthlyDebt" type="number" {...register('monthlyDebt')} />
                     {errors.monthlyDebt && <p className="text-destructive text-sm">{errors.monthlyDebt.message}</p>}
                   </div>
@@ -135,35 +137,38 @@ export default function DebtToIncomeRatioCalculatorPage() {
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-               Your debt-to-income (DTI) ratio is the percentage of your gross monthly income that goes to paying your monthly debt payments. Lenders use it to measure your ability to manage monthly payments and repay debts.
+               Your debt-to-income (DTI) ratio is the percentage of your gross monthly income that goes to paying your monthly debt payments. Lenders use it to measure your ability to manage monthly payments and repay debts. It's a key indicator of your financial health.
               </p>
-              <div className="space-y-4">
-                <div>
-                  <h3 className="font-bold font-headline">Formula Used</h3>
-                   <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
-                    <code>
-                      DTI = (Total Monthly Debt / Gross Monthly Income) * 100
-                    </code>
-                  </pre>
-                </div>
-                <div>
-                  <h3 className="font-bold font-headline">FAQs</h3>
-                  <Accordion type="single" collapsible className="w-full">
-                    <AccordionItem value="item-1">
-                      <AccordionTrigger>What is considered a good DTI ratio?</AccordionTrigger>
-                      <AccordionContent>
-                       Most lenders prefer a DTI ratio of 43% or less when you're applying for a mortgage. A ratio of 35% or less is generally considered good, showing you have manageable debt and room in your budget.
-                      </AccordionContent>
-                    </AccordionItem>
-                     <AccordionItem value="item-2">
-                      <AccordionTrigger>How can I lower my DTI ratio?</AccordionTrigger>
-                      <AccordionContent>
-                       You can lower your DTI by either reducing your monthly debt (by paying off loans) or increasing your monthly income. Avoid taking on new debt if you're trying to lower your DTI.
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
-                </div>
-              </div>
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="item-1">
+                  <AccordionTrigger>Why is DTI Important?</AccordionTrigger>
+                  <AccordionContent>
+                    Lenders view a low DTI as a good sign that you have a healthy balance between debt and income, making you a less risky borrower. A high DTI can make it difficult to qualify for new loans or get favorable interest rates. Monitoring your DTI helps you manage your debt and make informed financial decisions.
+                  </AccordionContent>
+                </AccordionItem>
+                 <AccordionItem value="item-2">
+                  <AccordionTrigger>What's a good DTI ratio?</AccordionTrigger>
+                  <AccordionContent>
+                    While there's no single "magic" number, here are some general guidelines lenders often use:
+                    <ul className="list-disc pl-5 mt-2 space-y-1">
+                      <li><strong>35% or less:</strong> Looking Good. Your debt is at a manageable level and you likely have money left over after paying your bills.</li>
+                      <li><strong>36% to 43%:</strong> Opportunity to Improve. While you'll still likely qualify for loans, reducing your DTI could lead to better terms.</li>
+                      <li><strong>44% to 49%:</strong> Cause for Concern. Lenders may see you as a higher-risk borrower.</li>
+                      <li><strong>50% or more:</strong> Dangerous. It may be very difficult to qualify for new credit.</li>
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-3">
+                  <AccordionTrigger>How can I lower my DTI?</AccordionTrigger>
+                  <AccordionContent>
+                    There are two primary ways to lower your DTI ratio:
+                    <ul className="list-disc pl-5 mt-2 space-y-1">
+                      <li><strong>Reduce Your Monthly Debt:</strong> Focus on paying down existing loans, especially those with high interest rates. Avoid taking on new debt if you're trying to lower your DTI.</li>
+                      <li><strong>Increase Your Monthly Income:</strong> Look for opportunities to increase your income, whether through a raise, a side hustle, or other means.</li>
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
             </CardContent>
           </Card>
           <Card className="mt-8">

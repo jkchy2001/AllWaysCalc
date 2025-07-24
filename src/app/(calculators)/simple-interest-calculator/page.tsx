@@ -100,16 +100,19 @@ export default function SimpleInterestCalculatorPage() {
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="principal">Principal Amount (₹)</Label>
+                    <p className="text-xs text-muted-foreground">The initial amount of your loan or investment.</p>
                     <Input id="principal" type="number" step="0.01" {...register('principal')} />
                     {errors.principal && <p className="text-destructive text-sm">{errors.principal.message}</p>}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="rate">Annual Interest Rate (%)</Label>
+                    <p className="text-xs text-muted-foreground">The yearly rate of interest.</p>
                     <Input id="rate" type="number" step="0.01" {...register('rate')} />
                     {errors.rate && <p className="text-destructive text-sm">{errors.rate.message}</p>}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="years">Term (Years)</Label>
+                     <p className="text-xs text-muted-foreground">The total duration of the loan or investment.</p>
                     <Input id="years" type="number" {...register('years')} />
                     {errors.years && <p className="text-destructive text-sm">{errors.years.message}</p>}
                   </div>
@@ -149,43 +152,60 @@ export default function SimpleInterestCalculatorPage() {
           </div>
           <Card className="mt-8">
             <CardHeader>
-              <CardTitle className="font-headline">How It Works</CardTitle>
+              <CardTitle className="font-headline">Understanding Simple Interest</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-                Simple interest is a quick method of calculating the interest charge on a loan. It is determined by multiplying the daily interest rate by the principal by the number of days that elapse between payments.
+                Simple interest is a quick method of calculating the interest charge on a loan or investment. It is determined by multiplying the daily interest rate by the principal by the number of days that elapse between payments. Unlike compound interest, it is always calculated on the original principal amount.
               </p>
-              <div className="space-y-4">
-                <div>
-                  <h3 className="font-bold font-headline">Formula Used</h3>
-                  <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="item-1">
+                  <AccordionTrigger>Formula Explained</AccordionTrigger>
+                  <AccordionContent>
+                    <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
                     <code>
                       I = P * r * t<br/><br/>
                       <b>I</b> = Simple Interest<br/>
                       <b>P</b> = Principal Amount<br/>
-                      <b>r</b> = Annual Interest Rate<br/>
+                      <b>r</b> = Annual Interest Rate (as a decimal)<br/>
                       <b>t</b> = Term in Years
                     </code>
                   </pre>
-                </div>
-                <div>
-                  <h3 className="font-bold font-headline">FAQs</h3>
-                  <Accordion type="single" collapsible className="w-full">
-                    <AccordionItem value="item-1">
-                      <AccordionTrigger>What's the difference between simple and compound interest?</AccordionTrigger>
-                      <AccordionContent>
-                        Simple interest is calculated only on the principal amount. Compound interest is calculated on the principal amount and also on the accumulated interest of previous periods.
-                      </AccordionContent>
-                    </AccordionItem>
-                    <AccordionItem value="item-2">
-                      <AccordionTrigger>When is simple interest typically used?</AccordionTrigger>
-                      <AccordionContent>
-                        Simple interest is often used for short-term loans, like auto loans or personal loans, where the calculation is straightforward. Most long-term investments use compound interest.
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
-                </div>
-              </div>
+                  The Total Value is then `P + I`.
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-2">
+                  <AccordionTrigger>Simple vs. Compound Interest</AccordionTrigger>
+                  <AccordionContent>
+                    The key difference is that simple interest is calculated only on the principal amount of a loan or deposit. In contrast, compound interest is calculated on the principal amount and also on the accumulated interest of previous periods. This "interest on interest" effect makes compound interest grow much faster over time.
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-3">
+                  <AccordionTrigger>When is simple interest used?</AccordionTrigger>
+                  <AccordionContent>
+                    Simple interest is most often used for short-term loans. For example, some car loans and retail installment loans (like for furniture or appliances) use simple interest. Most savings accounts, credit cards, and long-term investments use compound interest.
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </CardContent>
+          </Card>
+           <Card className="mt-8">
+            <CardHeader>
+              <CardTitle>Related Calculators</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Link href="/compound-interest-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Compound Interest</p>
+              </Link>
+              <Link href="/sip-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">SIP Calculator</p>
+              </Link>
+              <Link href="/fd-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">FD Calculator</p>
+              </Link>
+               <Link href="/loan-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Loan / EMI Calculator</p>
+              </Link>
             </CardContent>
           </Card>
         </div>

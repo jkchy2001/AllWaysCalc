@@ -161,29 +161,43 @@ export default function BusinessLoanCalculatorPage() {
                 </div>
                 <Card className="mt-8">
                   <CardHeader>
-                      <CardTitle className="font-headline">How It Works</CardTitle>
+                      <CardTitle className="font-headline">Understanding Your Business Loan</CardTitle>
                   </CardHeader>
                   <CardContent>
                       <p className="mb-4">
-                          This calculator helps you estimate the Equated Monthly Installment (EMI) for a business loan, which can be used for working capital, expansion, or purchasing equipment.
+                          This calculator helps you estimate the Equated Monthly Installment (EMI) for a business loan, which can be used for working capital, expansion, or purchasing equipment. Understanding your EMI is the first step in managing your business's financial obligations.
                       </p>
                       <Accordion type="single" collapsible className="w-full">
                           <AccordionItem value="item-1">
-                              <AccordionTrigger>Formula Used</AccordionTrigger>
+                              <AccordionTrigger>Key Terms Explained</AccordionTrigger>
                               <AccordionContent>
-                                  <p>The calculation is based on the standard amortization formula:</p>
-                                  <pre className="p-4 mt-2 rounded-md bg-muted font-code text-sm overflow-x-auto">
-                                  <code>
-                                      EMI = P × r × (1 + r)^n / ((1 + r)^n - 1)<br/><br/>
-                                      <b>P</b> = Principal Loan Amount<br/>
-                                      <b>r</b> = Monthly Interest Rate (Annual Rate / 12)<br/>
-                                      <b>n</b> = Number of Months (Loan Term in years * 12)
-                                  </code>
-                                  </pre>
+                                  <ul className="list-disc pl-5 space-y-2">
+                                      <li><strong>Loan Amount (Principal):</strong> The initial sum of money you borrow from the lender.</li>
+                                      <li><strong>Interest Rate:</strong> The percentage charged by the lender for the use of their money, expressed annually.</li>
+                                      <li><strong>Loan Term:</strong> The total duration over which the loan must be repaid.</li>
+                                      <li><strong>EMI (Equated Monthly Installment):</strong> The fixed payment amount made by a borrower to a lender at a specified date each calendar month. EMIs are used to pay off both interest and principal each month so that over a specified number of years, the loan is paid off in full.</li>
+                                  </ul>
                               </AccordionContent>
                           </AccordionItem>
-                          <AccordionItem value="item-2">
-                              <AccordionTrigger>FAQs</AccordionTrigger>
+                           <AccordionItem value="item-2">
+                              <AccordionTrigger>Benefits and Risks of a Business Loan</AccordionTrigger>
+                              <AccordionContent>
+                                  <h4 className="font-semibold text-primary">Benefits:</h4>
+                                   <ul className="list-disc pl-5 space-y-1 mt-2">
+                                      <li><strong>Growth Capital:</strong> Provides necessary funds for expansion, new equipment, or inventory.</li>
+                                      <li><strong>Working Capital:</strong> Helps manage day-to-day operational expenses and cash flow gaps.</li>
+                                      <li><strong>Flexibility:</strong> Can be used for a variety of business purposes without diluting ownership.</li>
+                                  </ul>
+                                  <h4 className="font-semibold text-destructive mt-4">Risks:</h4>
+                                   <ul className="list-disc pl-5 space-y-1 mt-2">
+                                      <li><strong>Debt Obligation:</strong> Creates a fixed monthly expense (EMI) that must be met regardless of business revenue.</li>
+                                      <li><strong>Interest Cost:</strong> The total amount repaid is significantly more than the amount borrowed.</li>
+                                      <li><strong>Collateral Risk:</strong> For secured loans, you risk losing the pledged asset if you default on payments.</li>
+                                  </ul>
+                              </AccordionContent>
+                          </AccordionItem>
+                          <AccordionItem value="item-3">
+                              <AccordionTrigger>Frequently Asked Questions</AccordionTrigger>
                               <AccordionContent className="space-y-4">
                                   <div>
                                     <h4 className="font-semibold">What documents are typically required for a business loan?</h4>
