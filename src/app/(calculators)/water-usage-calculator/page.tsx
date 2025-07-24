@@ -180,8 +180,8 @@ export default function WaterUsageCalculatorPage() {
                   <SharePanel resultText={`My household uses about ${result.totalLitersPerWeek.toFixed(0)} liters of water per week.`} />
                 </CardFooter>
               </Card>
-            </Card>
-          </Card>
+            )}
+          </div>
         </div>
       </main>
     </div>

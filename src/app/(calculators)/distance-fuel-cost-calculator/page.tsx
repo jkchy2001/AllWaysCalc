@@ -127,8 +127,8 @@ export default function DistanceFuelCostCalculatorPage() {
                   <SharePanel resultText={`My estimated trip cost is ${formatCurrency(result.totalCost)} for ${form.getValues('distance')} km.`} />
                 </CardFooter>
               </Card>
-            </Card>
-          )}
+            )}
+          </div>
         </div>
       </main>
     </div>

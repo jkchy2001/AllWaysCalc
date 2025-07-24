@@ -153,7 +153,7 @@ export default function CompoundInterestCalculatorPage() {
                   <SharePanel resultText={`My investment will be worth ${formatCurrency(result.futureValue)}!`} />
                 </CardFooter>
               </Card>
-            </Card>
+            )}
           </div>
           <Card className="mt-8">
             <CardHeader>

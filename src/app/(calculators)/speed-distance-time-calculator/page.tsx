@@ -181,8 +181,8 @@ export default function SpeedDistanceTimeCalculatorPage() {
                   <SharePanel resultText={`The calculated ${solveFor} is ${result.value.toFixed(2)} ${result.unit}.`} />
                 </CardFooter>
               </Card>
-            </Card>
-          )}
+            )}
+          </div>
           <Card className="mt-8">
             <CardHeader>
               <CardTitle className="font-headline">Understanding Speed, Distance, and Time</CardTitle>

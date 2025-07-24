@@ -92,13 +92,11 @@ import {
   Gauge,
   FileDigit,
   SquareTerminal,
-  Droplets,
   Sun,
   Recycle,
   Zap,
   Box,
   CreditCard,
-  Plane,
   Luggage,
   Fuel,
   Cog,
@@ -106,6 +104,7 @@ import {
   BatteryCharging,
   Bolt,
   FlaskConical,
+  Droplets,
 } from 'lucide-react';
 import { Header } from '@/components/header';
 import { Input } from '@/components/ui/input';

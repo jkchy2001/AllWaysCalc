@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import {
@@ -39,9 +40,9 @@ export function Header() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right">
-                <SheetHeader className="text-left">
-                  <SheetTitle className="sr-only">Menu</SheetTitle>
-                  <SheetDescription className="sr-only">Main navigation menu for AllWaysCalc</SheetDescription>
+                <SheetHeader className="text-left sr-only">
+                  <SheetTitle>Menu</SheetTitle>
+                  <SheetDescription>Main navigation menu for AllWaysCalc</SheetDescription>
                 </SheetHeader>
                 <Link href="/" className="flex items-center space-x-2 mb-6">
                   <Logo className="h-6 w-6 text-primary" />

@@ -69,12 +69,11 @@ type CalculationResult = {
 };
 
 const newRegimeSlabs = [
-  { limit: 400000, rate: 0 },
-  { limit: 800000, rate: 5 },
-  { limit: 1200000, rate: 10 },
-  { limit: 1600000, rate: 15 },
-  { limit: 2000000, rate: 20 },
-  { limit: 2400000, rate: 25 },
+  { limit: 300000, rate: 0 },
+  { limit: 600000, rate: 5 },
+  { limit: 900000, rate: 10 },
+  { limit: 1200000, rate: 15 },
+  { limit: 1500000, rate: 20 },
   { limit: Infinity, rate: 30 },
 ];
 
@@ -194,7 +193,7 @@ export default function IncomeTaxCalculatorPage() {
     let standardDeduction = 0;
 
     if (taxRegime === 'new') {
-        standardDeduction = 75000;
+        standardDeduction = 50000;
         applicableDeductions = standardDeduction;
     } else if (taxRegime === 'old') {
         standardDeduction = 50000;
@@ -231,11 +230,21 @@ export default function IncomeTaxCalculatorPage() {
     let healthAndEducationCess = (taxAmount + surcharge) * 0.04;
     
     let maxRebateAmount = 0;
-    if (taxRegime === 'new') maxRebateAmount = newMaxRebateAmount || 0;
-    else if (taxRegime === 'old') maxRebateAmount = oldMaxRebateAmount || 0;
-    else if (taxRegime === 'custom') maxRebateAmount = customMaxRebateAmount || 0;
+    let rebateThreshold = 0;
+    if (taxRegime === 'new') {
+      maxRebateAmount = newMaxRebateAmount || 25000;
+      rebateThreshold = 700000;
+    }
+    else if (taxRegime === 'old') {
+       maxRebateAmount = oldMaxRebateAmount || 12500;
+       rebateThreshold = 500000;
+    }
+    else if (taxRegime === 'custom') {
+      maxRebateAmount = customMaxRebateAmount || 0;
+      // No standard rebate threshold for custom
+    }
 
-    if (taxAmount > 0 && taxAmount <= maxRebateAmount) {
+    if (taxableIncome <= rebateThreshold && taxAmount <= maxRebateAmount && taxRegime !== 'custom') {
         taxAmount = 0;
         surcharge = 0;
         healthAndEducationCess = 0;
@@ -273,7 +282,7 @@ export default function IncomeTaxCalculatorPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">Advanced Income Tax Calculator</CardTitle>
-                <CardDescription>Estimate your tax liability for FY 2025-26 (AY 2026-27).</CardDescription>
+                <CardDescription>Estimate your tax liability for FY 2023-24 (AY 2024-25).</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-6">
@@ -379,15 +388,11 @@ export default function IncomeTaxCalculatorPage() {
 
                   {taxRegime === 'new' && (
                      <div className="space-y-4 rounded-md border p-4">
-                        <h3 className="font-semibold">New Regime Options</h3>
-                         <p className="text-xs text-muted-foreground">Rebate u/s 87A applied if tax amount is up to the specified rebate amount.</p>
+                        <h3 className="font-semibold">New Regime Options (Default)</h3>
+                         <p className="text-xs text-muted-foreground">Tax rebate u/s 87A is applicable if taxable income is up to ₹7,00,000.</p>
                         <div>
                           <Label>Standard Deduction</Label>
-                          <Input type="text" value="₹75,000" disabled />
-                        </div>
-                         <div className="space-y-2">
-                           <Label htmlFor="newMaxRebateAmount">Max Rebate Amount (on Tax)</Label>
-                           <Input id="newMaxRebateAmount" type="number" {...register('newMaxRebateAmount')} />
+                          <Input type="text" value="₹50,000" disabled />
                         </div>
                      </div>
                   )}
@@ -507,7 +512,7 @@ export default function IncomeTaxCalculatorPage() {
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-               This calculator provides an estimate of your income tax liability for FY 2025-26 (AY 2026-27). It supports various income types, age groups, and tax regimes to give you a comprehensive overview.
+               This calculator provides an estimate of your income tax liability for FY 2023-24 (AY 2024-25). It supports various income types, age groups, and tax regimes to give you a comprehensive overview.
               </p>
               <div className="space-y-4">
                 <div>
@@ -521,13 +526,13 @@ export default function IncomeTaxCalculatorPage() {
                       <AccordionTrigger>Old vs. New Tax Regime: What's the difference?</AccordionTrigger>
                       <AccordionContent>
                        The **Old Regime** allows you to claim a wide range of deductions and exemptions (like 80C, HRA). The tax slabs also differ based on age. The Standard Deduction is ₹50,000.<br/><br/>
-                       The **New Regime** is the default option and offers different, generally lower, tax slabs but requires you to forgo most common deductions. A Standard Deduction of ₹75,000 is available for salaried individuals and pensioners.
+                       The **New Regime** is the default option and offers different, generally lower, tax slabs but requires you to forgo most common deductions. A Standard Deduction of ₹50,000 is available for salaried individuals and pensioners.
                       </AccordionContent>
                     </AccordionItem>
                      <AccordionItem value="item-2">
                       <AccordionTrigger>What is a Tax Rebate under Section 87A?</AccordionTrigger>
                       <AccordionContent>
-                        A tax rebate is a relief that makes your tax liability zero if your calculated tax amount is below a certain threshold defined by the government.
+                        A tax rebate is a relief that makes your tax liability zero if your calculated tax amount is below a certain threshold defined by the government. For the new regime, this threshold is a taxable income of ₹7,00,000. For the old regime, it's a taxable income of ₹5,00,000.
                       </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="item-3">
@@ -546,5 +551,3 @@ export default function IncomeTaxCalculatorPage() {
     </div>
   );
 }
-
-    
