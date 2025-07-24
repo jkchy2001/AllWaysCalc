@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home, FlaskConical } from 'lucide-react';
+import { Home, FlaskConical, TestTube, Atom } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -65,25 +65,29 @@ export default function IdealGasLawCalculatorPage() {
     try {
         switch (data.solveFor) {
             case 'pressure':
-                if (volume && moles && temperature) {
+                if (volume !== undefined && moles !== undefined && temperature !== undefined) {
+                    if (volume === 0) throw new Error("Volume cannot be zero.");
                     calculatedValue = (moles * R * temperature) / volume;
                     calculatedUnit = 'Pascals (Pa)';
                 }
                 break;
             case 'volume':
-                 if (pressure && moles && temperature) {
+                 if (pressure !== undefined && moles !== undefined && temperature !== undefined) {
+                    if (pressure === 0) throw new Error("Pressure cannot be zero.");
                     calculatedValue = (moles * R * temperature) / pressure;
                     calculatedUnit = 'Cubic Meters (m³)';
                 }
                 break;
             case 'moles':
-                 if (pressure && volume && temperature) {
+                 if (pressure !== undefined && volume !== undefined && temperature !== undefined) {
+                    if (temperature === 0) throw new Error("Temperature cannot be zero.");
                     calculatedValue = (pressure * volume) / (R * temperature);
                     calculatedUnit = 'Moles (mol)';
                 }
                 break;
             case 'temperature':
-                 if (pressure && volume && moles) {
+                 if (pressure !== undefined && volume !== undefined && moles !== undefined) {
+                    if (moles === 0) throw new Error("Moles cannot be zero.");
                     calculatedValue = (pressure * volume) / (R * moles);
                     calculatedUnit = 'Kelvin (K)';
                 }
@@ -96,17 +100,18 @@ export default function IdealGasLawCalculatorPage() {
              setResult(null);
         }
 
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
       setResult(null);
+      form.setError("root", { message: e.message || "Invalid input for calculation." });
     }
   };
 
   const variableMap = {
-      pressure: { label: 'Pressure (P)', unit: 'Pascals' },
-      volume: { label: 'Volume (V)', unit: 'm³' },
-      moles: { label: 'Amount (n)', unit: 'moles' },
-      temperature: { label: 'Temperature (T)', unit: 'Kelvin' },
+      pressure: { label: 'Pressure (P)', unit: 'Pascals', description: 'The force exerted by the gas per unit area.' },
+      volume: { label: 'Volume (V)', unit: 'm³', description: 'The space occupied by the gas.' },
+      moles: { label: 'Amount (n)', unit: 'moles', description: 'The amount of gas substance.' },
+      temperature: { label: 'Temperature (T)', unit: 'Kelvin', description: 'The average kinetic energy of the gas particles.' },
   }
 
   return (
@@ -129,6 +134,7 @@ export default function IdealGasLawCalculatorPage() {
                 <CardContent className="space-y-4">
                     <div className="space-y-2">
                         <Label>Solve for</Label>
+                        <p className="text-xs text-muted-foreground">Select the variable you want to find.</p>
                         <Controller
                             name="solveFor"
                             control={control}
@@ -147,16 +153,17 @@ export default function IdealGasLawCalculatorPage() {
                     </div>
                   
                    <div className="space-y-4 p-4 border rounded-md">
-                    {Object.entries(variableMap).map(([key, {label, unit}]) => {
+                    {Object.entries(variableMap).map(([key, {label, unit, description}]) => {
                         if (key !== solveFor) {
                             return (
                                 <div className="space-y-2" key={key}>
                                     <Label htmlFor={key}>{label}</Label>
+                                    <p className="text-xs text-muted-foreground">{description}</p>
                                     <Input 
                                         id={key}
                                         type="number"
                                         step="any"
-                                        placeholder={unit}
+                                        placeholder={`Enter value in ${unit}`}
                                         {...register(key as keyof FormValues)}
                                     />
                                 </div>
@@ -165,7 +172,7 @@ export default function IdealGasLawCalculatorPage() {
                         return null;
                     })}
                    </div>
-
+                   {errors.root && <p className="text-destructive text-sm">{errors.root.message}</p>}
                 </CardContent>
                 <CardFooter>
                   <Button type="submit" className="w-full bg-accent hover:bg-accent/90">Calculate</Button>
@@ -182,7 +189,7 @@ export default function IdealGasLawCalculatorPage() {
                     <FlaskConical className="mx-auto size-12 text-primary" />
                      <p className="text-muted-foreground">The calculated value is:</p>
                     <div className="text-4xl font-bold text-primary">
-                        {result.value.toExponential(4)}
+                        {result.value.toExponential(4).replace(/\.?0+e\+0$/, '')}
                     </div>
                      <div className="text-muted-foreground">
                         {result.unit}
@@ -200,7 +207,7 @@ export default function IdealGasLawCalculatorPage() {
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-                The ideal gas law is the equation of state of a hypothetical ideal gas. It is a good approximation of the behavior of many gases under many conditions, though it has several limitations.
+                The ideal gas law is the equation of state of a hypothetical ideal gas. It is a good approximation of the behavior of many gases under many conditions, though it has several limitations. It combines Boyle's Law, Charles's Law, Gay-Lussac's Law, and Avogadro's Law.
               </p>
                <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="item-1">
@@ -211,16 +218,57 @@ export default function IdealGasLawCalculatorPage() {
                             PV = nRT
                         </code>
                         </pre>
-                        <ul className="list-disc list-inside mt-2 text-sm">
-                            <li><b>P</b> = Pressure (Pascals)</li>
-                            <li><b>V</b> = Volume (m³)</li>
-                            <li><b>n</b> = Amount of substance (moles)</li>
+                        <ul className="list-disc list-inside mt-2 text-sm space-y-1">
+                            <li><b>P</b> = Pressure (in Pascals, Pa)</li>
+                            <li><b>V</b> = Volume (in cubic meters, m³)</li>
+                            <li><b>n</b> = Amount of substance (in moles, mol)</li>
                             <li><b>R</b> = Ideal gas constant (8.314 J/mol·K)</li>
-                            <li><b>T</b> = Temperature (Kelvin)</li>
+                            <li><b>T</b> = Absolute temperature (in Kelvin, K)</li>
                         </ul>
+                        <p className="mt-2 text-xs text-destructive">Note: All inputs must be in SI units for this calculator (Pascals, m³, moles, Kelvin).</p>
                       </AccordionContent>
                   </AccordionItem>
+                   <AccordionItem value="item-2">
+                    <AccordionTrigger>FAQs</AccordionTrigger>
+                    <AccordionContent className="space-y-4">
+                        <div>
+                            <h4 className="font-semibold">What is an "ideal gas"?</h4>
+                            <p>An ideal gas is a theoretical gas composed of many randomly moving point particles that are not subject to interparticle interactions. It's a simplified model that works well for many real gases at high temperatures and low pressures.</p>
+                        </div>
+                        <div>
+                            <h4 className="font-semibold">When does the Ideal Gas Law not work?</h4>
+                            <p>The law becomes less accurate at very low temperatures or very high pressures, where the volume of the gas particles and the forces between them become significant. In these cases, more complex equations of state like the Van der Waals equation are used.</p>
+                        </div>
+                         <div>
+                            <h4 className="font-semibold">How do I convert Celsius to Kelvin?</h4>
+                            <p>To convert from Celsius (°C) to Kelvin (K), you add 273.15. For example, 25°C is equal to 298.15 K.</p>
+                        </div>
+                    </AccordionContent>
+                  </AccordionItem>
               </Accordion>
+            </CardContent>
+          </Card>
+           <Card className="mt-8">
+            <CardHeader>
+              <CardTitle>Related Calculators</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Link href="/molar-mass-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <TestTube className="mx-auto mb-2 size-6" />
+                <p className="font-semibold">Molar Mass</p>
+              </Link>
+              <Link href="/density-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <Home className="mx-auto mb-2 size-6" />
+                <p className="font-semibold">Density Calculator</p>
+              </Link>
+              <Link href="/newtons-law-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <Atom className="mx-auto mb-2 size-6" />
+                <p className="font-semibold">Newton's Second Law</p>
+              </Link>
+              <Link href="/ph-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <TestTube className="mx-auto mb-2 size-6" />
+                <p className="font-semibold">pH Calculator</p>
+              </Link>
             </CardContent>
           </Card>
         </div>

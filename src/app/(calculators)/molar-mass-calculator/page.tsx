@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home, TestTube } from 'lucide-react';
+import { Home, TestTube, FlaskConical, Atom } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
 import {
   Accordion,
@@ -121,12 +121,13 @@ export default function MolarMassCalculatorPage() {
                     <Card>
                         <CardHeader>
                             <CardTitle className="font-headline text-2xl">Molar Mass Calculator</CardTitle>
-                            <CardDescription>Calculate the molar mass of a chemical compound.</CardDescription>
+                            <CardDescription>Calculate the molar mass of a chemical compound by entering its formula.</CardDescription>
                         </CardHeader>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <CardContent className="space-y-4">
                                 <div className="space-y-2">
                                     <Label htmlFor="formula">Chemical Formula</Label>
+                                    <p className="text-xs text-muted-foreground">Use standard chemical notation. For example: `H2O`, `C6H12O6`, `Ca(OH)2`.</p>
                                     <Input id="formula" placeholder="e.g., H2O or C6H12O6" {...register('formula')} />
                                     {errors.formula && <p className="text-destructive text-sm">{errors.formula.message}</p>}
                                 </div>
@@ -164,27 +165,65 @@ export default function MolarMassCalculatorPage() {
                 </div>
                 <Card className="mt-8">
                   <CardHeader>
-                      <CardTitle className="font-headline">How It Works</CardTitle>
+                      <CardTitle className="font-headline">Understanding Molar Mass</CardTitle>
                   </CardHeader>
                   <CardContent>
                       <p className="mb-4">
-                        Molar mass is a physical property defined as the mass of a given substance (chemical element or chemical compound) divided by the amount of substance in moles.
+                        Molar mass is a physical property defined as the mass of a given substance (chemical element or chemical compound) divided by the amount of substance, measured in moles. It connects the macroscopic world of mass (grams) with the microscopic world of atoms and molecules.
                       </p>
-                      <div className="space-y-4">
-                      <div>
-                          <h3 className="font-bold font-headline">Methodology</h3>
-                          <p>
-                            This calculator parses the chemical formula you enter. It identifies each element and counts the number of atoms. It then multiplies the atom count of each element by its standard atomic weight and sums up these values to get the total molar mass.
-                          </p>
-                           <h4 className='font-semibold mt-4'>Examples:</h4>
-                            <ul className="list-disc list-inside text-sm mt-2 space-y-1 bg-muted p-4 rounded-md">
-                                <li>`H2O`: 2 * (1.008) + 1 * (15.999) = 18.015 g/mol</li>
-                                <li>`C6H12O6`: 6 * (12.011) + 12 * (1.008) + 6 * (15.999) = 180.156 g/mol</li>
-                                <li>`Ca(OH)2`: 1 * (40.078) + 2 * (15.999 + 1.008) = 74.092 g/mol</li>
-                            </ul>
-                      </div>
-                      </div>
+                      <Accordion type="single" collapsible className="w-full">
+                         <AccordionItem value="item-1">
+                              <AccordionTrigger>How It Works</AccordionTrigger>
+                              <AccordionContent>
+                                <p>
+                                    This calculator parses the chemical formula you enter. It identifies each element and counts the number of atoms (including those inside parentheses). It then multiplies the atom count of each element by its standard atomic weight (sourced from IUPAC) and sums up these values to get the total molar mass in grams per mole (g/mol).
+                                </p>
+                                <h4 className='font-semibold mt-4'>Examples:</h4>
+                                <ul className="list-disc list-inside text-sm mt-2 space-y-1 bg-muted p-4 rounded-md">
+                                    <li>`H2O`: 2 * (1.008) + 1 * (15.999) = 18.015 g/mol</li>
+                                    <li>`C6H12O6`: 6 * (12.011) + 12 * (1.008) + 6 * (15.999) = 180.156 g/mol</li>
+                                    <li>`Ca(OH)2`: 1 * (40.078) + 2 * (15.999 + 1.008) = 74.092 g/mol</li>
+                                </ul>
+                              </AccordionContent>
+                          </AccordionItem>
+                          <AccordionItem value="item-2">
+                              <AccordionTrigger>FAQs</AccordionTrigger>
+                              <AccordionContent className="space-y-4">
+                                <div>
+                                    <h4 className="font-semibold">What is a mole?</h4>
+                                    <p>A mole is a unit of measurement for the amount of a substance. One mole contains Avogadro's number (approximately 6.022 x 10²³) of particles (atoms, molecules, etc.). The molar mass is the mass of one mole of a substance.</p>
+                                </div>
+                                <div>
+                                    <h4 className="font-semibold">Why is molar mass important?</h4>
+                                    <p>It's a fundamental concept in stoichiometry, allowing chemists to convert between the mass of a substance and the number of moles, which is essential for balancing chemical equations and predicting the outcomes of reactions.</p>
+                                </div>
+                            </AccordionContent>
+                          </AccordionItem>
+                      </Accordion>
                   </CardContent>
+                </Card>
+                 <Card className="mt-8">
+                    <CardHeader>
+                        <CardTitle>Related Calculators</CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <Link href="/ph-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <TestTube className="mx-auto mb-2 size-6" />
+                            <p className="font-semibold">pH Calculator</p>
+                        </Link>
+                        <Link href="/ideal-gas-law-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <FlaskConical className="mx-auto mb-2 size-6" />
+                            <p className="font-semibold">Ideal Gas Law</p>
+                        </Link>
+                        <Link href="/density-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <Home className="mx-auto mb-2 size-6" />
+                            <p className="font-semibold">Density Calculator</p>
+                        </Link>
+                        <Link href="/newtons-law-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <Atom className="mx-auto mb-2 size-6" />
+                            <p className="font-semibold">Newton's Second Law</p>
+                        </Link>
+                    </CardContent>
                 </Card>
             </div>
         </main>

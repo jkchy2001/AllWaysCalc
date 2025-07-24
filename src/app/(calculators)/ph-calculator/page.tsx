@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home, Beaker } from 'lucide-react';
+import { Home, Beaker, TestTube, FlaskConical, Atom } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -118,7 +118,7 @@ export default function PhCalculatorPage() {
                     <Card>
                         <CardHeader>
                             <CardTitle className="font-headline text-2xl">pH Calculator</CardTitle>
-                            <CardDescription>Calculate pH, pOH, and ion concentrations.</CardDescription>
+                            <CardDescription>Calculate pH, pOH, and ion concentrations for aqueous solutions.</CardDescription>
                         </CardHeader>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <CardContent className="space-y-4">
@@ -128,19 +128,19 @@ export default function PhCalculatorPage() {
                                     value={calcType}
                                     onValueChange={(value) => form.setValue('calcType', value as FormValues['calcType'])}
                                 >
-                                    <Label htmlFor="ph_from_h" className={`flex items-center justify-center text-center rounded-md border-2 p-4 peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary ${calcType === 'ph_from_h' ? 'border-primary': 'border-muted'}`}>
+                                    <Label htmlFor="ph_from_h" className={`flex items-center justify-center text-center rounded-md border-2 p-4 cursor-pointer peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary ${calcType === 'ph_from_h' ? 'border-primary': 'border-muted'}`}>
                                       <RadioGroupItem value="ph_from_h" id="ph_from_h" className="peer sr-only" />
                                       <span>pH from [H⁺]</span>
                                     </Label>
-                                    <Label htmlFor="poh_from_oh" className={`flex items-center justify-center text-center rounded-md border-2 p-4 peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary ${calcType === 'poh_from_oh' ? 'border-primary': 'border-muted'}`}>
+                                    <Label htmlFor="poh_from_oh" className={`flex items-center justify-center text-center rounded-md border-2 p-4 cursor-pointer peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary ${calcType === 'poh_from_oh' ? 'border-primary': 'border-muted'}`}>
                                       <RadioGroupItem value="poh_from_oh" id="poh_from_oh" className="peer sr-only" />
                                       <span>pOH from [OH⁻]</span>
                                     </Label>
-                                     <Label htmlFor="h_from_ph" className={`flex items-center justify-center text-center rounded-md border-2 p-4 peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary ${calcType === 'h_from_ph' ? 'border-primary': 'border-muted'}`}>
+                                     <Label htmlFor="h_from_ph" className={`flex items-center justify-center text-center rounded-md border-2 p-4 cursor-pointer peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary ${calcType === 'h_from_ph' ? 'border-primary': 'border-muted'}`}>
                                       <RadioGroupItem value="h_from_ph" id="h_from_ph" className="peer sr-only" />
                                       <span>[H⁺] from pH</span>
                                     </Label>
-                                     <Label htmlFor="oh_from_poh" className={`flex items-center justify-center text-center rounded-md border-2 p-4 peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary ${calcType === 'oh_from_poh' ? 'border-primary': 'border-muted'}`}>
+                                     <Label htmlFor="oh_from_poh" className={`flex items-center justify-center text-center rounded-md border-2 p-4 cursor-pointer peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary ${calcType === 'oh_from_poh' ? 'border-primary': 'border-muted'}`}>
                                       <RadioGroupItem value="oh_from_poh" id="oh_from_poh" className="peer sr-only" />
                                       <span>[OH⁻] from pOH</span>
                                     </Label>
@@ -149,6 +149,7 @@ export default function PhCalculatorPage() {
                                 {(calcType === 'ph_from_h' || calcType === 'poh_from_oh') && (
                                     <div className="space-y-2">
                                         <Label htmlFor="concentration">Concentration (mol/L)</Label>
+                                        <p className="text-xs text-muted-foreground">The molar concentration of H⁺ or OH⁻ ions. Use 'e' notation for scientific values, e.g., `1.0e-7`.</p>
                                         <Input id="concentration" type="text" placeholder="e.g., 1.0e-7" {...register('concentration')} />
                                         {errors.concentration && <p className="text-destructive text-sm">{errors.concentration.message}</p>}
                                     </div>
@@ -156,6 +157,7 @@ export default function PhCalculatorPage() {
                                 {(calcType === 'h_from_ph' || calcType === 'oh_from_poh') && (
                                     <div className="space-y-2">
                                         <Label htmlFor="ph">{calcType === 'h_from_ph' ? 'pH Value' : 'pOH Value'}</Label>
+                                        <p className="text-xs text-muted-foreground">The pH or pOH value, typically between 0 and 14.</p>
                                         <Input id="ph" type="number" step="any" placeholder="e.g., 7" {...register('ph')} />
                                         {errors.ph && <p className="text-destructive text-sm">{errors.ph.message}</p>}
                                     </div>
@@ -206,15 +208,53 @@ export default function PhCalculatorPage() {
                           <AccordionItem value="item-1">
                               <AccordionTrigger>Key Formulas</AccordionTrigger>
                               <AccordionContent>
+                               <p>This calculator is based on the following fundamental relationships in chemistry:</p>
                                <ul className="list-disc list-inside mt-2 space-y-1 bg-muted p-4 rounded-md">
-                                 <li>pH = -log₁₀[H⁺]</li>
-                                 <li>pOH = -log₁₀[OH⁻]</li>
-                                 <li>pH + pOH = 14</li>
+                                 <li><b>pH:</b> The negative base-10 logarithm of the hydrogen ion concentration. `pH = -log₁₀[H⁺]`</li>
+                                 <li><b>pOH:</b> The negative base-10 logarithm of the hydroxide ion concentration. `pOH = -log₁₀[OH⁻]`</li>
+                                 <li><b>Relationship:</b> At 25°C, the sum of pH and pOH is always 14. `pH + pOH = 14`</li>
+                                 <li><b>Ion Concentration:</b> The concentration can be found from pH or pOH. `[H⁺] = 10⁻ᵖᴴ` and `[OH⁻] = 10⁻ᵖᴼᴴ`</li>
                                </ul>
+                              </AccordionContent>
+                          </AccordionItem>
+                          <AccordionItem value="item-2">
+                              <AccordionTrigger>FAQs</AccordionTrigger>
+                              <AccordionContent className="space-y-4">
+                                <div>
+                                    <h4 className="font-semibold">What does a pH of 7 mean?</h4>
+                                    <p>A pH of 7 is considered neutral. It means the concentration of hydrogen ions [H⁺] is equal to the concentration of hydroxide ions [OH⁻]. Pure water is a perfect example.</p>
+                                </div>
+                                <div>
+                                    <h4 className="font-semibold">Is it possible to have a pH below 0 or above 14?</h4>
+                                    <p>Yes. While the typical 0-14 scale covers most common solutions, highly concentrated strong acids can have a negative pH, and highly concentrated strong bases can have a pH greater than 14.</p>
+                                </div>
                               </AccordionContent>
                           </AccordionItem>
                       </Accordion>
                   </CardContent>
+                </Card>
+                 <Card className="mt-8">
+                    <CardHeader>
+                        <CardTitle>Related Calculators</CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <Link href="/molar-mass-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <TestTube className="mx-auto mb-2 size-6" />
+                            <p className="font-semibold">Molar Mass</p>
+                        </Link>
+                        <Link href="/ideal-gas-law-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <FlaskConical className="mx-auto mb-2 size-6" />
+                            <p className="font-semibold">Ideal Gas Law</p>
+                        </Link>
+                         <Link href="/density-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <Home className="mx-auto mb-2 size-6" />
+                            <p className="font-semibold">Density Calculator</p>
+                        </Link>
+                        <Link href="/newtons-law-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <Atom className="mx-auto mb-2 size-6" />
+                            <p className="font-semibold">Newton's Second Law</p>
+                        </Link>
+                    </CardContent>
                 </Card>
             </div>
         </main>

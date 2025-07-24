@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home, TrendingUp, Info } from 'lucide-react';
+import { Home, TrendingUp, Info, Atom, Flame, RotateCw, Zap } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -107,10 +107,10 @@ export default function AccelerationCalculatorPage({
   };
 
   const variableMap = {
-      acceleration: { label: 'Acceleration (a)', unit: 'm/s²' },
-      final_velocity: { label: 'Final Velocity (v)', unit: 'm/s' },
-      initial_velocity: { label: 'Initial Velocity (u)', unit: 'm/s' },
-      time: { label: 'Time (t)', unit: 's' },
+      acceleration: { label: 'Acceleration (a)', unit: 'm/s²', description: 'The rate of change of velocity.' },
+      final_velocity: { label: 'Final Velocity (v)', unit: 'm/s', description: 'The velocity at the end of the time period.' },
+      initial_velocity: { label: 'Initial Velocity (u)', unit: 'm/s', description: 'The velocity at the start of the time period.' },
+      time: { label: 'Time (t)', unit: 's', description: 'The duration of the acceleration.' },
   }
 
   return (
@@ -153,11 +153,12 @@ export default function AccelerationCalculatorPage({
                   
                    <div className="space-y-4 p-4 border rounded-md">
                     <p className="text-sm font-medium text-muted-foreground">Enter the known values:</p>
-                    {Object.entries(variableMap).map(([key, {label, unit}]) => {
+                    {Object.entries(variableMap).map(([key, {label, unit, description}]) => {
                         if (key !== solveFor) {
                             return (
                                 <div className="space-y-2" key={key}>
                                     <Label htmlFor={key}>{label}</Label>
+                                    <p className="text-xs text-muted-foreground">{description}</p>
                                     <Input 
                                         id={key}
                                         type="number"
@@ -254,15 +255,19 @@ export default function AccelerationCalculatorPage({
             </CardHeader>
             <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <Link href="/newtons-law-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                 <Atom className="mx-auto mb-2 size-6" />
                 <p className="font-semibold">Newton's Second Law</p>
               </Link>
               <Link href="/kinetic-energy-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <Flame className="mx-auto mb-2 size-6" />
                 <p className="font-semibold">Kinetic Energy</p>
               </Link>
               <Link href="/speed-distance-time-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <Home className="mx-auto mb-2 size-6" />
                 <p className="font-semibold">Speed, Distance, Time</p>
               </Link>
               <Link href="/torque-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <RotateCw className="mx-auto mb-2 size-6" />
                 <p className="font-semibold">Torque</p>
               </Link>
             </CardContent>

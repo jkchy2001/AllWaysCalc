@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home, Cube } from 'lucide-react';
+import { Home, Cube, TestTube, FlaskConical, Atom } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -95,9 +95,9 @@ export default function DensityCalculatorPage() {
   };
 
   const variableMap = {
-      density: { label: 'Density (ρ)', unit: 'kg/m³' },
-      mass: { label: 'Mass (m)', unit: 'kg' },
-      volume: { label: 'Volume (V)', unit: 'm³' },
+      density: { label: 'Density (ρ)', unit: 'kg/m³', description: 'The mass of a substance per unit volume.' },
+      mass: { label: 'Mass (m)', unit: 'kg', description: 'The amount of matter in the object.' },
+      volume: { label: 'Volume (V)', unit: 'm³', description: 'The amount of space the object occupies.' },
   }
 
   return (
@@ -114,12 +114,13 @@ export default function DensityCalculatorPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">Density Calculator</CardTitle>
-                <CardDescription>Solve for density, mass, or volume.</CardDescription>
+                <CardDescription>Solve for density, mass, or volume using the formula ρ = m/V.</CardDescription>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
                     <div className="space-y-2">
                         <Label>Calculate</Label>
+                        <p className="text-xs text-muted-foreground">Select the variable you want to solve for.</p>
                         <Controller
                             name="solveFor"
                             control={control}
@@ -137,16 +138,17 @@ export default function DensityCalculatorPage() {
                     </div>
                   
                    <div className="space-y-4 p-4 border rounded-md">
-                    {Object.entries(variableMap).map(([key, {label, unit}]) => {
+                    {Object.entries(variableMap).map(([key, {label, unit, description}]) => {
                         if (key !== solveFor) {
                             return (
                                 <div className="space-y-2" key={key}>
                                     <Label htmlFor={key}>{label}</Label>
+                                    <p className="text-xs text-muted-foreground">{description}</p>
                                     <Input 
                                         id={key}
                                         type="number"
                                         step="any"
-                                        placeholder={unit}
+                                        placeholder={`Enter value in ${unit}`}
                                         {...register(key as keyof FormValues)}
                                     />
                                 </div>
@@ -190,7 +192,7 @@ export default function DensityCalculatorPage() {
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-                Density is a fundamental property of matter that measures the mass per unit volume. It's an intensive property, which means it doesn't change with the size of the sample.
+                Density is a fundamental property of matter that measures the mass per unit volume. It's an intensive property, which means it doesn't change with the size of the sample. For example, a small gold nugget and a large gold bar have the same density.
               </p>
                <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="item-1">
@@ -201,14 +203,50 @@ export default function DensityCalculatorPage() {
                             ρ = m / V
                         </code>
                         </pre>
-                        <ul className="list-disc list-inside mt-2 text-sm">
-                            <li><b>ρ (rho)</b> = Density (kg/m³)</li>
-                            <li><b>m</b> = Mass (kg)</li>
-                            <li><b>V</b> = Volume (m³)</li>
+                        <ul className="list-disc list-inside mt-2 text-sm space-y-1">
+                            <li><b>ρ (rho)</b> = Density (SI unit: kg/m³)</li>
+                            <li><b>m</b> = Mass (SI unit: kg)</li>
+                            <li><b>V</b> = Volume (SI unit: m³)</li>
                         </ul>
                       </AccordionContent>
                   </AccordionItem>
+                   <AccordionItem value="item-2">
+                    <AccordionTrigger>FAQs</AccordionTrigger>
+                    <AccordionContent className="space-y-4">
+                        <div>
+                            <h4 className="font-semibold">Why is density useful?</h4>
+                            <p>Density is a key concept in buoyancy, purity identification, and material science. It helps us understand why ships float, identify substances by comparing their densities, and design materials with specific properties.</p>
+                        </div>
+                        <div>
+                            <h4 className="font-semibold">Does temperature affect density?</h4>
+                            <p>Yes. For most substances, as temperature increases, the volume increases while the mass stays the same, leading to a decrease in density. Water is a famous exception, being most dense at 4°C.</p>
+                        </div>
+                    </AccordionContent>
+                  </AccordionItem>
               </Accordion>
+            </CardContent>
+          </Card>
+           <Card className="mt-8">
+            <CardHeader>
+              <CardTitle>Related Calculators</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Link href="/molar-mass-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <TestTube className="mx-auto mb-2 size-6" />
+                <p className="font-semibold">Molar Mass</p>
+              </Link>
+              <Link href="/ideal-gas-law-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <FlaskConical className="mx-auto mb-2 size-6" />
+                <p className="font-semibold">Ideal Gas Law</p>
+              </Link>
+              <Link href="/newtons-law-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <Atom className="mx-auto mb-2 size-6" />
+                <p className="font-semibold">Newton's Second Law</p>
+              </Link>
+              <Link href="/ph-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                <TestTube className="mx-auto mb-2 size-6" />
+                <p className="font-semibold">pH Calculator</p>
+              </Link>
             </CardContent>
           </Card>
         </div>
