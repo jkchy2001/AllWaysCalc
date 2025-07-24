@@ -4,6 +4,9 @@ import {
   Sheet,
   SheetTrigger,
   SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
 } from '@/components/ui/sheet';
 import { Menu } from 'lucide-react';
 import { Logo } from '@/components/icons';
@@ -36,6 +39,10 @@ export function Header() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right">
+                <SheetHeader className="text-left">
+                  <SheetTitle className="sr-only">Menu</SheetTitle>
+                  <SheetDescription className="sr-only">Main navigation menu for AllWaysCalc</SheetDescription>
+                </SheetHeader>
                 <Link href="/" className="flex items-center space-x-2 mb-6">
                   <Logo className="h-6 w-6 text-primary" />
                   <span className="font-bold font-headline">AllWaysCalc</span>
