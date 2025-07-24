@@ -18,6 +18,7 @@ import { Home, Footprints } from 'lucide-react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Ruler, Scale, Thermometer, Gauge } from 'lucide-react';
 
 const mensSizes = [
     { us: 6, uk: 5.5, india: 5.5, eu: 39 },
@@ -194,6 +195,29 @@ export default function ShoeSizeConverterPage({
                   </Card>
                 )}
             </div>
+             <Card className="mt-8">
+              <CardHeader>
+                <CardTitle>Related Calculators</CardTitle>
+              </CardHeader>
+              <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <Link href="/length-converter" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <Ruler className="mx-auto mb-2 size-6" />
+                  <p className="font-semibold">Length Converter</p>
+                </Link>
+                <Link href="/mass-converter" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                  <Scale className="mx-auto mb-2 size-6" />
+                  <p className="font-semibold">Mass Converter</p>
+                </Link>
+                <Link href="/temperature-converter" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                   <Thermometer className="mx-auto mb-2 size-6" />
+                   <p className="font-semibold">Temperature Converter</p>
+                </Link>
+                 <Link href="/speed-converter" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                    <Gauge className="mx-auto mb-2 size-6" />
+                    <p className="font-semibold">Speed Converter</p>
+                </Link>
+              </CardContent>
+            </Card>
         </div>
       </main>
     </div>

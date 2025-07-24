@@ -166,6 +166,25 @@ export default function LcmHcfCalculatorPage() {
                       </div>
                   </CardContent>
                 </Card>
+                 <Card className="mt-8">
+                    <CardHeader>
+                      <CardTitle>Related Calculators</CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      <Link href="/permutations-combinations-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                        <p className="font-semibold">Permutations & Combinations</p>
+                      </Link>
+                      <Link href="/probability-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                        <p className="font-semibold">Probability Calculator</p>
+                      </Link>
+                      <Link href="/mean-median-mode-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                        <p className="font-semibold">Mean, Median, Mode</p>
+                      </Link>
+                      <Link href="/percentage-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                        <p className="font-semibold">Percentage Calculator</p>
+                      </Link>
+                    </CardContent>
+                </Card>
             </div>
         </main>
     </div>

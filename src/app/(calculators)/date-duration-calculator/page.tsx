@@ -203,6 +203,25 @@ export default function DateDurationCalculatorPage() {
                       </div>
                   </CardContent>
                 </Card>
+                <Card className="mt-8">
+                    <CardHeader>
+                    <CardTitle>Related Calculators</CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <Link href="/age-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Age Calculator</p>
+                        </Link>
+                        <Link href="/anniversary-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Anniversary Calculator</p>
+                        </Link>
+                         <Link href="/countdown-timer-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Countdown Timer</p>
+                        </Link>
+                         <Link href="/life-expectancy-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                            <p className="font-semibold">Life Expectancy Calculator</p>
+                        </Link>
+                    </CardContent>
+                </Card>
             </div>
         </main>
     </div>

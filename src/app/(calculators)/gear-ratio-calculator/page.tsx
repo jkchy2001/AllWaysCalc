@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home, Cog } from 'lucide-react';
+import { Home, Cog, RotateCw, Bolt, BatteryCharging, Zap, Atom } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
@@ -159,15 +159,19 @@ export default function GearRatioCalculatorPage() {
                 </CardHeader>
                 <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <Link href="/torque-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                        <RotateCw className="mx-auto mb-2 size-6" />
                         <p className="font-semibold">Torque Calculator</p>
                     </Link>
                     <Link href="/newtons-law-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                        <Atom className="mx-auto mb-2 size-6" />
                         <p className="font-semibold">Newton's Second Law</p>
                     </Link>
                     <Link href="/electrical-load-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                        <Bolt className="mx-auto mb-2 size-6" />
                         <p className="font-semibold">Electrical Load</p>
                     </Link>
                     <Link href="/battery-backup-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                        <BatteryCharging className="mx-auto mb-2 size-6" />
                         <p className="font-semibold">Battery Backup</p>
                     </Link>
                 </CardContent>
