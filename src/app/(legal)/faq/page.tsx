@@ -1,7 +1,6 @@
 
 'use client';
 
-import type { Metadata } from 'next';
 import { Header } from '@/components/header';
 import {
   Accordion,
@@ -10,11 +9,6 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-
-export const metadata: Metadata = {
-  title: 'Frequently Asked Questions (FAQ) - AllWaysCalc',
-  description: 'Find answers to common questions about our calculators, the concepts behind them, and how to use our tools effectively. Covering finance, health, science, and more.',
-};
 
 const faqData = {
     "General": [
