@@ -25,8 +25,8 @@ export default function ContactUsPage() {
               <p>
                 For all inquiries, please contact us at:
               </p>
-              <a href="mailto:support@allwayscalc.com" className="text-primary font-semibold hover:underline">
-                support@allwayscalc.com
+              <a href="mailto:allwayscalc@gmail.com" className="text-primary font-semibold hover:underline">
+                allwayscalc@gmail.com
               </a>
               <p>
                 We do our best to respond to all emails within 48 business hours.
