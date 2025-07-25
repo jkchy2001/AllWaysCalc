@@ -17,7 +17,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home, BatteryCharging, Ohm, OhmSquare, Bolt, Zap } from 'lucide-react';
+import { Home, BatteryCharging, Ohm, OhmSquare, Bolt, Zap, TrendingDown, Sun } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
 import {
   Accordion,

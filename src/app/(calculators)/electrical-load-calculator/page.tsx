@@ -17,7 +17,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home, Trash2, Bolt, Zap, BatteryCharging, RotateCw } from 'lucide-react';
+import { Home, Trash2, Bolt, Zap, BatteryCharging, RotateCw, Activity } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
