@@ -17,7 +17,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home } from 'lucide-react';
+import { Home, UserCheck } from 'lucide-react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { SharePanel } from '@/components/share-panel';
 import {
@@ -186,6 +186,7 @@ export default function BmiCalculatorPage() {
                                 <CardTitle className="font-headline">Your BMI Result</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4 text-center">
+                                <UserCheck className="mx-auto size-12 text-primary" />
                                 <div className="text-6xl font-bold text-primary">{result.bmi}</div>
                                 <div className="text-2xl font-semibold">{result.category}</div>
                                 <div className="text-sm text-muted-foreground">

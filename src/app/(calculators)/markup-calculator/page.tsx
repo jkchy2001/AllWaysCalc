@@ -17,7 +17,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home } from 'lucide-react';
+import { Home, TrendingUp } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
 import {
   Accordion,
@@ -113,6 +113,7 @@ export default function MarkupCalculatorPage() {
                   <CardTitle className="font-headline">Pricing Result</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4 text-center">
+                    <TrendingUp className="mx-auto size-12 text-primary" />
                     <p className="text-muted-foreground">The required selling price is</p>
                     <div className="text-4xl font-bold text-primary">{formatCurrency(result.sellingPrice)}</div>
                     <div className="text-sm text-muted-foreground pt-4 border-t">

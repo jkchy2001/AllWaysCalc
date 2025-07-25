@@ -1,6 +1,5 @@
 'use client';
 
-import type { Metadata } from 'next';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -18,7 +17,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home } from 'lucide-react';
+import { Home, TrendingUp } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
 import {
   Accordion,
@@ -111,6 +110,7 @@ export default function CAGRCalculatorPage() {
                   <CardTitle className="font-headline">CAGR Result</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4 text-center">
+                    <TrendingUp className="mx-auto size-12 text-primary" />
                     <div className="text-4xl font-bold text-primary">{result.cagr.toFixed(2)}%</div>
                     <p className="text-muted-foreground">Is the compound annual growth rate of your investment.</p>
                 </CardContent>

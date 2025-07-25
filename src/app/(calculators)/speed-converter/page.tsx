@@ -15,7 +15,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home, ChevronsRight } from 'lucide-react';
+import { Home, ChevronsRight, Gauge } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
@@ -119,7 +119,8 @@ export default function SpeedConverterPage() {
                     <CardHeader>
                         <CardTitle className="font-headline">Conversion Details</CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-4">
+                    <CardContent className="space-y-4 text-center">
+                        <Gauge className="mx-auto size-12 text-primary" />
                         <div className="text-center">
                             <p className="text-muted-foreground">{fromValue} {units[fromUnit as Unit]?.name} is equal to</p>
                             <p className="text-3xl font-bold text-primary">{watch('toValue')} {units[toUnit as Unit]?.name}</p>

@@ -17,7 +17,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home, Layers } from 'lucide-react';
+import { Home, Layers, Landmark } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -75,7 +75,7 @@ export default function BrickCalculatorPage() {
         brickLength /= 12; // in to ft
         brickHeight /= 12;  // in to ft
         brickWidth /= 12; // in to ft
-        groutGap /= 12;   // in to ft
+        mortarJoint /= 12;   // in to ft
     }
 
     const wallVolume = wallLength * wallHeight * wallWidth;
@@ -185,7 +185,7 @@ export default function BrickCalculatorPage() {
                   <CardTitle className="font-headline">You will need</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4 text-center">
-                    <Layers className="mx-auto size-12 text-primary" />
+                    <Landmark className="mx-auto size-12 text-primary" />
                     <div className="text-4xl font-bold text-primary">
                         {result.totalBricks.toLocaleString()} bricks
                     </div>

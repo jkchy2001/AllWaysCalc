@@ -17,7 +17,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home } from 'lucide-react';
+import { Home, Percent } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
 import {
   Accordion,
@@ -102,6 +102,7 @@ export default function PercentageCalculatorPage() {
                                 <CardTitle className="font-headline">Result</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4 text-center">
+                                <Percent className="mx-auto size-12 text-primary" />
                                 <div className="text-6xl font-bold text-primary">{result.resultValue}</div>
                                 <div className="text-lg text-muted-foreground">
                                    {result.percentage}% of {result.totalValue} is {result.resultValue}.

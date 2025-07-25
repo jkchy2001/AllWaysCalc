@@ -17,7 +17,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home } from 'lucide-react';
+import { Home, PersonStanding } from 'lucide-react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { SharePanel } from '@/components/share-panel';
 import {
@@ -198,6 +198,7 @@ export default function IdealWeightCalculatorPage() {
                                 <CardTitle className="font-headline">Your Ideal Weight</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4 text-center">
+                                <PersonStanding className="mx-auto size-12 text-primary" />
                                 <div className="text-4xl font-bold text-primary">
                                     {unit === 'metric' ? formatWeight(result.idealWeightKg, 'kg') : formatWeight(result.idealWeightLbs, 'lbs')}
                                 </div>

@@ -17,7 +17,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home } from 'lucide-react';
+import { Home, Flame } from 'lucide-react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { SharePanel } from '@/components/share-panel';
 import {
@@ -211,6 +211,7 @@ export default function BmrCalculatorPage() {
                                 <CardTitle className="font-headline">Your BMR Result</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4 text-center">
+                                <Flame className="mx-auto size-12 text-primary" />
                                 <div className="text-6xl font-bold text-primary">{result.bmr.toLocaleString()}</div>
                                 <div className="text-xl font-semibold">Calories / day</div>
                                 <div className="text-sm text-muted-foreground">

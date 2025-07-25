@@ -122,7 +122,8 @@ export default function VolumeConverterPage() {
                         <CardTitle className="font-headline">Conversion Details</CardTitle>
                          <CardDescription>The converted volume based on your input.</CardDescription>
                     </CardHeader>
-                    <CardContent className="space-y-4">
+                    <CardContent className="space-y-4 text-center">
+                        <Beaker className="mx-auto size-12 text-primary" />
                         <div className="text-center">
                             <p className="text-muted-foreground">{fromValue} {units[fromUnit as Unit]?.name}(s) is equal to</p>
                             <p className="text-3xl font-bold text-primary">{watch('toValue')} {units[toUnit as Unit]?.name}(s)</p>

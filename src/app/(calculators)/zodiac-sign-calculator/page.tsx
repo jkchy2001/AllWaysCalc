@@ -56,23 +56,22 @@ const getZodiacSign = (date: Date): ZodiacSign | null => {
     const day = date.getDate();
     const dateStr = `${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     
+    // Handle Capricorn edge case across year-end
+    if ((month === 12 && day >= 22) || (month === 1 && day <= 19)) {
+        return zodiacSigns.find(s => s.name === 'Capricorn');
+    }
+
     for (const sign of zodiacSigns) {
+        if (sign.name === 'Capricorn') continue;
+        
         const [startMonth, startDay] = sign.start.split('-').map(Number);
         const [endMonth, endDay] = sign.end.split('-').map(Number);
 
-        if (startMonth === 12) { // Handle Capricorn case
-            if ((month === 12 && day >= startDay) || (month === 1 && day <= endDay)) {
-                return sign;
-            }
-        } else if (month === startMonth && day >= startDay) {
-            return sign;
-        } else if (month === endMonth && day <= endDay) {
-            return sign;
-        } else if (month > startMonth && month < endMonth) {
+        if ((month === startMonth && day >= startDay) || (month === endMonth && day <= endDay)) {
             return sign;
         }
     }
-    return null;
+    return null; // Should not happen with current logic
 }
 
 export default function ZodiacSignCalculatorPage() {
