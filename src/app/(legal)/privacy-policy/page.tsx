@@ -1,13 +1,9 @@
+'use client';
 
 import type { Metadata } from 'next';
 import { Header } from '@/components/header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
-
-export const metadata: Metadata = {
-  title: 'Privacy Policy - AllWaysCalc',
-  description: 'Read the privacy policy for AllWaysCalc. We are committed to protecting your data. All calculations are performed client-side and we do not store your personal information.',
-};
 
 export default function PrivacyPolicyPage() {
   return (

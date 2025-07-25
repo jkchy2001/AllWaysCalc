@@ -1,12 +1,8 @@
+'use client';
 
 import type { Metadata } from 'next';
 import { Header } from '@/components/header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-
-export const metadata: Metadata = {
-  title: 'Terms and Conditions - AllWaysCalc',
-  description: 'Read the terms and conditions for using AllWaysCalc. By using our website and tools, you agree to these terms.',
-};
 
 export default function TermsAndConditionsPage() {
   return (

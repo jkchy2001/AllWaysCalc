@@ -1,12 +1,8 @@
+'use client';
 
 import type { Metadata } from 'next';
 import { Header } from '@/components/header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-
-export const metadata: Metadata = {
-  title: 'Disclaimer - AllWaysCalc',
-  description: 'Please read the disclaimer for AllWaysCalc. Our calculators are for informational and educational purposes only and are not a substitute for professional advice.',
-};
 
 export default function DisclaimerPage() {
   return (

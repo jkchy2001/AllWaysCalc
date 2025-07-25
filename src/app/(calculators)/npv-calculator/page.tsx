@@ -164,7 +164,7 @@ export default function NetPresentValueCalculatorPage() {
                   <SharePanel resultText={`The NPV of my investment is ${formatCurrency(result.npv)}.`} />
                 </CardFooter>
               </Card>
-            </Card>
+            )}
           </div>
           <Card className="mt-8">
             <CardHeader>

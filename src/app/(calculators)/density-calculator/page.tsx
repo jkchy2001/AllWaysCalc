@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -36,6 +35,8 @@ type CalculationResult = {
   value: number;
   unit: string;
 };
+
+const R = 8.314; // Ideal gas constant in J/(mol·K) which is Pa·m³/(mol·K)
 
 export default function DensityCalculatorPage() {
   const [result, setResult] = useState<CalculationResult | null>(null);

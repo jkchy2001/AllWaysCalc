@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -209,7 +208,9 @@ export default function WaistToHeightRatioCalculatorPage() {
                           <AccordionItem value="item-3">
                               <AccordionTrigger>How do I measure my waist circumference correctly?</AccordionTrigger>
                               <AccordionContent>
-                                Use a flexible tape measure. Find the point halfway between your lowest rib and the top of your hip bone (this is usually just above your belly button). Breathe out normally and wrap the tape measure around your waist. Don't pull it too tight.
+                                <b>Waist:</b> Find the point halfway between your lowest rib and the top of your hip bone (this is usually just above your belly button).
+                                <br/><br/>
+                                For both measurements, keep the tape measure snug but not tight against the skin, and ensure it is parallel to the floor.
                               </AccordionContent>
                           </AccordionItem>
                       </Accordion>

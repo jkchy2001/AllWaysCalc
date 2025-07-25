@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -215,7 +214,7 @@ export default function MolarMassCalculatorPage() {
                             <FlaskConical className="mx-auto mb-2 size-6" />
                             <p className="font-semibold">Ideal Gas Law</p>
                         </Link>
-                        <Link href="/density-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
+                         <Link href="/density-calculator" className="bg-muted hover:bg-muted/50 p-4 rounded-lg text-center">
                             <Home className="mx-auto mb-2 size-6" />
                             <p className="font-semibold">Density Calculator</p>
                         </Link>

@@ -1,13 +1,6 @@
-
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Date Calculator - Duration Between Dates',
-  description: 'Calculate the duration between two dates, or find a future/past date by adding or subtracting days. Handles all date calculations accurately.',
-};
-
 'use client';
 
+import type { Metadata } from 'next';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';

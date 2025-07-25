@@ -1,13 +1,6 @@
-
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'CGPA to Percentage Calculator',
-  description: 'Convert your CGPA to an equivalent percentage using the standard 9.5 multiplier formula. Quick and easy tool for students.',
-};
-
 'use client';
 
+import type { Metadata } from 'next';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';

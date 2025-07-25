@@ -1,13 +1,6 @@
-
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'CAGR (Compound Annual Growth Rate) Calculator',
-  description: 'Calculate the Compound Annual Growth Rate of an investment to understand its average annual growth over time, smoothing out market volatility.',
-};
-
 'use client';
 
+import type { Metadata } from 'next';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';

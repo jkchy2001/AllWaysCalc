@@ -1,13 +1,6 @@
-
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Credit Card Payoff Calculator',
-  description: 'Estimate how long it will take to pay off your credit card balance and the total interest you\'ll pay. See the impact of making more than the minimum payment.',
-};
-
 'use client';
 
+import type { Metadata } from 'next';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
