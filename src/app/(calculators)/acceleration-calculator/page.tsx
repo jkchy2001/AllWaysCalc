@@ -1,11 +1,3 @@
-
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Online Acceleration Calculator',
-  description: 'Solve for acceleration, initial velocity, final velocity, or time using the constant acceleration formula (a = Δv / t). Fast, free, and easy to use.',
-};
-
 'use client';
 
 import { useState } from 'react';

@@ -1,11 +1,3 @@
-
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Basic Arithmetic Calculator',
-  description: 'A simple and easy-to-use online calculator for basic arithmetic operations: addition, subtraction, multiplication, and division.',
-};
-
 'use client';
 
 import { useState } from 'react';

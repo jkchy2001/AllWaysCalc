@@ -1,11 +1,3 @@
-
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Body Mass Index (BMI) Calculator',
-  description: 'Calculate your BMI to assess your weight status using metric or imperial units. Find out if you are in the underweight, normal, overweight, or obesity range.',
-};
-
 'use client';
 
 import { useState } from 'react';

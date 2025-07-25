@@ -1,11 +1,3 @@
-
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Battery Backup & Runtime Calculator',
-  description: 'Estimate how long a battery will last under a specific load. Ideal for UPS, inverters, or solar systems, accounting for capacity, load, and efficiency.',
-};
-
 'use client';
 
 import { useState } from 'react';

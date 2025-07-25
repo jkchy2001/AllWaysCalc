@@ -1,11 +1,3 @@
-
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Business Loan EMI Calculator',
-  description: 'Estimate your monthly business loan payments (EMI) and total interest cost. Plan your finances for working capital, expansion, or equipment purchases.',
-};
-
 'use client';
 
 import { useState } from 'react';

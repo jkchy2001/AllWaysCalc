@@ -1,11 +1,3 @@
-
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Age Calculator - Calculate Age from Date of Birth',
-  description: 'Easily calculate your chronological age in years, months, and days from your date of birth. Find out exactly how old you are today.',
-};
-
 'use client';
 
 import { useState } from 'react';

@@ -1,11 +1,3 @@
-
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Attendance Percentage Calculator',
-  description: 'Track your attendance status and determine how many classes you can afford to miss to stay above the required percentage. Manage your academic attendance easily.',
-};
-
 'use client';
 
 import { useState } from 'react';

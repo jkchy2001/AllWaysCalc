@@ -1,11 +1,3 @@
-
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'BMR (Basal Metabolic Rate) Calculator',
-  description: 'Calculate your Basal Metabolic Rate (BMR) - the number of calories your body needs at rest to function. A key metric for weight management and fitness planning.',
-};
-
 'use client';
 
 import { useState } from 'react';

@@ -1,11 +1,3 @@
-
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Aspect Ratio Calculator',
-  description: 'Calculate new dimensions for images or videos while maintaining the original aspect ratio. Perfect for resizing media without distortion.',
-};
-
 'use client';
 
 import { useState, useEffect } from 'react';

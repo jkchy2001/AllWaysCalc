@@ -1,11 +1,3 @@
-
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Body Fat Percentage Calculator (U.S. Navy Method)',
-  description: 'Estimate your body fat percentage using the U.S. Navy method with simple tape measurements. A better health indicator than BMI.',
-};
-
 'use client';
 
 import { useState } from 'react';
