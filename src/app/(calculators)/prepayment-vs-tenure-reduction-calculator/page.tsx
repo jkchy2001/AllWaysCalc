@@ -17,16 +17,16 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home, FileMinus, Shuffle } from 'lucide-react';
+import { Home, FileMinus, Shuffle, CalendarClock, CreditCard } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const formSchema = z.object({
   loanAmount: z.coerce.number().min(1, 'Loan amount must be positive'),
+  prepaymentAmount: z.coerce.number().min(1, 'Prepayment must be positive'),
   interestRate: z.coerce.number().min(0, 'Interest rate must be positive'),
   loanTerm: z.coerce.number().int().min(1, 'Loan term must be at least 1 year'),
-  prepaymentAmount: z.coerce.number().min(1, 'Prepayment must be positive'),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -51,9 +51,9 @@ export default function PrepaymentCalculatorPage() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       loanAmount: 5000000,
+      prepaymentAmount: 500000,
       interestRate: 8.5,
       loanTerm: 20,
-      prepaymentAmount: 500000,
     },
   });
 

@@ -17,7 +17,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Header } from '@/components/header';
 import Link from 'next/link';
-import { Home, Cube, TestTube, FlaskConical, Atom } from 'lucide-react';
+import { Home, Box, TestTube, FlaskConical, Atom } from 'lucide-react';
 import { SharePanel } from '@/components/share-panel';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -172,7 +172,7 @@ export default function DensityCalculatorPage() {
                   <CardTitle className="font-headline">Result</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4 text-center">
-                    <Cube className="mx-auto size-12 text-primary" />
+                    <Box className="mx-auto size-12 text-primary" />
                      <p className="text-muted-foreground">The calculated value for {variableMap[solveFor as keyof typeof variableMap].label.split(' ')[0]} is:</p>
                     <div className="text-4xl font-bold text-primary">
                         {result.value.toExponential(4).replace(/\.?0+e\+0$/, '')}
